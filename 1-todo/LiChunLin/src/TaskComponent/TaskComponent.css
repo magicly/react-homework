@@ -1,0 +1,56 @@
+.task-container {
+    margin-top: 150px;
+    margin-left: 37%;
+    font-size: 20px;
+}
+
+.task-input {
+    width: 400px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid #9a9a9a;
+    text-align: center;
+    font-size: 20px;
+}
+
+.task-choose {
+    width: 400px;
+    line-height: 2;
+}
+
+.task-choose:hover {
+    background:rgba(255, 197, 66, 0.5);
+}
+
+.task-choose-list {
+    margin-top: 5px;
+}
+
+.task-choose input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.task-name {
+    cursor: pointer;
+}
+
+.close-button {
+    float: right;
+    margin-right: 5px;
+    cursor: pointer;
+    border-radius: 10px;
+    color: #2f508e;
+    font-size: 20px;
+}
+
+.close-button:hover{
+    color:#9a9a9a;
+}
+
+.task-button {
+    margin-left: 40px;
+    text-align: center;
+    width: 75px;
+}
