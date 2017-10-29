@@ -34,15 +34,12 @@ class ListRow extends Component {
 }
 
 function ListTable(props) {
-	const todos = props.todoList;
-	const rows = [];
-	todos.forEach(function(element, index) {
-		rows.push(
-			<ListRow key={index} todo={element} handleItem={props.handleItem} handleItemRemove={props.handleItemRemove}/>
-		);
-	}, this);
+	let todos = props.todoList;
+	todos = todos.map((value, index) => (
+		<ListRow key={index} todo={value} handleItem={props.handleItem} handleItemRemove={props.handleItemRemove}/>
+	));
 	return (
-     	<ul>{rows}</ul>
+     	<ul>{todos}</ul>
  	);
 }
 

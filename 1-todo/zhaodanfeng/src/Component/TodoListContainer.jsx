@@ -20,7 +20,11 @@ class TodoListContainer extends Component {
         }
         e.preventDefault();
         let origin = this.state.todos;
-        origin.push({checked: false, content: e.currentTarget.value, id: Math.ceil(Math.random()*10000)})
+        let newID = 0;
+        if(origin.length > 0) {
+            newID = origin[origin.length-1].id + 1;
+        }
+        origin.push({checked: false, content: e.currentTarget.value, id: newID});
         this.setState({
             todoInput: e.currentTarget.value,
             todos: origin,
@@ -61,7 +65,7 @@ class TodoListContainer extends Component {
                 element.checked = status;
             }
         }, this);
-        let clearShowStatus = (todoArr.filter(e=>e.checked).length>0);
+        let clearShowStatus = todoArr.filter(e => e.checked).length > 0;
         this.setState({todos: todoArr, todosToShow: todoArr, showClear: clearShowStatus});
     }
     handleItemRemove = (todoId) => {
