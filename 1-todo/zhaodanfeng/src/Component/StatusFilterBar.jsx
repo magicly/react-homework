@@ -12,7 +12,7 @@ class StatusFilterBar extends Component {
         let displayStatus = this.props.showClear ? 'inline-block' : 'none';
         return (
             <div className="statusFilterBar">
-                <span className="todosCountSpan">还有{this.props.todosCount}个任务</span>
+                <span className="todosCountSpan">还有{this.props.todosCount}个任务未完成</span>
                 {rows}
                 <a href="javascript:;" className="clearA" 
                     style={{display: displayStatus}}

@@ -80,7 +80,7 @@ class TodoListContainer extends Component {
                 <ListTable todoList={this.state.todosToShow} handleItem={this.handleItem} handleItemRemove={this.handleItemRemove}/>
                 {/*StatusFilterBarComponent */}
                 <StatusFilterBar
-                    todosCount={this.state.todos.length}
+                    todosCount={this.state.todos.filter(e => !e.checked).length}
                     showClear={this.state.showClear} 
                     handleRemove={this.handleRemove}
                     handleFilter={this.handleFilter}
