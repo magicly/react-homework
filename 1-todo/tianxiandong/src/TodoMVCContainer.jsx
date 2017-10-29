@@ -8,11 +8,15 @@ function TodoMVC(props) {
       <header className="App-header">
         <h1 className="App-title">Todo MVC</h1>
       </header>
-      <input type="text" id="addTodoInput" style={{ marginTop: '10px' }} />
+      <input type="text" id="addTodoInput" style={{ marginTop: '10px' }} value={props.inputText}
+        onChange={(e) => {
+          console.log(e.currentTarget.value)
+          props.changeInputText(e.currentTarget.value)
+        }}
+      />
 
       <button onClick={() => {
-        props.addTodo(document.getElementById('addTodoInput').value)
-        document.getElementById('addTodoInput').value = ''
+        props.addTodo()
       }}>添加</button>
 
       <table style={{ margin: '0 auto' }} className="table">
@@ -55,21 +59,31 @@ class TodoMVCContainer extends Component {
     this.state = {
       todoList: [],
       range: 'all',  // all:全部  active:未完成  completed:完成 
+      inputText: '',//输入框内容
     }
   }
+
+  //修改输入框内容
+  changeInputText = (text) => {
+    this.setState({
+      inputText: text
+    })
+  }
+
   //添加
-  addTodo = (name) => {
-    if (name === undefined || name === '') {
+  addTodo = () => {
+    if (this.state.inputText === '') {
       return;
     }
     //name:名字  state:状态 active:未完成  completed:完成 
     this.state.todoList.push({
-      name: name,
+      name: this.state.inputText,
       status: 'active'
     })
     console.log(this.state.todoList);
     this.setState({
-      todoList: this.state.todoList
+      todoList: this.state.todoList,
+      inputText: ''
     })
   }
 
@@ -105,7 +119,9 @@ class TodoMVCContainer extends Component {
       <TodoMVC
         todoList={this.state.todoList}
         range={this.state.range}
-        addTodo={(name) => this.addTodo(name)}
+        inputText={this.state.inputText}
+        changeInputText={(text) => this.changeInputText(text)}
+        addTodo={() => this.addTodo()}
         deleteTodo={(index) => this.deleteTodo(index)}
         changeTodo={(index) => this.changeTodo(index)}
         changeRange={(range) => this.changeRange(range)}
