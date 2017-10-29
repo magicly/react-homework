@@ -7,12 +7,12 @@ const TaskList = ({dataSource,check,status,deleteTask}) => {
     return (
         <div className="taskList">
             <ul className="todo-list">
-                {dataSource.map(item => {
+                {dataSource.map((item,i) => {
                     if(status === 1){//显示全部任务
                         return (
-                            <li id={item.name} className={item.isCompleted?"completed":null}>
+                            <li key={"task_"+i} id={item.name} className={item.isCompleted?"completed":null}>
                                 <div className="view">
-                                    <input className="toggle" type="checkbox" onClick={() => check(item.name,dataSource)} checked={item.isCompleted} />
+                                    <input key={"chooseTask_"+i} className="toggle" type="checkbox" onClick={() => check(item.name,dataSource)} checked={item.isCompleted} />
                                     <label>{item.name}</label>
                                     <button className="destroy" onClick={() => deleteTask(item.name,dataSource)}></button>
                                 </div>
@@ -22,9 +22,9 @@ const TaskList = ({dataSource,check,status,deleteTask}) => {
                         return (
                             !item.isCompleted
                             ?
-                            <li id={item.name} className={item.isCompleted?"completed":null}>
+                            <li key={"task_"+i} id={item.name} className={item.isCompleted?"completed":null}>
                                 <div className="view">
-                                    <input className="toggle" type="checkbox" onClick={() => check(item.name,dataSource)} checked={item.isCompleted} />
+                                    <input key={"chooseTask_"+i} className="toggle" type="checkbox" onClick={() => check(item.name,dataSource)} checked={item.isCompleted} />
                                     <label>{item.name}</label>
                                     <button className="destroy" onClick={() => deleteTask(item.name,dataSource)}></button>
                                 </div>
@@ -36,9 +36,9 @@ const TaskList = ({dataSource,check,status,deleteTask}) => {
                         return (
                             item.isCompleted
                             ?
-                            <li id={item.name} className={item.isCompleted?"completed":null}>
+                            <li key={"task_"+i} id={item.name} className={item.isCompleted?"completed":null}>
                                 <div className="view">
-                                    <input className="toggle" type="checkbox" onClick={() => check(item.name,dataSource)} checked={item.isCompleted} />
+                                    <input key={"chooseTask_"+i} className="toggle" type="checkbox" onClick={() => check(item.name,dataSource)} checked={item.isCompleted} />
                                     <label >{item.name}</label>
                                     <button className="destroy" onClick={() => deleteTask(item.name,dataSource)}></button>
                                 </div>
@@ -105,12 +105,13 @@ class Todo extends Component {
         if("" === nameTask){
             return ;
         }
-        for(let i = 0; i < arr.length; i++){
-            if(nameTask === arr[i].name){
-                alert("该同名任务已经存在！");
+
+        let has = arr.filter(item => nameTask === item.name);
+        if(has.length>0){
+            alert("该同名任务已经存在！");
                 return;
-            }
         }
+
         let newTask = {isCompleted:false,name:nameTask};
         arr.push(newTask);
         this.setState({list:arr});
