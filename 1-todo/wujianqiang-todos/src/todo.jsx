@@ -80,9 +80,10 @@ class Todo extends Component {
     constructor(){
         super();
         this.state = {
-            list: [],
-            list1: [],
-            showWay: 1,
+            list: [],//任务列表
+            showWay: 1,//任务分类显示状态：1全部2未完成3已完成
+            addName: "",//添加任务输入框
+            chooseAll: false,//全选
         }
         document.onkeydown = this.keyDownSearch;
     }
@@ -91,7 +92,7 @@ class Todo extends Component {
     keyDownSearch = () => {
         let eve = window.event;
         if(eve.keyCode === 13){
-            document.getElementById("chooseAll").checked = false;//新添加后，全选按钮恢复
+            this.setState({chooseAll:false});//新添加后，全选按钮恢复
             this.addTask();
         }
     }
@@ -99,8 +100,8 @@ class Todo extends Component {
     //添加新任务
     addTask = () => {
         let arr = this.state.list;
-        let nameTask = document.getElementById("input").value;
-        document.getElementById("input").value = "";
+        let nameTask = this.state.addName;//获取输入框的值
+        this.setState({addName:""})//清空输入框的值
         if("" === nameTask){
             return ;
         }
@@ -146,8 +147,10 @@ class Todo extends Component {
                 arrNew.push(arr[i]);//未完成的就添加到新数组，然后setState新数组到原list
             }
         }
-        document.getElementById("chooseAll").checked = false;//删除全部任务后，全选按钮恢复
-        this.setState({list:arrNew});
+        this.setState({
+            chooseAll:false,//删除全部任务后，全选按钮恢复
+            list:arrNew,
+        });
     }
 
     //分类显示任务
@@ -159,13 +162,22 @@ class Todo extends Component {
     }
 
     //全选按钮
-    chooseAll = () => {
-        let isChecked = document.getElementById("chooseAll").checked;
+    chooseAll = (e) => {
+        let isChecked = e.target.checked;
         let arr = this.state.list;
+
         for(let i = 0; i < arr.length; i++) {
             arr[i].isCompleted = isChecked;
         }
-        this.setState({list:arr});
+        this.setState({
+            list:arr,
+            chooseAll:isChecked,
+        });
+    }
+
+    changeAddValue = (e) => {
+        let name = e.target.value;
+        this.setState({addName:name});//获取输入框的值
     }
 
     render() {
@@ -177,9 +189,9 @@ class Todo extends Component {
                 </header>
                 <div className="todos">
                     <header className="header">
-                        <input id="chooseAll" className="toggle-all" type="checkbox" onClick={this.chooseAll} />
+                        <input id="chooseAll" checked={this.state.chooseAll} className="toggle-all" type="checkbox" onClick={this.chooseAll} onChange={this.chooseAll}/>
                         <span>全选</span>
-                        <input id="input" className="new-todo" placeholder="What needs to be done?" />
+                        <input id="input" className="new-todo" value={this.state.addName} placeholder="What needs to be done?" onChange={this.changeAddValue}/>
                     </header>
 
                     <TaskList dataSource={this.state.list} check={this.check} status={this.state.showWay} deleteTask={this.deleteTask} />
