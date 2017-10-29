@@ -4,7 +4,7 @@ import React from 'react';
  * stateless component
  */
 
-const Task = (props) => {// Task组件
+const Task = (props) => {
     return (
     <div style={{"display":props.show}} className="task-choose">
         <input type="checkbox" onClick={props.chooseClick} checked={props.status === "complete" ? "checked" : ""}/>
@@ -15,18 +15,8 @@ const Task = (props) => {// Task组件
     )
 }
 
-const Button = (props) => {// 按钮组件
-    return <button className="task-button" onClick={props.clickFunction}>{props.buttonName}</button>
-}
-
-const ButtonGroup = (props) => {// 底部按钮组件
-    return (
-        <div>
-            <Button buttonName="All" clickFunction={props.showAll}/>
-            <Button buttonName="Active" clickFunction={props.showActive}/>
-            <Button buttonName="Complete" clickFunction={props.showComplete}/>
-        </div>
-    )
+const Button = (props) => {
+    return <button className="task-button" onClick={props.onClick}>{props.buttonName}</button>
 }
 
 const InputComponent = (props) => {
@@ -38,7 +28,6 @@ const InputComponent = (props) => {
     if (taskCount > 0) {
         taskCountDom = <span>Task remaind : {taskCount}</span>
     }
-    console.log(props.taskName);
     return (
         <div>
             <input onKeyUp={props.handleTaskName} type="text" className="task-input" placeholder={props.placeholder} id={props.id}/>
@@ -97,35 +86,24 @@ class TaskComponent extends React.Component {// 任务列表
                 taskData:taskData
             });
         }
-        const showAll = () => {// 显示所有事项
+
+        const showTaskByFilter = (statusFilter) => {// 按条件筛选显示的任务
+            console.log(statusFilter);
+            console.log("into");
             let taskData = this.state.taskData;
-            for (let item of taskData) {
-                item.show = "block";
-            }
+            taskData.map((item) => {
+                if (statusFilter.indexOf(item.status) > -1) {
+                    item.show = "block";
+                } else {
+                    item.show = "none";
+                }
+                return item;
+            });
             this.setState({
                 taskData:taskData
             });
         }
 
-        const showActive = () => {// 显示正在活动的事项
-            let taskData = this.state.taskData;
-            for (let item of taskData) {
-                item.show = item.status === "complete" ? "none" : "block";
-            }
-            this.setState({
-                taskData:taskData
-            });
-        }
-
-        const showComplete = () => {// 显示已经完成的事项
-            let taskData = this.state.taskData;
-            for (let item of taskData) {
-                item.show = item.status === "active" ? "none" : "block";
-            }
-            this.setState({
-                taskData:taskData
-            });
-        }
         let taskData = this.state.taskData;
         let taskDomList = [];
         if (taskData !== undefined) {
@@ -135,24 +113,18 @@ class TaskComponent extends React.Component {// 任务列表
         }
         taskDomList.reverse();
         return (
-        <div>
+        <div className="task-container">
             <h2>todoMVC</h2>
             <InputComponent handleTaskName={handleTaskName} taskName={this.state.taskName} placeholder="What needs to be done?" id="task-input" taskData={this.state.taskData}/>
             <div className="task-choose-list">{taskDomList}</div>
-            <div><ButtonGroup showAll={showAll} showActive={showActive} showComplete={showComplete}/></div>
+            <div>
+                <Button buttonName="All" onClick={() => {showTaskByFilter("active,complete")}}/>
+                <Button buttonName="Active" onClick={() => {showTaskByFilter("active")}}/>
+                <Button buttonName="Complete" onClick={() => {showTaskByFilter("complete")}}/>
+            </div>
         </div>
         )
     }
 }
 
-class TotalContainer extends React.Component {// 总组件
-    render () {
-        return (
-            <div className="task-container">
-                <TaskComponent/>
-            </div>
-        )
-    }
-}
-
-export default TotalContainer;
+export default TaskComponent;
