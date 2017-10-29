@@ -1,0 +1,35 @@
+body {
+  margin: 0;
+  padding: 10% 30%;
+  font-family: sans-serif;
+  font-size: 20px;
+}
+.inputForm {
+  font-size: 14px;
+}
+.todoInputClass {
+  width: 100%;
+  line-height: 25px;
+}
+ul {
+  list-style: none;
+  padding-left: 0;
+  border: #eee 1px solid;
+}
+.clearA {
+  font-size: 14px;
+  float: right;
+  text-decoration: none;
+  color: #008fff;
+}
+.itemDeleteA {
+  float: right;
+  margin-right: 10px;
+  text-decoration: none;
+  color: #008fff;
+}
+.todosCountSpan {
+  font-size: 14px;
+  margin-right: 10px;
+  color: #6f6d6d;
+}
