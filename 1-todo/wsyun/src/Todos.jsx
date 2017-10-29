@@ -36,11 +36,13 @@ class Todos extends Component {
     pushItem = () => {
         let items = this.state.items;
         items.push({
-            name : this.refs.addText.value,
+            name : this.state.inputValue,
             status : false
         });
-        this.setState({items:items});
-        this.refs.addText.value="";
+        this.setState({
+            items:items,
+            inputValue:""
+        });
     }
 
     /**
@@ -49,6 +51,8 @@ class Todos extends Component {
     enterPushItem = (e) =>{
         if(e.keyCode === 13){
             this.pushItem();
+        }else{
+            this.setState({ inputValue: this.state.inputValue + e.key });
         }
     }
 
@@ -75,7 +79,7 @@ class Todos extends Component {
      */
     filterItem = (value) =>{
         let className = this.state.className;
-        for(var key in className){
+        for(let key in className){
             className[key] = key===value ? "checked" : "";
         }
 
@@ -98,7 +102,7 @@ class Todos extends Component {
         return (
             <div className="box">
                 <div className="box-additem">
-                    <input type="text" ref="addText" onKeyDown={this.enterPushItem} />
+                    <input type="text" value={this.state.inputValue} onKeyDown={this.enterPushItem} />
                     <button onClick={this.pushItem}>add</button>
                 </div>
 
