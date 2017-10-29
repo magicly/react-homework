@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 // import App from './App';
 import TaskComponent from './TaskComponent/TaskComponent';
 import './TaskComponent/TaskComponent.css';

@@ -38,9 +38,11 @@ const InputComponent = (props) => {
     if (taskCount > 0) {
         taskCountDom = <span>Task remaind : {taskCount}</span>
     }
+    console.log(props.taskName);
     return (
         <div>
-            <input type="text" className="task-input" placeHolder={props.placeHolder} id={props.id}/>{taskCountDom}
+            <input onKeyUp={props.handleTaskName} type="text" className="task-input" placeholder={props.placeholder} id={props.id}/>
+             {taskCountDom}
         </div>
     )
 }
@@ -57,22 +59,28 @@ class TaskComponent extends React.Component {// 任务列表
             taskData:taskData,
         }
         // 回车事件
-        document.onkeydown = (e) => {
+        document.onkeyup = (e) => {
             if (e.keyCode === 13) {
-                let taskName = document.getElementById("task-input").value;
+                e.srcElement.value = "";// 清空输入框
+                let taskName = this.state.taskName;
                 if (taskName !== "") {
                     let taskData = this.state.taskData;
-                    console.log(taskName);
                     taskData.push({"content":taskName,"status":"active","show":true});
                     this.setState({
                         taskData:taskData,
+                        taskName:"",
                     });
-                    document.getElementById("task-input").value = "";
                 }
             }
         }
     }
     render () {
+        const handleTaskName = (event) => {// 处理input数据
+            let taskName = event.target.value;
+            this.setState({
+                taskName:taskName,
+            });
+        }
         const removeTask = (i) => {// 删除事项功能
             let taskData = this.state.taskData;
             taskData.splice(i, 1);
@@ -128,8 +136,8 @@ class TaskComponent extends React.Component {// 任务列表
         taskDomList.reverse();
         return (
         <div>
-            <p>todoMVC</p>
-            <InputComponent placeHolder="What needs to be done?" id="task-input" taskData={this.state.taskData}/>
+            <h2>todoMVC</h2>
+            <InputComponent handleTaskName={handleTaskName} taskName={this.state.taskName} placeholder="What needs to be done?" id="task-input" taskData={this.state.taskData}/>
             <div className="task-choose-list">{taskDomList}</div>
             <div><ButtonGroup showAll={showAll} showActive={showActive} showComplete={showComplete}/></div>
         </div>
