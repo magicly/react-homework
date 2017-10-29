@@ -51,9 +51,14 @@ class Todos extends Component {
     enterPushItem = (e) =>{
         if(e.keyCode === 13){
             this.pushItem();
-        }else{
-            this.setState({ inputValue: this.state.inputValue + e.key });
         }
+    }
+
+    /**
+     * 改变输入框的值
+     */
+    changeInputText = (e) =>{
+        this.setState({ inputValue: e.target.value });
     }
 
     /**
@@ -102,7 +107,7 @@ class Todos extends Component {
         return (
             <div className="box">
                 <div className="box-additem">
-                    <input type="text" value={this.state.inputValue} onKeyDown={this.enterPushItem} />
+                    <input type="text" value={this.state.inputValue} onKeyDown={this.enterPushItem} onChange={this.changeInputText} />
                     <button onClick={this.pushItem}>add</button>
                 </div>
 
