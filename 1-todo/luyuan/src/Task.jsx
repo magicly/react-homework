@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+﻿import React,{Component} from 'react';
 import './index.css';
 
 //定义一个组件
@@ -44,7 +44,7 @@ const TaskControl = (props) =>{
 class TaskContainer extends Component{
     constructor(props){
         super(props);
-        this.listOriginal=[];//原始数组对象
+        this.listOriginal=[];//原始数组对象1
         this.state = {
             itemleftcount:0,
             list:[]
@@ -60,7 +60,7 @@ class TaskContainer extends Component{
                 isDel: false //任务状态 false = 未完成 ，true = 已完成
             }; 
             e.target.value="";//每次提交后清空文本框
-            let newlist = this.state.list.slice();
+            let newlist = this.state.list;
             this.listOriginal.push(item);
             newlist.push(item); //填充数据到数组          
             this.setState(
@@ -73,8 +73,8 @@ class TaskContainer extends Component{
     }
     //完成/未完成任务
     handlerComplete = (index,item) =>{
-        let flag = item.isDel===true?false:true;
-        let newlist = this.state.list.slice();
+        let flag = !item.isDel;//item.isDel===true?false:true;
+        let newlist = this.state.list;
         this.listOriginal[index].isDel=flag;
         newlist[index].isDel=flag;
         this.setState(
@@ -95,16 +95,14 @@ class TaskContainer extends Component{
     }
     //筛选任务
     handlerFilter = (type) => {
-        let newlist = [];//利用原始数组存储的数据进行筛选操作
-        if(type==0)
-        {
-            //全部
-            newlist = this.listOriginal.slice()
+        let newlist = []; //利用原始数组存储的数据进行筛选操作
+        if(type==0){
+            newlist = this.listOriginal //全部
         }
         else if(type==1){  //已完成任务          
-            newlist = this.listOriginal.slice().filter(x=>x.isDel===true)
-        }if(type==2){ //未完成任务
-            newlist = this.listOriginal.slice().filter(x=>x.isDel===false)
+            newlist = this.listOriginal.filter(x=>x.isDel===true)
+        }if(type==2){  //未完成任务
+            newlist = this.listOriginal.filter(x=>x.isDel===false)
         }
         this.setState(
             {
