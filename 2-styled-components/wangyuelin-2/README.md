@@ -6,4 +6,4 @@
 
 ###### 3、下载styled-components包  命令：npm install --save styled-components
 
-###### 4、下载modoules成功，会看到对应的node_modules目录，添加styled-components依赖成功，会在package.json有对应的配置 启动项目 npm -start
+###### 4、下载modoules成功，会看到对应的node_modules目录，添加styled-components依赖成功，会在package.json有对应的配置 启动项目 npm start
