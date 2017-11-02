@@ -1,0 +1,62 @@
+.TodoPage {
+  float:center;
+  
+}
+
+.TodoPage-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.showlist {  
+    margin-top: 5px;
+    width:300px;
+}  
+.show {  
+    width: 400px;  
+    height: 30px;  
+    font-size: 20px;
+    line-height:25px;
+}
+.inputWord {  
+    width: 220px;  
+    margin-left:8px;
+    font-size: 18px;
+} 
+.show input[type='checkbox'] {  
+    width: 10px;  
+    height: 10px;  
+    cursor: pointer;  
+}  
+
+.showname {  
+    cursor: pointer;  
+}  
+.showname-chose{
+    cursor: pointer;
+    background-color: rgba(138, 132, 119, 0.5);
+}
+.addbutton {   
+    margin-left:10px;
+    cursor: pointer;  
+    border-radius: 5px;  
+    background-color:#6b5ca1;  
+    font-size: 15px
+}  
+.close-button{
+    float:right;
+    color: #0b7549;
+} 
+.close-button:hover{
+    color: #b92747;
+}  
+.showbutton-f {  
+    text-align: center;  
+    width: 75px;  
+} 
+.showbutton {  
+    margin-left: 40px;  
+    text-align: center;  
+    width: 75px;  
+} 
+ 
