@@ -1,0 +1,28 @@
+
+/* clear */
+.clearfix:after {
+    display:block;
+    clear:both;
+    content:"";
+    visibility:hidden;
+    height:0
+} 
+.clearfix {
+    zoom:1
+} 
+
+
+.row{
+    
+}
+.col {
+    display: inline-block;
+    float: left;
+}
+
+.checked {
+    text-decoration:line-through;
+    color: grey;
+}
+    
+
