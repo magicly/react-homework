@@ -74,7 +74,6 @@ class Todo extends Component {
     }
 
 
-
     //选中一条
     checkOne = (index) => {
         //改变后选中状态值
@@ -86,7 +85,6 @@ class Todo extends Component {
                 el.isChecked = checkStatus;
             }
         })
-        // this.state. = checkStatus;
         let itemLeftChange = checkStatus ? this.state.itemLeft - 1 : this.state.itemLeft + 1;
         if (itemLeftChange < 0) {
             itemLeftChange = 0;
@@ -274,7 +272,6 @@ const CustomList = (props) => {
             )
         });
     }
-
     return (
         <div>
             {list}
