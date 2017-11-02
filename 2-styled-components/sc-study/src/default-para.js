@@ -10,4 +10,8 @@ function f(a, b) {
   return a + b;
 }
 
+function g(a = 1, b = 2) {
+  return a + b;
+}
+
 console.log(f(1));
