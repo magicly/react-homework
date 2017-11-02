@@ -58,10 +58,17 @@ class Todo extends Component {
             let tempData = this.state.dataArr;
             let dataInput = { isChecked: false, name: data };
             tempData.push(dataInput);
+            let item = 0;
+            for (let i of tempData) {
+                if (!i.isChecked) {
+                    item += 1;
+                }
+            }
             this.setState({
                 dataArr: tempData,
                 dataShow: _.clone(tempData),
-                itemLeft: tempData.length,
+                itemLeft: item,
+                prevCheck: false,
             });
         }
     }
@@ -136,10 +143,12 @@ class Todo extends Component {
             }
         });
         let showArr = [];
-        let itemLeftChange;
+        let itemLeftChange = 0;
         switch (this.state.showWays) {
             case 'all':
                 if (currentCheck) {
+                    itemLeftChange = this.state.itemLeft;
+                } else {
                     itemLeftChange = this.state.itemLeft > 0 ? this.state.itemLeft - 1 : 0;
                 }
                 showArr = this.state.dataArr;
@@ -150,7 +159,7 @@ class Todo extends Component {
                 });
                 break;
             case 'act':
-                itemLeftChange = this.state.itemLeft > 0 ? this.state.itemLeft - 1 : 0;
+                itemLeftChange = this.state.itemLeft;
                 this.state.dataArr.forEach(el => {
                     if (el.isChecked) {
                         showArr.push(el)
@@ -163,7 +172,7 @@ class Todo extends Component {
                 });
                 break;
             case 'com':
-                itemLeftChange = this.state.itemLeft;
+                itemLeftChange = this.state.itemLeft > 0 ? this.state.itemLeft - 1 : 0;
                 this.state.dataArr.forEach(el => {
                     if (!el.isChecked) {
                         showArr.push(el)
@@ -173,31 +182,34 @@ class Todo extends Component {
                     dataArr: this.state.dataArr,
                     itemLeft: itemLeftChange,
                     dataShow: showArr,
+                    prevCheck: (itemLeftChange === 0 && this.state.dataArr.length > 0) ? true : false,
                 });
                 break;
             default: break;
         }
-        // this.setState({
-        //     dataArr: this.state.dataArr,
-        //     dataShow: this.state.dataArr,
-        //     itemLeft: 
-        // });
     }
 
     // 删除选中的
     deleteChecked = () => {
         let showArr = [];
-        this.state.dataArr.forEach((el, index) => {
-            if (el.isChecked) {
-                console.log(`el--->${index + el.name}`);
-                this.state.dataArr.splice(index, 1);
+        let arrLenth = this.state.dataArr.length;
+        if (arrLenth > 0) {
+            for (let i = arrLenth - 1; i >= 0; i -= 1) {
+                // debugger
+                console.log(`el--->${i}`);
+                let el = this.state.dataArr[i];
+                if (el.isChecked) {
+                    console.log(`el--->${i + '------' + el.name}`);
+                    this.state.dataArr.splice(i, 1);
+                }
             }
-        })
-        showArr = this.state.dataArr;
-        this.setState({
-            dataArr: _.clone(showArr),
-            dataShow: _.clone(showArr),
-        });
+            showArr = this.state.dataArr;
+            this.setState({
+                dataArr: _.clone(showArr),
+                dataShow: _.clone(showArr),
+                prevCheck: this.state.dataArr.length === 0 ? false : true,
+            });
+        }
     }
 
     //显示哪种状态的item
