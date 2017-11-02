@@ -1,0 +1,91 @@
+button {
+    color: #222;
+}
+.box {
+    width: 400px;
+    height: 400px;
+    margin: 100px auto;
+    background: #fdf6f2;
+    color: #afa9a1;
+    box-shadow: 0px 0px 1px 1px #ddd;
+    font:16px 'Helvetica Neue', Helvetica, Arial, sans-serif,"Microsoft YaHei";
+}
+.box .box-additem,.box .box-state {
+    height: 30px;
+    background: #f57f00;
+    color: #ffffff;
+    font-size: 12px;
+}
+.box .box-additem * {
+    height: 100%;
+    font-size: 14px;
+    border: none;
+    background:transparent;
+}
+.box .box-additem input {
+    box-sizing: border-box;
+    width: 340px;
+    padding: 0px 5px;
+}
+.box .box-additem button {
+    width: 60px;
+    box-sizing: border-box;
+    border-left: 1px solid #ccc;
+}
+
+.box .box-items {
+    background: #fdfdfd;
+    color: #666666;
+    box-sizing: border-box;
+    height: 340px;
+    padding: 5px;
+    overflow: auto;
+}
+.box .box-items .hide{
+    display: none;
+}
+
+.box .box-items div{
+    padding: 6px 10px;
+    vertical-align: middle;
+    border-bottom: 1px solid #eeeeee;
+}
+.box .box-items div:hover{
+    background: #eeeeee;
+}
+.box .box-items div:hover a{
+    display:inline-block;
+}
+.box .box-items *{
+    vertical-align: middle;
+}
+.box .box-items del{
+    color: #ccc;
+}
+.box .box-items a{
+    display: none;
+    float: right;
+    cursor: default;
+    font-size: 12px;
+    color: #0066FF;
+}
+.box .box-state {
+    height: 30px;
+    line-height: 30px;
+    padding: 0px 10px;
+}
+
+.box .box-state button{
+    margin-left: 10px;
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+    border-radius:5px;
+}
+.box-state label{
+    margin-right: 40px;
+}
+
+.box .box-state .checked,.box .box-state .checked:focus{
+    border-color: #ffffff;
+}
