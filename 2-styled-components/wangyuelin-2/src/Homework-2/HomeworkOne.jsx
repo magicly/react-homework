@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Homework.css';
 import _ from 'lodash';
+import styled from 'styled-components';
 
 /**
  * 输入框 控制
@@ -205,7 +206,7 @@ class Todo extends Component {
             this.setState({
                 dataArr: _.clone(showArr),
                 dataShow: _.clone(showArr),
-                prevCheck: this.state.dataArr.length === 0 ? false : true,
+                prevCheck: false,
             });
         }
     }
@@ -242,6 +243,7 @@ class Todo extends Component {
     render() {
         return (
             <div>
+                <div>Todos</div>
                 <input id="check1" type="checkbox" checked={this.state.prevCheck} onChange={this.changeCheck} />
                 <input id="inputSth" type="text" placeholder="What needs to be done?" />
                 <CustomList data={this.state.dataShow} deleteOne={this.deleteOne} checkOne={this.checkOne} ></CustomList>
@@ -285,16 +287,60 @@ const CustomList = (props) => {
 const Footer = (props) => {
     return (
         <div className="row clearfix" >
-            <a className="col">{props.itemLeft} item left</a>
-            <button className="col" onClick={() => props.showItem('all')}>All</button>
-            <button className="col" onClick={() => props.showItem('act')}>Active</button>
-            <button className="col" onClick={() => props.showItem('com')}>Completed</button>
-            <button className="col" onClick={() => props.deleteChecked()}>Clear completed </button>
+            <Span>{props.itemLeft} item left</Span>
+            <div display='inline'>
+                <FilterBtn onClick={() => props.showItem('all')}>All</FilterBtn>
+                <FilterBtn onClick={() => props.showItem('act')}>Active</FilterBtn>
+                <FilterBtn onClick={() => props.showItem('com')}>Completed</FilterBtn>
+            </div>
+            <DeleteBtn onClick={() => props.deleteChecked()}>Clear completed </DeleteBtn>
         </div>
     );
 }
 
 
+
+const Span = styled.span`
+    zoom: 1;
+    display: inline;
+    font-size: 10px;
+    text-decoration: none;
+    color:gray;
+`
+
+const FilterBtn = Span.extend`
+    margin: 0 10px 0 0px;
+    padding: 3px 10px;
+    vertical-align: baseline;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    :hover{
+        border:1px solid #e8e8e8;  
+    }
+`
+
+const FootCenter = styled.div`
+    display: inline-block;
+    text-align:center;
+    flote:center;
+    width:500px;
+`
+
+const DeleteBtn = Span.extend`
+    margin: 0 10px 0 0px;
+    padding: 3px 10px;
+    vertical-align: baseline;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    :hover{
+        text-decoration: underline;
+        color:black;
+    }
+`
 export default Todo;
 export { CustomList };
 

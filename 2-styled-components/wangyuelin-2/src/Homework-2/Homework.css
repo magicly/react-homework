@@ -13,7 +13,7 @@
 
 
 .row{
-    
+    margin-top: 10px;
 }
 .col {
     display: inline-block;
@@ -24,5 +24,9 @@
     text-decoration:line-through;
     color: grey;
 }
+
+.test{
+  
+  }
     
 
