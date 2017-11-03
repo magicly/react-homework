@@ -162,9 +162,21 @@ class TodoPageActive extends Component {
     // 任务勾选事件 
     chooseList = (id, data) => {
         let count = 1;
+        let botton_status = this.state.botton_status;
+
         for (let i = 0; i < data.length; i++) {
             if (data[i].id === id) {
+                //记录完成数
                 count =  data[i].status === "complete" ? 1 : -1;
+                //显示 隐藏
+                if (botton_status === 1) {//active
+                    data[i].show = data[i].status === "complete"?"block" : "none";
+                } else if (botton_status === 2) {//complete
+                    data[i].show = data[i].status === "complete"?"none" : "block";
+                } else {//all
+                    data[i].show = "block";
+                }
+                //状态
                 data[i].status = data[i].status === "complete" ? "active" : "complete";
                 break;
             }
