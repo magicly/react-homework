@@ -31,8 +31,6 @@ const SectionT = styled.section`
         font-weight: 100;
         text-align: center;
         color: rgba(175, 47, 47, 0.15);
-        -webkit-text-rendering: optimizeLegibility;
-        -moz-text-rendering: optimizeLegibility;
         text-rendering: optimizeLegibility;
     }
 `
@@ -103,7 +101,6 @@ const Taskli = styled(TaskliSimple) `
         margin: auto 0;
         border:0;
         outline:none;
-        -webkit-appearance: none;
         appearance: none;
     }
     input:after {
@@ -289,9 +286,7 @@ const InputAll = styled.input`
     border:0;
     outline:none;
     background: none;
-    -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
-    -webkit-appearance: none;
     appearance: none;
     :before {
         content: '❯';
