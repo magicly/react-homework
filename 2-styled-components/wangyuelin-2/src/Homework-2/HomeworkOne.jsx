@@ -242,34 +242,45 @@ class Todo extends Component {
 
     render() {
         return (
-            <div>
-                <div>Todos</div>
-                <input id="check1" type="checkbox" checked={this.state.prevCheck} onChange={this.changeCheck} />
-                <input id="inputSth" type="text" placeholder="What needs to be done?" />
-                <CustomList data={this.state.dataShow} deleteOne={this.deleteOne} checkOne={this.checkOne} ></CustomList>
-                <Footer
+            <div className="todoapp">
+                <h1>todos</h1>
+                <InputView checked={this.state.prevCheck} onChange={this.changeCheck} />
+                <CustomList
+                    data={this.state.dataShow}
+                    deleteOne={this.deleteOne}
+                    checkOne={this.checkOne}
+                />
+                <FooterWithStyle
                     showItem={this.showItem}
                     itemLeft={this.state.itemLeft}
                     deleteChecked={this.deleteChecked}
+                    showWays={this.state.showWays}
                 />
             </div>
         );
     }
 }
 
-/**
- * 列表
- */
-const CustomList = (props) => {
+const InputView = props => {
+    return (
+        <div className="new-todo">
+            <input  type="checkbox" checked={props.checked} onChange={() => props.onChange()} />
+            <input className="edit" type="text" placeholder="What needs to be done?" />
+        </div>
+    );
+}
+
+/**列表*/
+const CustomList = props => {
     let arr = props || [];
     let list = [];
     if (arr.data.length > 0) {
         list = arr.data.map((item, index) => {
             return (
-                <div className={`row clearfix ${item.isChecked ? 'checked' : ''}`} key={index}>
-                    <input className="col" type="checkbox" checked={item.isChecked} onChange={() => props.checkOne(index)} />
-                    <input className="col" type="text" value={item.name} />
-                    <button className="col" onClick={() => props.deleteOne(index)}>×</button>
+                <div className="todo-list" key={index}>
+                    <input type="checkbox" checked={item.isChecked} onChange={() => props.checkOne(index)} />
+                    <span className={item.isChecked ? 'checked' : ''}>{item.name}</span>
+                    <button onClick={() => props.deleteOne(index)}></button>
                 </div>
             )
         });
@@ -281,59 +292,102 @@ const CustomList = (props) => {
     );
 }
 
-/**
- * 底部
- */
-const Footer = (props) => {
+const Footer = props => {
     return (
-        <div className="row clearfix" >
-            <Span>{props.itemLeft} item left</Span>
-            <div display='inline'>
-                <FilterBtn onClick={() => props.showItem('all')}>All</FilterBtn>
-                <FilterBtn onClick={() => props.showItem('act')}>Active</FilterBtn>
-                <FilterBtn onClick={() => props.showItem('com')}>Completed</FilterBtn>
+        <div className={props.className}>
+            <LeftItem>{props.itemLeft} item left</LeftItem>
+            <div>
+                <span className={props.showWays === 'all' ? 'selected' : ''} onClick={() => props.showItem('all')}>All</span>
+                <span className={props.showWays === 'act' ? 'selected' : ''} onClick={() => props.showItem('act')}>Active</span>
+                <span className={props.showWays === 'com' ? 'selected' : ''} onClick={() => props.showItem('com')}>Completed</span>
             </div>
             <DeleteBtn onClick={() => props.deleteChecked()}>Clear completed </DeleteBtn>
         </div>
     );
 }
 
-
-
 const Span = styled.span`
     zoom: 1;
+    float:left;
     display: inline;
     font-size: 10px;
     text-decoration: none;
-    color:gray;
+    color:inherit;
+    text-align: center;
 `
-
 const FilterBtn = Span.extend`
-    margin: 0 10px 0 0px;
+    margin: 1px;
+    text-decoration: none;
+    border: 1px solid transparent;
     padding: 3px 10px;
     vertical-align: baseline;
     outline: none;
     cursor: pointer;
     text-align: center;
     border-radius: 3px;
-    box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
-    :hover{
-        border:1px solid #e8e8e8;  
+
+    // box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+    // :hover{
+    //     border:1px solid #e8e8e8;  
+    // }
+
+    span.selected,
+    :hover {
+        border-color: rgba(175, 47, 47, 0.1);
+    }
+    
+    selected {
+        border-color: rgba(175, 47, 47, 0.2);
     }
 `
+/**带样式的footer */
+const FooterWithStyle = styled(Footer) `
+    margin: 0;
+    padding: 5px;
+    list-style: none;
+    position: absolute;
+    right: 0;
+    left: 0;
 
-const FootCenter = styled.div`
-    display: inline-block;
-    text-align:center;
-    flote:center;
-    width:500px;
+    div {
+        float: left;
+        display: inline;
+        text-align: center;
+        margin-left: 100px;
+        align-content: center;
+    }
+    div span{
+        zoom: 1;
+        float:left;
+        display: inline;
+        font-size: 10px;
+        text-decoration: none;
+        color:inherit;
+        text-align: center;
+        margin: 1px;
+        text-decoration: none;
+        border: 1px solid transparent;
+        padding: 3px 10px;
+        vertical-align: baseline;
+        outline: none;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 3px;
+    }
+    div span:hover {
+    	border-color: rgba(175, 47, 47, 0.1);
+    }
+    div span.selected {
+    	border-color: rgba(175, 47, 47, 0.2);
+    }
 `
-
+/**删除勾选按钮 */
 const DeleteBtn = Span.extend`
-    margin: 0 10px 0 0px;
+    margin-left: 50px;
     padding: 3px 10px;
     vertical-align: baseline;
     outline: none;
+    float:left;
     cursor: pointer;
     text-align: center;
     :hover{
@@ -341,6 +395,11 @@ const DeleteBtn = Span.extend`
         color:black;
     }
 `
+/**剩余item */
+const LeftItem = Span.extend`
+    padding: 3px 10px;
+    vertical-align: baseline;
+    outline: none;
+    text-align: center;
+`
 export default Todo;
-export { CustomList };
-
