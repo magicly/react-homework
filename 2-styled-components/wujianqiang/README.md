@@ -9,7 +9,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 ## 2、下载node_modoules（如果有请跳过），命令： npm install (用npm下载较慢，可以使用淘宝镜像下载速度相对要快些 命令：npm -install --registry=https://registry.npm.taobao.org ，用淘宝镜像后面的npm可以换成cnpm）
 
-## 3、下载styled-components包（如果有请跳过）， 命令：npm install -D styled-components
+## 3、下载styled-components包（如果有请跳过）， 命令：npm install styled-components
 
 ## 4、启动项目命令： npm start
 - [Updating to New Releases](#updating-to-new-releases)
