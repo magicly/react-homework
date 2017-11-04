@@ -60,9 +60,9 @@ const TodoMVC = (props) => {
             <span> left</span>
           </span>
           <ul className="filters">
-            <li><a href="#" className={props.range === 'all' ? 'selected' : ''} onClick={() => { props.changeRange('all') }}>All</a></li><span> </span>
-            <li><a href="#" className={props.range === 'active' ? 'selected' : ''} onClick={() => { props.changeRange('active') }}>Active</a></li><span> </span>
-            <li><a href="#" className={props.range === 'completed' ? 'selected' : ''} onClick={() => { props.changeRange('completed') }}>Completed</a></li>
+            <li><a className={props.range === 'all' ? 'selected' : ''} onClick={() => { props.changeRange('all') }}>All</a></li><span> </span>
+            <li><a className={props.range === 'active' ? 'selected' : ''} onClick={() => { props.changeRange('active') }}>Active</a></li><span> </span>
+            <li><a className={props.range === 'completed' ? 'selected' : ''} onClick={() => { props.changeRange('completed') }}>Completed</a></li>
           </ul>
           <button className="clear-completed"
             style={{ display: props.todoList.filter(e => e.status === 'completed').length === 0 ? 'none' : '' }}
@@ -332,6 +332,7 @@ const StyledTodoMVC = styled(TodoMVC) `
       text-decoration: none;
       border: 1px solid transparent;
       border-radius: 3px;
+      cursor:pointer;
     }
 
     .filters li a.selected,
@@ -444,10 +445,11 @@ class TodoMVCContainer extends Component {
 
   //修改任务状态
   changeTodo = (index) => {
-    if (this.state.todoList[index].status === 'active') {
-      this.state.todoList[index].status = 'completed'
+    let todo = this.state.todoList[index];
+    if (todo.status === 'active') {
+      todo.status = 'completed'
     } else {
-      this.state.todoList[index].status = 'active'
+      todo.status = 'active'
     }
     this.setState({
       todoList: this.state.todoList

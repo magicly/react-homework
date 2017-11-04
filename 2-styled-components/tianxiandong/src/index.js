@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './static/css/index.css';
-import TodoMVCContainer from './TodoMVCContainer';
+import TodoMVCContainer from './component/TodoMVCContainer';
 
 ReactDOM.render(<TodoMVCContainer />, document.getElementById('root'));
