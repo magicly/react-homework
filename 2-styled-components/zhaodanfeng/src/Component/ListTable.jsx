@@ -26,7 +26,6 @@ const LiInput = styled.input`
 	bottom: 0;
 	margin: auto 0;
 	border: none;
-	-webkit-appearance: none;
 	appearance: none;
 	:after {
 		content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>');
@@ -65,45 +64,45 @@ const LiBtn = styled.button`
 `
 
 class ListRow extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			ifShowDelete : false,
-		};
-	}
+    constructor(props) {
+        super(props);
+        this.state = {
+            ifShowDelete : false,
+        };
+    }
 	
-	onRadioBtnClick = (e) => {
-		this.props.handleItem(e.currentTarget.checked, this.props.todo.id);
-	};
-	showRemoveBtn = (e) => {
-		this.setState({ifShowDelete: true});
-	}
-	hideRemoveBth = (e) => {
-		this.setState({ifShowDelete: false});
-	}
-	deleteTodo = (e) => {
-		this.props.handleItemRemove(this.props.todo.id);
-	}
+    onRadioBtnClick = (e) => {
+        this.props.handleItem(e.currentTarget.checked, this.props.todo.id);
+    };
+    showRemoveBtn = (e) => {
+        this.setState({ifShowDelete: true});
+    }
+    hideRemoveBth = (e) => {
+        this.setState({ifShowDelete: false});
+    }
+    deleteTodo = (e) => {
+        this.props.handleItemRemove(this.props.todo.id);
+    }
     render() {
-		const todo = this.props.todo;
+        const todo = this.props.todo;
         return (
             <TodoLi onMouseEnter={this.showRemoveBtn} onMouseLeave={this.hideRemoveBth}>
-				<LiInput type="checkbox"  checked={todo.checked} onChange={this.onRadioBtnClick} />
-				<LiLabel ifLineThrough={todo.checked}>{todo.content}</LiLabel>
-				<LiBtn displayStyle={this.state.ifShowDelete} onClick={this.deleteTodo}></LiBtn>
+                <LiInput type="checkbox"  checked={todo.checked} onChange={this.onRadioBtnClick} />
+                <LiLabel ifLineThrough={todo.checked}>{todo.content}</LiLabel>
+                <LiBtn displayStyle={this.state.ifShowDelete} onClick={this.deleteTodo}></LiBtn>
             </TodoLi>
         );
     }
 }
 
 function ListTable(props) {
-	let todos = props.todoList;
-	todos = todos.map((value, index) => (
-		<ListRow key={index} todo={value} handleItem={props.handleItem} handleItemRemove={props.handleItemRemove}/>
-	));
-	return (
-		<TodoListWrapper><TodoUl>{todos}</TodoUl></TodoListWrapper>
- 	);
+    let todos = props.todoList;
+    todos = todos.map((value, index) => (
+        <ListRow key={index} todo={value} handleItem={props.handleItem} handleItemRemove={props.handleItemRemove}/>
+    ));
+    return (
+        <TodoListWrapper><TodoUl>{todos}</TodoUl></TodoListWrapper>
+    );
 }
 
 export default ListTable;

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const TodoappH1 = styled.h1`
@@ -9,8 +9,6 @@ const TodoappH1 = styled.h1`
     font-weight: 100;
     text-align: center;
     color: rgba(175, 47, 47, 0.15);
-    -webkit-text-rendering: optimizeLegibility;
-    -moz-text-rendering: optimizeLegibility;
     text-rendering: optimizeLegibility;
     :matches(article, aside, nav, section) {
         font-size: 1.5em;
@@ -37,14 +35,10 @@ const TodoInput = styled.input`
     outline: none;
     color: inherit;
     box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-font-smoothing: antialiased;
     font-smoothing: antialiased;
 `
 const ToggleAll = styled.input`
-    -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
-    -webkit-appearance: none;
     appearance: none;
     outline: none;
     position: absolute;
@@ -66,32 +60,14 @@ const ToggleAll = styled.input`
     }
 `
 
-class TodoForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-    handleKeyDown = (e) => {
-        const ENTER_KEY = 13;
-        if(e.keyCode !== ENTER_KEY) {
-            return ;
-        }
-        e.preventDefault();
-        this.props.handleInputDone(e.currentTarget.value);
-        e.currentTarget.value = '';
-    };
-    handleCheckboxChange = (e) => {
-        this.props.handleAllCheckChange(e.currentTarget.checked);
-    }
-
-    render() {
-        return (
-            <header>
-                <TodoappH1>todos <NameSpan>by zhaodanfeng</NameSpan></TodoappH1>
-                <TodoInput type="text" placeholder="少年，你要做甚？" onKeyDown={this.handleKeyDown}/>
-                <ToggleAll type="checkbox" onChange={this.handleCheckboxChange} />
-            </header>
-        )
-    };
+function TodoForm(props) {
+    return (
+        <header>
+            <TodoappH1>todos <NameSpan>by zhaodanfeng</NameSpan></TodoappH1>
+            <TodoInput type="text" placeholder="少年，你要做甚？" onKeyDown={props.handleInputDone}/>
+            <ToggleAll type="checkbox" onChange={props.handleAllCheckChange} />
+        </header>
+    );
 }
 
 export default TodoForm;

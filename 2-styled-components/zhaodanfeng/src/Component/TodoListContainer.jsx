@@ -14,8 +14,6 @@ injectGlobal`
         min-width: 230px;
         max-width: 550px;
         margin: 0 auto;
-        -webkit-font-smoothing: antialiased;
-        -moz-font-smoothing: antialiased;
         font-smoothing: antialiased;
         font-weight: 300;
         padding: 0;
@@ -91,10 +89,7 @@ injectGlobal`
         font-family: inherit;
         font-weight: inherit;
         color: inherit;
-        -webkit-appearance: none;
         appearance: none;
-        -webkit-font-smoothing: antialiased;
-        -moz-font-smoothing: antialiased;
         font-smoothing: antialiased;
         outline: none;
     }
@@ -116,28 +111,35 @@ class TodoListContainer extends Component {
             todosToShow: []
         };
     }
-    handleInputDone = (value) => {
+    handleInputDone = (e) => {
+        const ENTER_KEY = 13;
+        if(e.keyCode !== ENTER_KEY) {
+            return ;
+        }
+        e.preventDefault();
         let newID = 0;
         if(this.todos.length > 0) {
             newID = this.todos[0].id + 1;
         }
-        this.todos.unshift({checked: false, content: value, id: newID});
+        this.todos.unshift({checked: false, content: e.currentTarget.value, id: newID});
         this.setState({
-            todoInput: value,
+            todoInput: e.currentTarget.value,
             todosToShow: this.todos,
         });
+        e.currentTarget.value = '';
     }
-    handleAllCheckChange = (status) => {
-        this.todos.map(value => value.checked = status);
+    handleAllCheckChange = (e) => {
+        this.todos.map(value => value.checked = e.currentTarget.checked);
         this.setState({
-            isCheckedAll: status,
-            showClear: status,
+            isCheckedAll: e.currentTarget.checked,
+            showClear: e.currentTarget.checked,
             todosToShow: this.todos,
         });
     }
     handleRemove = (e) => {
         this.todos = this.todos.filter(value => !value.checked);
-        this.setState({todosToShow: this.todos, showClear: false});
+        const showTodos = this.state.todosToShow.filter(value => !value.checked);
+        this.setState({todosToShow: showTodos, showClear: false});
     }
     handleFilter = (e) => {
         let todoArr = this.todos;
