@@ -336,8 +336,6 @@ const Footer = props => {
         <span
           className={props.showWays === "act" ? "selected" : ""}
           onClick={() => props.showItem("act")}
-          // className={props.showWays === "com" ? "selected" : ""}
-          // onClick={() => props.showItem("com")}
         >
           Completed
         </span>
