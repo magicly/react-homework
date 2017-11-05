@@ -3,14 +3,21 @@ import Header from  './Header.js';
 import Section from './Section.js';
 import Footer from './Footer.js';
 import injectGlobal from './InjectGlobal.js';
+import styled from 'styled-components';
 
+const Div = styled.div`
+	background: #fff;
+	margin: 130px 0 40px 0;
+	position: relative;
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+				0 25px 50px 0 rgba(0, 0, 0, 0.1);
+`
 
 
 class CounterContainer extends Component {
 	constructor(props) {
 		super(props);
 		this.todolist 	= [];
-		this.completed 	= false;
 		this.display	= false;
 		this.state = {
 			things: [],
@@ -38,7 +45,6 @@ class CounterContainer extends Component {
 		for (let thing of this.state.things) {
 			if (thing.task === todoTask) {
 				thing.done = !thing.done;
-				this.completed = !this.completed;
 				this.display = !this.display;
 				break;
 			}
@@ -103,7 +109,7 @@ class CounterContainer extends Component {
 
 	render() {
 		return (
-			<div>
+			<Div>
 				<Header
 					keyup={this.keyup}
 				/>
@@ -123,7 +129,7 @@ class CounterContainer extends Component {
 					clear={this.clear}
 					all={this.all}
 				/>
-			</div>
+			</Div>
 		)
 	}
 }
