@@ -1,7 +1,17 @@
 # 项目结构
-* 所有业务代码都在Task文件夹中
-* index.jsx -- statefull组件，引入TaskHtmlStyled.jsx中的静态组件
-* TaskHtmlStyled.jsx -- stateless组件，包括html和对应的样式
+1.所有业务代码都在Task文件夹中
+
+2.index.jsx -- statefull组件，引入TaskContainer.jsx中的静态组件
+
+3.TaskContainer.jsx -- 无状态组件的总组件包含以下无状态组件
+
+> * Header.jsx -- todos头部，一个输入框和todos标题显示
+>
+> * TaskList.jsx -- 任务列表
+>
+> * TaskFooter.jsx -- 任务组件底部操作按钮组
+>
+> * WebsiteFooter.jsx -- 网站静态的footer
 
 # 实现功能
 * 添加任务
