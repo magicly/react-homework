@@ -23,6 +23,7 @@
             src/
                 index.js
                 Todos.jsx
+                TodosUi.jsx
             .gitignore
             package.json
             package-lock.json
