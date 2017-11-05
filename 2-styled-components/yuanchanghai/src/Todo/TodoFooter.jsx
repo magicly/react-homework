@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import styled, {injectGlobal} from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 //Todo底部样式
 const Footer = styled.footer`
     color: #777;

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import styled, {injectGlobal} from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 //内容样式
 const Section = styled.section`
     position: relative;

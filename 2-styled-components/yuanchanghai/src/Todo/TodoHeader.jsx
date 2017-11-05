@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import styled, {injectGlobal} from 'styled-components';
+import React from 'react';
+import styled from 'styled-components';
 //头部样式
 const Input = styled.input`
     position: relative;
