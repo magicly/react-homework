@@ -21,56 +21,67 @@ const TodoMVC = (props) => {
           />
         </header>
         <section className="main">
-          <input className="toggle-all" type="checkbox"
-            checked={props.todoList.filter(e => e.status === 'completed').length === props.todoList.length}
-            style={{ display: props.todoList.length === 0 ? 'none' : '' }}
-            onChange={(e) => {
-              console.log(e.target.checked)
-              props.changeAllStatus(e.target.checked)
-            }}
-          />
+          {
+            props.todoList.length > 0 ?
+              <input className="toggle-all" type="checkbox"
+                checked={props.todoList.filter(e => e.status === 'completed').length === props.todoList.length}
+                onChange={(e) => {
+                  console.log(e.target.checked)
+                  props.changeAllStatus(e.target.checked)
+                }}
+              />
+              : null
+          }
 
           <ul className="todo-list">
             {/*列表*/}
             {
               props.todoList.map((todo) => {
+                let isShow = props.range === todo.status ? true : (props.range === 'all' ? true : false);
                 return (
-                  <li className={todo.status === 'completed' ? 'completed' : ''} key={props.todoList.indexOf(todo)} style={{ display: props.range === todo.status ? '' : (props.range === 'all' ? '' : 'none') }}>
-                    <div>
-                      <input className="toggle" type="checkbox" checked={todo.status === 'completed'} onChange={() => {
-                        props.changeTodo(props.todoList.indexOf(todo))
-                      }} />
-                      <label>{todo.name}</label>
-                      <button className="destroy" onClick={() => {
-                        props.deleteTodo(props.todoList.indexOf(todo))
-                      }}></button>
-                    </div>
-                  </li>
+                  !isShow ? null :
+                    <li className={todo.status === 'completed' ? 'completed' : ''} key={props.todoList.indexOf(todo)}>
+                      <div>
+                        <input className="toggle" type="checkbox" checked={todo.status === 'completed'} onChange={() => {
+                          props.changeTodo(props.todoList.indexOf(todo))
+                        }} />
+                        <label>{todo.name}</label>
+                        <button className="destroy" onClick={() => {
+                          props.deleteTodo(props.todoList.indexOf(todo))
+                        }}></button>
+                      </div>
+                    </li>
                 )
               })
             }
             {/*列表*/}
           </ul>
         </section>
-        <footer className="footer" style={{ display: props.todoList.length === 0 ? 'none' : '' }}>
-          <span className="todo-count">
-            <strong>{props.todoList.filter(e => e.status === 'active').length}</strong>
-            <span> </span>
-            <span>items</span>
-            <span> left</span>
-          </span>
-          <ul className="filters">
-            <li><a className={props.range === 'all' ? 'selected' : ''} onClick={() => { props.changeRange('all') }}>All</a></li><span> </span>
-            <li><a className={props.range === 'active' ? 'selected' : ''} onClick={() => { props.changeRange('active') }}>Active</a></li><span> </span>
-            <li><a className={props.range === 'completed' ? 'selected' : ''} onClick={() => { props.changeRange('completed') }}>Completed</a></li>
-          </ul>
-          <button className="clear-completed"
-            style={{ display: props.todoList.filter(e => e.status === 'completed').length === 0 ? 'none' : '' }}
-            onClick={() => {
-              props.clearCompleted()
-            }}
-          >Clear completed</button>
-        </footer>
+
+        {
+          props.todoList.length === 0 ? null :
+            <footer className="footer">
+              <span className="todo-count">
+                <strong>{props.todoList.filter(e => e.status === 'active').length}</strong>
+                <span> </span>
+                <span>items</span>
+                <span> left</span>
+              </span>
+              <ul className="filters">
+                <li><a className={props.range === 'all' ? 'selected' : ''} onClick={() => { props.changeRange('all') }}>All</a></li><span> </span>
+                <li><a className={props.range === 'active' ? 'selected' : ''} onClick={() => { props.changeRange('active') }}>Active</a></li><span> </span>
+                <li><a className={props.range === 'completed' ? 'selected' : ''} onClick={() => { props.changeRange('completed') }}>Completed</a></li>
+              </ul>
+              {
+                props.todoList.filter(e => e.status === 'completed').length === 0 ? null :
+                  <button className="clear-completed"
+                    onClick={() => {
+                      props.clearCompleted()
+                    }}
+                  >Clear completed</button>
+              }
+            </footer>
+        }
       </div>
       <footer className="info">
         <p>Double-click to edit a todo</p>
@@ -397,7 +408,6 @@ const StyledTodoMVC = styled(TodoMVC) `
         appearance: none;
       }
     }
-    
 `
 
 //逻辑
