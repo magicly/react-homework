@@ -14,9 +14,6 @@ const Div = styled.div`
 `
 
 
-
-
-
 class CounterContainer extends Component {
 	constructor(props) {
 		super(props);
@@ -48,7 +45,7 @@ class CounterContainer extends Component {
 		for (let thing of this.state.things) {
 			if (thing.task === todoTask) {
 				thing.done = !thing.done;
-				this.display = !this.display;
+				this.display = thing.done;
 				break;
 			}
 		}
@@ -87,7 +84,7 @@ class CounterContainer extends Component {
 	clear = () => {
 		this.todolist = [];
 		this.setState({
-			things: []
+			things: this.state.things.filter(thing => !thing.done)
 		})
 	}
 	checkAll = (e) => {

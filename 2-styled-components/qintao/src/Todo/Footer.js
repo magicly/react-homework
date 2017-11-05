@@ -6,8 +6,8 @@ const Footer = (props) => {
 		<footer className={props.className}>
 			<span><strong>{props.things.filter(thing => !thing.done).length}</strong></span>
 			<ul>
-				<li><a href='#/' onClick={props.all}>所有</a></li><span></span>
-				<li><a href='#/' onClick={() => props.surplus('active')}>剩余</a></li><span></span>
+				<li><a href='#/' onClick={()=>props.all('all')}>所有</a></li><span></span>
+				<li><a href='#/' onClick={() => props.surplus('active')} >剩余</a></li><span></span>
 				<li><a href='#/' onClick={() => props.over('completed')}>已完成</a></li><span></span>
 			</ul>
 			<button>
@@ -65,9 +65,9 @@ const Footer1 = styled(Footer) `
 				border: 1px solid transparent;
 				border-radius: 3px;
 			}
-			a.selected{
-				border-color: rgba(175, 47, 47, 0.1);
-			}
+
+			a.selected: ${props => props.all ? 'border-color: rgba(175, 47, 47, 0.1)' : ''};
+
 			a:hover {
 				border-color: rgba(175, 47, 47, 0.1);
 			}

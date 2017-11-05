@@ -66,7 +66,7 @@ const Header = (props) => {
 	return (
 		<header className={props.className}>
 			<H1>待办事项</H1>
-			<Input onKeyUp={props.keyup} placeholder="" />
+			<Input onKeyUp={props.keyup}  />
 		</header>
 	)
 }
