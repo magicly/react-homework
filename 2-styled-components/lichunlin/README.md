@@ -17,4 +17,4 @@
 * 使用命令行进入项目根路径（这里是lichunlin这个目录）
 * 执行命令**npm install**安装npm依赖
 * 执行命令**npm start**启动项目
-* 如果没有弹出浏览器可以手动打开浏览器输入地址[http:localhost:3000](http:localhost:3000)
+* 如果没有弹出浏览器可以手动打开浏览器输入地址[http://localhost:3000](http://localhost:3000)

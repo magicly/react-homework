@@ -1,5 +1,5 @@
 import React from 'react';
-import TaskHtmlStyled from './TaskHtmlStyled';
+import TaskContainer from './TaskContainer';
 
 class TaskComponent extends React.Component {
     constructor (props) {
@@ -195,7 +195,7 @@ class TaskComponent extends React.Component {
     }
 
     render () {
-        return <TaskHtmlStyled
+        return <TaskContainer
          taskInputKeyUp={this.taskInputKeyUp}
          taskList={this.state.taskList}
          toggleTask={this.toggleTask}
