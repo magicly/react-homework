@@ -91,11 +91,13 @@ class TodoData extends Component {
         this.state = {
             inpValue: [],
             count:0,
+            completingcount:0,
             inputValue:"",
             todoState:1,
             inputState:false,
         }
     }
+
     //全选
     allTodo = () => {
         const inputState = this.state.inputState;
@@ -105,12 +107,14 @@ class TodoData extends Component {
             for (let i = 0; i < array.length; i++) {
                 array[i].inpState = false;
             }
+            this.state.completingcount = 0;
             this.state.count = array.length;
         }else{
             this.state.inputState = true;
             for (let i = 0; i < array.length; i++) {
                 array[i].inpState = true;
             }
+            this.state.completingcount = array.length;
             this.state.count = 0;
         }
         this.setState({inpValue: array});
@@ -145,6 +149,8 @@ class TodoData extends Component {
         const array = this.state.inpValue;
         const arr = todoTaskOperation(array, e => e.name === name, "delete");
         const arr2 = todoNumber(array, e => e.inpState === false);
+        const arr3 = todoNumber(array, e => e.inpState === true);
+        this.state.completingcount = arr3.length;
         this.state.count = arr2.length;
         this.setState({inpValue: arr});
     };
@@ -159,6 +165,8 @@ class TodoData extends Component {
         }
         const arr2 = todoNumber(array, e => e.inpState === false);
         this.state.count = arr2.length;
+        const arr3 = todoNumber(array, e => e.inpState === true);
+        this.state.completingcount = arr3.length;
         this.setState({inpValue: arr});
     };
     //完成TodoTask
@@ -184,6 +192,18 @@ class TodoData extends Component {
         this.state.todoState = 1;
         this.setState({inpValue: array});
     };
+    completing = () => {
+        const array = this.state.inpValue;
+        let newArr = [];
+        for (let i = 0; i < array.length; i += 1) {
+            if (array[i].inpState === false) {
+                newArr.push(array[i]);
+            }
+        }
+        const arr3 = todoNumber(array, e => e.inpState === true);
+        this.state.completingcount = 0;
+        this.setState({inpValue: newArr});
+    };
     render() {
         return (
             <Todo>
@@ -202,6 +222,8 @@ class TodoData extends Component {
                     completeTodoTask = {this.completeTodoTask}
                     unfinishedTodoTask = {this.unfinishedTodoTask}
                     allTodoTask = {this.allTodoTask}
+                    completing = {this.completing}
+                    completingcount = {this.state.completingcount}
                 />
             </Todo>
         )
