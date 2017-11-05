@@ -328,14 +328,16 @@ const Footer = props => {
           All
         </span>
         <span
-          className={props.showWays === "act" ? "selected" : ""}
-          onClick={() => props.showItem("act")}
+         className={props.showWays === "com" ? "selected" : ""}
+          onClick={() => props.showItem("com")}
         >
           Active
         </span>
         <span
-          className={props.showWays === "com" ? "selected" : ""}
-          onClick={() => props.showItem("com")}
+          className={props.showWays === "act" ? "selected" : ""}
+          onClick={() => props.showItem("act")}
+          // className={props.showWays === "com" ? "selected" : ""}
+          // onClick={() => props.showItem("com")}
         >
           Completed
         </span>
