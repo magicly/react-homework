@@ -17,14 +17,14 @@
 
     2-styled-components/wsyun/
             public/
-				favicon.ico
-				index.html
-				manifest.json
+                favicon.ico
+                index.html
+                manifest.json
             src/
-				index.js
-				Todos.jsx
+                index.js
+                Todos.jsx
             .gitignore
             package.json
-			package-lock.json
-			README.md
+            package-lock.json
+            README.md
 
