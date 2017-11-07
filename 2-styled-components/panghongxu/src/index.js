@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TodoPageActive from './TodoPage/index' ;
+import TodoPageComponent from './TodoPage' ;
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<TodoPageActive />, document.getElementById('root'));
+ReactDOM.render(<TodoPageComponent/>, document.getElementById('root'));
 registerServiceWorker();

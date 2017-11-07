@@ -22,11 +22,11 @@ const TodoPage = (props) => {
                     <span>left</span>
                 </Span>
                 <UlBottom primary={props.todoList.length}>
-                    <li><a className={props.botton_status === 0 ? "selected" : ""} onClick={() => props.showAll()}>All</a></li>
+                    <li><a className={props.botton_status === "all" ? "selected" : ""} onClick={() => props.showAll()}>All</a></li>
                     <span> </span>
-                    <li><a className={props.botton_status === 1 ? "selected" : ""} onClick={() => props.active()}>Active</a></li>
+                    <li><a className={props.botton_status === "active" ? "selected" : ""} onClick={() => props.active()}>Active</a></li>
                     <span> </span>
-                    <li><a className={props.botton_status === 2 ? "selected" : ""} onClick={() => props.complete()}>Completed</a></li>
+                    <li><a className={props.botton_status === "complete" ? "selected" : ""} onClick={() => props.complete()}>Completed</a></li>
                 </UlBottom>
                 <ClearBotton onClick={() => props.clearComplete()} primary={props.completeCount}>Clear completed</ClearBotton>
             </Footer>
@@ -359,10 +359,9 @@ const UlList = styled.ul`
 
 `
 const ListOne = styled.div`
-    display: ${props => props.primary? 'block' : 'none'};
+    display: ${props => props.primary ? 'block' : 'none'};
 `
 const ShowListNew = (props) => {
-    console.log();
     return (
         <UlList className={props.className}>
             {
@@ -370,12 +369,14 @@ const ShowListNew = (props) => {
                     <ListOne key={element1.id} primary={element1.show}>
                         <li className={element1.status === "complete" ? "completed" : ""}>
                             <div className="view">
-                                <input className="toggle" type="checkbox" onClick={() => props.chooseList(element1.id, props.data)} checked={element1.status === "complete" ? "checked" : ""}>
+                                <input className="toggle" readOnly="true" type="checkbox" onClick={() => props.chooseList        (element1.id, props.data)}     checked={element1.status === "complete" ? "checked" : ""}>
                                 </input>
                                 <label>{element1.content}</label>
+                                {/* <label onDoubleClick={() => props.updateEvent(element1.id, props.data)}>{element1.content}</label> */}
                                 <button className="destroy" onClick={() => props.deleteList(element1.id, props.data)}></button>
                             </div>
                             {/* <input className="editing edit" value={element1.content} onChange = {() => CheckedUpdateWords(element1.id, data)}></input> */}
+                            {/* <input onBlur={quitModify} onChange={CheckedUpdateWords} onKeyUp={updateListValue} className="edit" defaultValue={task.title}/> */}
                         </li>
                     </ListOne>
                 )
@@ -391,16 +392,38 @@ const GenNonDuplicateID = () => {
     return idStr;
 }
 //动态渲染
-class TodoPageActive extends Component {
+class TodoPageComponent extends Component {
     constructor(props) {
         super(props);
+
+        let todoList = localStorage.getItem("todoList");
+        let completeCount = 0;
+        let bool_checkAll = false;
+        if (todoList !== "" && todoList !== null) {
+            todoList = JSON.parse(todoList);
+            completeCount = todoList.filter(item => item.status === "complete").length;
+            bool_checkAll = todoList.length === todoList.filter(item => item.status === "complete").length;
+        } else {
+            todoList = [];
+        }
+        let botton_status = localStorage.getItem("botton_status");
+        if (botton_status === "" || botton_status === null) {
+            botton_status = "all";
+        }
         this.state = {
-            todoList: [], //展示的列表[{"content":"example1","status":"active","show": true},{"content":"example2","status":"active", "show":false}];
+            todoList: todoList, //展示的列表[{"content":"example1","status":"active","show": true},{"content":"example2","status":"active", "show":false}];
             inputValue: "",//输入的值
-            notCompleteCount: 0,//未完成的活动
-            bool_check: false,//全选标志
-            botton_status: 0,//按钮状态
-            completeCount: 0,//已完成活动数目
+            notCompleteCount: todoList.length-completeCount,//未完成的活动
+            bool_checkAll: bool_checkAll,//全选标志
+            botton_status: botton_status,//按钮状态
+            completeCount: completeCount,//已完成活动数目
+        }
+    }
+    // 存储到浏览器， 刷新页面数据不丢失
+    setLocalStorage = (todoList,botton_status) => {
+        localStorage.setItem("todoList", JSON.stringify(todoList));
+        if(botton_status !== null) {
+            localStorage.setItem("botton_status", botton_status);
         }
     }
     //监听键盘回车键
@@ -412,13 +435,20 @@ class TodoPageActive extends Component {
             }
             //name:名字  state:状态 active:未完成  completed:完成 
             let todoList = this.state.todoList;
-            todoList.unshift({ "content": value, "status": "active", "show": true, "id": value + GenNonDuplicateID() });
+            //判断是否显示
+            let botton_status = this.state.botton_status;
+            let show = true;
+            if (botton_status === "complete") {
+                show =false;
+            }
+            todoList.unshift({ "content": value, "status": "active", "show": show, "id": value + GenNonDuplicateID() });
             this.setState({
                 todoList: todoList,
                 inputValue: "",
                 notCompleteCount: this.state.notCompleteCount + 1,
                 completeCount: this.state.completeCount,
             });
+            this.setLocalStorage(todoList,botton_status);
         }
     }
     //监听输入框的值变化
@@ -436,27 +466,34 @@ class TodoPageActive extends Component {
         }
         //name:名字  state:状态 active:未完成  completed:完成 
         let todoList = this.state.todoList;
-        todoList.unshift({ "content": value, "status": "active", "show": true, "id": value + GenNonDuplicateID() });
+        //判断是否显示
+        let botton_status = this.state.botton_status;
+        let show = true;
+        if (botton_status === "complete") {
+            show =false;
+        }
+        todoList.unshift({ "content": value, "status": "active", "show": show, "id": value + GenNonDuplicateID() });
         this.setState({
             todoList: todoList,
             inputValue: "",
             notCompleteCount: this.state.notCompleteCount + 1,
             completeCount: this.state.completeCount,
         });
+        this.setLocalStorage(todoList,botton_status);
     }
     //全选（取消）
     checkedAll = () => {
-        let bool = this.state.bool_check ? false : true;
+        let bool = this.state.bool_checkAll ? false : true;
         let todoList = this.state.todoList;
         let notCompleteCount = !bool ? todoList.length : 0;
         //显示状态
         let bool_show;
         let botton_status = this.state.botton_status;
-        if (botton_status === 1) {//active
+        if (botton_status === "active") {
             bool_show = bool ? false : true;
-        } else if (botton_status === 2) {//complete
+        } else if (botton_status === "complete") {
             bool_show = bool ? true : false;
-        } else {//all
+        } else {
             bool_show = true;
         }
         todoList = todoList.map(
@@ -472,8 +509,9 @@ class TodoPageActive extends Component {
             inputValue: "",
             completeCount: todoList.length - notCompleteCount,
             notCompleteCount: notCompleteCount,
-            bool_check: bool,
+            bool_checkAll: bool,
         });
+        this.setLocalStorage(todoList,botton_status);
     }
     //显示所有
     showAll = () => {
@@ -483,8 +521,9 @@ class TodoPageActive extends Component {
         }
         this.setState({
             todoList: todoList,
-            botton_status: 0,
+            botton_status: "all",
         });
+        this.setLocalStorage(todoList,"all");
     }
     // 显示未完成
     active = () => {
@@ -494,8 +533,9 @@ class TodoPageActive extends Component {
         }
         this.setState({
             todoList: todoList,
-            botton_status: 1,
+            botton_status: "active",
         });
+        this.setLocalStorage(todoList,"active");
     }
     // 显示已经完成  
     complete = () => {
@@ -505,17 +545,21 @@ class TodoPageActive extends Component {
         }
         this.setState({
             todoList: todoList,
-            botton_status: 2,
+            botton_status: "complete",
         });
+        this.setLocalStorage(todoList,"complete");
     }
     //清除完成任务
     clearComplete = () => {
         let todoList = this.state.todoList;
         todoList = todoList.filter(element => (element.status === "active"));
+        let botton_status = todoList.length<1 ? "all" : this.state.botton_status;
         this.setState({
             todoList: todoList,
             completeCount: 0,
+            botton_status: botton_status,
         });
+        this.setLocalStorage(todoList,botton_status);
     }
     //删除任务
     deleteList = (id, data) => {
@@ -530,11 +574,14 @@ class TodoPageActive extends Component {
                 break;
             }
         }
+        let botton_status = data.length<1 ? "all" : this.state.botton_status;
         this.setState({
             todoList: data,
             completeCount: data.length - (this.state.notCompleteCount - count),//写在前面
             notCompleteCount: this.state.notCompleteCount - count,
+            botton_status: botton_status,
         });
+        this.setLocalStorage(data,botton_status);
     }
     // 任务勾选事件 
     chooseList = (id, data) => {
@@ -546,11 +593,11 @@ class TodoPageActive extends Component {
                 //记录完成数
                 count = data[i].status === "complete" ? 1 : -1;
                 //显示 隐藏
-                if (botton_status === 1) {//active
+                if (botton_status === "active") {
                     data[i].show = data[i].status === "complete" ? true : false;
-                } else if (botton_status === 2) {//complete
-                    data[i].show = data[i].status === "complete" ?  false : true;
-                } else {//all
+                } else if (botton_status === "complete") {
+                    data[i].show = data[i].status === "complete" ? false : true;
+                } else {
                     data[i].show = true;
                 }
                 //状态
@@ -563,6 +610,7 @@ class TodoPageActive extends Component {
             completeCount: data.length - (this.state.notCompleteCount + count),
             notCompleteCount: this.state.notCompleteCount + count,
         });
+        this.setLocalStorage(data,botton_status);
     }
 
     render() {
@@ -590,4 +638,4 @@ class TodoPageActive extends Component {
 }
 
 
-export default TodoPageActive;
+export default TodoPageComponent;
