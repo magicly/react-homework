@@ -91,13 +91,19 @@ class TodoData extends Component {
         this.state = {
             inpValue: [],
             count:0,
+<<<<<<< HEAD
             completingcount:0,
+=======
+>>>>>>> remotes/老师/master
             inputValue:"",
             todoState:1,
             inputState:false,
         }
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> remotes/老师/master
     //全选
     allTodo = () => {
         const inputState = this.state.inputState;
@@ -107,14 +113,20 @@ class TodoData extends Component {
             for (let i = 0; i < array.length; i++) {
                 array[i].inpState = false;
             }
+<<<<<<< HEAD
             this.state.completingcount = 0;
+=======
+>>>>>>> remotes/老师/master
             this.state.count = array.length;
         }else{
             this.state.inputState = true;
             for (let i = 0; i < array.length; i++) {
                 array[i].inpState = true;
             }
+<<<<<<< HEAD
             this.state.completingcount = array.length;
+=======
+>>>>>>> remotes/老师/master
             this.state.count = 0;
         }
         this.setState({inpValue: array});
@@ -149,8 +161,11 @@ class TodoData extends Component {
         const array = this.state.inpValue;
         const arr = todoTaskOperation(array, e => e.name === name, "delete");
         const arr2 = todoNumber(array, e => e.inpState === false);
+<<<<<<< HEAD
         const arr3 = todoNumber(array, e => e.inpState === true);
         this.state.completingcount = arr3.length;
+=======
+>>>>>>> remotes/老师/master
         this.state.count = arr2.length;
         this.setState({inpValue: arr});
     };
@@ -165,8 +180,11 @@ class TodoData extends Component {
         }
         const arr2 = todoNumber(array, e => e.inpState === false);
         this.state.count = arr2.length;
+<<<<<<< HEAD
         const arr3 = todoNumber(array, e => e.inpState === true);
         this.state.completingcount = arr3.length;
+=======
+>>>>>>> remotes/老师/master
         this.setState({inpValue: arr});
     };
     //完成TodoTask
@@ -192,6 +210,7 @@ class TodoData extends Component {
         this.state.todoState = 1;
         this.setState({inpValue: array});
     };
+<<<<<<< HEAD
     completing = () => {
         const array = this.state.inpValue;
         let newArr = [];
@@ -204,6 +223,8 @@ class TodoData extends Component {
         this.state.completingcount = 0;
         this.setState({inpValue: newArr});
     };
+=======
+>>>>>>> remotes/老师/master
     render() {
         return (
             <Todo>
@@ -222,8 +243,11 @@ class TodoData extends Component {
                     completeTodoTask = {this.completeTodoTask}
                     unfinishedTodoTask = {this.unfinishedTodoTask}
                     allTodoTask = {this.allTodoTask}
+<<<<<<< HEAD
                     completing = {this.completing}
                     completingcount = {this.state.completingcount}
+=======
+>>>>>>> remotes/老师/master
                 />
             </Todo>
         )

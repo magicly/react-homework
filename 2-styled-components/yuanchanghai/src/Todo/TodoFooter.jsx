@@ -28,6 +28,10 @@ const Span = styled.span`
     strong {
         font-weight: 300;
     }
+<<<<<<< HEAD
+=======
+}
+>>>>>>> remotes/老师/master
 `;
 const FooterUl = styled.ul`
     margin: 0;
@@ -52,6 +56,7 @@ const FooterA = styled.a`
         border-color: rgba(175, 47, 47, 0.1);
     }
 `;
+<<<<<<< HEAD
 const FooterButton = styled.button`
     float: right;
     outline: none;
@@ -66,6 +71,8 @@ const FooterButton = styled.button`
         text-decoration: underline;
     }
 `;
+=======
+>>>>>>> remotes/老师/master
 //Todo底部
 const TodoFooter = (props) => {
     return (
@@ -84,7 +91,10 @@ const TodoFooter = (props) => {
                     <FooterA state={props.todoState === 3 ? true : false} onClick={props.unfinishedTodoTask}>未完成</FooterA>
                 </li>
             </FooterUl>
+<<<<<<< HEAD
             <FooterButton completingcount={props.completingcount === 0 ? false : true} onClick={props.completing}>确认完成</FooterButton>
+=======
+>>>>>>> remotes/老师/master
         </Footer>
     );
 };
