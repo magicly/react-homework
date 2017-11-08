@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled, { injectGlobal } from "styled-components";
+import styled from "styled-components";
 
 
 const TodoPage = (props) => {
@@ -8,11 +8,11 @@ const TodoPage = (props) => {
             <Header>
                 <h1>todos</h1>
                 <InputWord type="text" onKeyDown={props.keyDownSearch} onChange={props.valueListener} value={props.inputValue} placeholder="What needs to be done?"></InputWord>
-                <AddButton onClick={props.addTodoWords}>ADD</AddButton>
+                <AddButton onClick={props.addTodoWords}>+</AddButton>
             </Header>
             <TodoBody primary={props.todoList.length}>
                 <CheckBox type="checkbox" onClick={props.checkedAll} primary={(props.todoList.length - props.completeCount) === 0 && (props.completeCount > 0)}></CheckBox>
-                <ShowListNew data={props.todoList} deleteList={props.deleteList} chooseList={props.chooseList} />
+                <ShowListNew data={props.todoList} deleteList={props.deleteList} chooseList={props.chooseList} showUpdateEvent={props.showUpdateEvent} hideUpdateEvent={props.hideUpdateEvent} updateWords={props.updateWords}/>
             </TodoBody>
             <Footer primary={props.todoList.length}>
                 <Span>
@@ -34,41 +34,6 @@ const TodoPage = (props) => {
     );
 }
 
-injectGlobal`
-    html,
-    body {
-        margin: 0;
-        padding: 0;
-    }
-
-    button {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        background: none;
-        font-size: 100%;
-        vertical-align: baseline;
-        font-family: inherit;
-        font-weight: inherit;
-        color: inherit;
-        -webkit-appearance: none;
-        -webkit-font-smoothing: antialiased;
-        -moz-font-smoothing: antialiased;
-    }
-
-    body {
-        font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        line-height: 1.4em;
-        background: #f5f5f5;
-        color: #4d4d4d;
-        min-width: 230px;
-        max-width: 550px;
-        margin: 0 auto;
-        -webkit-font-smoothing: antialiased;
-        -moz-font-smoothing: antialiased;
-        font-weight: 300;
-    }
-`;
 //page样式
 const TodoApp = styled.div`
     outline: none;
@@ -117,7 +82,8 @@ const Header = styled.header`
     }
 `
 const InputWord = styled.input`
-    width: 78%;
+    display:inline;
+    width:75%;
     outline: none;
 	padding: 16px 16px 16px 60px;
 	border: none;
@@ -128,7 +94,6 @@ const InputWord = styled.input`
     .edit {
         position: relative;
         margin: 0;
-        width: 100%;
         font-size: 44px;
         font-family: inherit;
         font-weight: inherit;
@@ -136,8 +101,29 @@ const InputWord = styled.input`
         outline: none;
         color: inherit;
         box-sizing: border-box;
-        -webkit-font-smoothing: antialiased;
     }
+    @media screen and (min-width: 430px) {
+        width:50%;
+    }
+
+    @media (min-width: 430px) {
+        width:50%;
+    }
+`
+const AddButton = styled.button`
+    outline:none;
+    display:inline;
+    color: tomato;
+    float:right;
+    height:100%;
+    width:6%;
+    line-height:60px;  
+    border-radius: 2px;
+    background-color:#e8e8e8;  
+    cursor: pointer;
+    position: relative;
+    left:0px;
+    top:0px;
 `
 const TodoBody = styled.div`
     outline: none;  
@@ -174,25 +160,12 @@ const CheckBox = styled.input`
 const ClearBotton = styled.button`
     display: ${props => props.primary === 0 ? 'none' : 'block'};
     float: right;
-    position: relative;
     line-height: 20px;
     text-decoration: none;
     cursor: pointer;
     position: relative;
     :hover {
         text-decoration: underline;
-    }
-`
-const AddButton = ClearBotton.extend`
-    display:block;
-    color: tomato;
-    float:right;
-    height:100%;
-    width: 8%;
-    line-height:60px;  
-    border-radius: 2px;
-    background-color:#7a7d9e;  
-    :hover {
     }
 `
 const Footer = styled.footer`
@@ -260,7 +233,7 @@ const UlList = styled.ul`
     margin: 0;
     padding: 0;
     list-style: none;
-
+    z-index: 2;
     li {
         position: relative;
         font-size: 24px;
@@ -268,13 +241,13 @@ const UlList = styled.ul`
     }
 
     li.editing {
-        border-bottom: none;
+        border-bottom: 1px solid #ededed;
         padding: 0;
     }
 
     li.editing .edit {
         display: block;
-        width: 506px;
+        width: 468px;
         padding: 13px 17px 12px 17px;
         margin: 0 0 0 43px;
     }
@@ -317,6 +290,10 @@ const UlList = styled.ul`
         transition: color 0.4s;
     }
 
+    li label[for='toggle'] {
+        display: none;
+    }
+
     li.completed label {
         color: #d9d9d9;
         text-decoration: line-through;
@@ -332,7 +309,7 @@ const UlList = styled.ul`
         margin: auto 0;
         font-size: 30px;
         color: #cc9a9a;
-        margin-bottom: 11px;
+        margin-bottom: 0px;
         transition: color 0.2s ease-out;
         cursor: pointer;
     }
@@ -367,16 +344,25 @@ const ShowListNew = (props) => {
             {
                 props.data.map(element1 =>
                     <ListOne key={element1.id} primary={element1.show}>
-                        <li className={element1.status === "complete" ? "completed" : ""}>
+                        <li className={(element1.status === "complete" ? "completed " : "")+ (element1.editor ? "editing " : "")}>
                             <div className="view">
-                                <input className="toggle" readOnly="true" type="checkbox" onClick={() => props.chooseList        (element1.id, props.data)}     checked={element1.status === "complete" ? "checked" : ""}>
+                                <input className="toggle" 
+                                    readOnly="true" type="checkbox" 
+                                    onClick={() => props.chooseList(element1.id, props.data)}     
+                                    checked={element1.status === "complete" ? "checked" : ""}>
                                 </input>
-                                <label>{element1.content}</label>
-                                {/* <label onDoubleClick={() => props.updateEvent(element1.id, props.data)}>{element1.content}</label> */}
-                                <button className="destroy" onClick={() => props.deleteList(element1.id, props.data)}></button>
+                                <label 
+                                    onDoubleClick={() => props.showUpdateEvent(element1.id, props.data)} >{element1.content}
+                                </label>
+                                <button className="destroy" 
+                                    onClick={() => props.showUpdateEvent(element1.id, props.data)}>
+                                </button>
                             </div>
-                            {/* <input className="editing edit" value={element1.content} onChange = {() => CheckedUpdateWords(element1.id, data)}></input> */}
-                            {/* <input onBlur={quitModify} onChange={CheckedUpdateWords} onKeyUp={updateListValue} className="edit" defaultValue={task.title}/> */}
+                            <input className="edit" id={element1.id}
+                                defaultValue={element1.content} 
+                                onBlur = {() => props.hideUpdateEvent(element1.id, props.data)}
+                                onChange={props.updateWords}>
+                            </input>
                         </li>
                     </ListOne>
                 )
@@ -441,7 +427,7 @@ class TodoPageComponent extends Component {
             if (botton_status === "complete") {
                 show =false;
             }
-            todoList.unshift({ "content": value, "status": "active", "show": show, "id": value + GenNonDuplicateID() });
+            todoList.unshift({ "content": value, "status": "active", "show": show,editor:false, "id": value + GenNonDuplicateID() });
             this.setState({
                 todoList: todoList,
                 inputValue: "",
@@ -480,6 +466,49 @@ class TodoPageComponent extends Component {
             completeCount: this.state.completeCount,
         });
         this.setLocalStorage(todoList,botton_status);
+    }
+    //显示修改
+    showUpdateEvent = (id, data) =>{
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].id === id) {
+                data[i].editor = true;
+                break;
+            }
+        }
+        this.setState({
+            todoList: data,
+        });
+        this.setLocalStorage(data,this.state.botton_status);
+    }
+    //隐藏修改
+    hideUpdateEvent = (id, data) =>{
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].id === id) {
+                data[i].editor = false;
+                break;
+            }
+        }
+        this.setState({
+            todoList: data,
+        });
+        this.setLocalStorage(data,this.state.botton_status);
+    }
+    //修改活动内容
+    updateWords = (e) =>{
+        let content = e.target.value;
+        let id = e.target.id;
+        let data = this.state.todoList;
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].id === id) {
+                data[i].content = content;
+                data[i].editor = false;
+                break;
+            }
+        }
+        this.setState({
+            todoList: data,
+        });
+        this.setLocalStorage(data,this.state.botton_status);
     }
     //全选（取消）
     checkedAll = () => {
@@ -632,6 +661,9 @@ class TodoPageComponent extends Component {
                 complete={this.complete}
                 deleteList={this.deleteList}
                 chooseList={this.chooseList}
+                hideUpdateEvent={this.hideUpdateEvent}
+                showUpdateEvent={this.showUpdateEvent}
+                updateWords={this.updateWords}
             />
         );
     }
