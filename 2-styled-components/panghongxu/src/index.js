@@ -43,31 +43,4 @@ injectGlobal`
         -moz-font-smoothing: antialiased;
         font-weight: 300;
     }
-    @media screen and (-webkit-min-device-pixel-ratio:0) {
-        .toggle-all,
-        .todo-list li .toggle {
-            background: none;
-        }
-
-        .todo-list li .toggle {
-            height: 40px;
-        }
-
-        .toggle-all {
-            -webkit-transform: rotate(90deg);
-            transform: rotate(90deg);
-            -webkit-appearance: none;
-            appearance: none;
-        }
-    }
-
-    @media (max-width: 430px) {
-        .footer {
-            height: 50px;
-        }
-
-        .filters {
-            bottom: 10px;
-        }
-    }
 `;

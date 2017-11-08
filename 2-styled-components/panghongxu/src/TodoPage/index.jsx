@@ -17,7 +17,6 @@ const TodoPage = (props) => {
             <Footer primary={props.todoList.length}>
                 <Span>
                     <strong>{props.notCompleteCount}</strong>
-                    <span></span>
                     <span>items</span>
                     <span>left</span>
                 </Span>
@@ -80,10 +79,21 @@ const Header = styled.header`
     :hover {
       cursor: pointer;
     }
+    @media screen and (max-width: 550px) {
+        input{
+            width:50%;
+        }
+    }
+
+    @media (max-width: 550px) {
+        input{
+            width:50%;
+        }
+    }
 `
 const InputWord = styled.input`
     display:inline;
-    width:75%;
+    width:80%;
     outline: none;
 	padding: 16px 16px 16px 60px;
 	border: none;
@@ -101,13 +111,6 @@ const InputWord = styled.input`
         outline: none;
         color: inherit;
         box-sizing: border-box;
-    }
-    @media screen and (min-width: 430px) {
-        width:50%;
-    }
-
-    @media (min-width: 430px) {
-        width:50%;
     }
 `
 const AddButton = styled.button`
@@ -167,6 +170,17 @@ const ClearBotton = styled.button`
     :hover {
         text-decoration: underline;
     }
+    @media screen and (max-width: 430px) {
+        margin-top:25px;
+        font-size:8px;
+        line-height: 10px;
+    }
+
+    @media (max-width: 430px) {
+        margin-top:25px;
+        font-size:8px;
+        line-height: 10px;
+    }
 `
 const Footer = styled.footer`
     outline: none;
@@ -185,6 +199,13 @@ const Footer = styled.footer`
         height: 50px;
         overflow: hidden;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2);
+    }
+    @media screen and (max-width: 430px) {
+        height: 50px;
+    }
+
+    @media (max-width: 430px) {
+        height: 50px;
     }
 `
 const UlBottom = styled.ul`
@@ -217,6 +238,17 @@ const UlBottom = styled.ul`
     li a.selected {
         border-color: rgba(175, 47, 47, 0.2);
     }
+    @media screen and (max-width: 430px) {
+        li {
+            display: block;
+        }
+    }
+
+    @media (max-width: 430px) {
+        li {
+            display: block;
+        }
+    }
 `
 const Span = styled.span`
     float: left;
@@ -226,6 +258,29 @@ const Span = styled.span`
     }
     strong {
         font-weight: 300;
+    }
+    @media screen and (max-width: 430px) {
+        span{
+            height:10px;
+            padding-bottom:2px;
+            padding-left:0px;
+            display:block;
+        }
+        strong {
+            height:6px;
+        }
+    }
+
+    @media (max-width: 430px) {
+        span{
+            height:10px;
+            padding-bottom:2px;
+            padding-left:0px;
+            display:block;
+        }
+        strong {
+            height:6px;
+        }
     }
 `
 const UlList = styled.ul`
