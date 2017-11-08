@@ -28,7 +28,6 @@ const Span = styled.span`
     strong {
         font-weight: 300;
     }
-}
 `;
 const FooterUl = styled.ul`
     margin: 0;
