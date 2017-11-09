@@ -1,5 +1,12 @@
 import React from 'react';
 import styled from "styled-components";
+import {
+    BrowserRouter as Router,
+    Route,
+    Link,
+    Switch,
+    Redirect
+} from 'react-router-dom';
 
 
 const FooterComponent = ({
@@ -12,18 +19,33 @@ const FooterComponent = ({
     active,
     complete,
     clearComplete
-}) =>{
-    return(
+}) => {
+    return (
         <div>
-            {todoList.length <=0 ? null :
-                <footer className={className}>                
-                        <Span>
-                            <strong>{notCompleteCount}</strong>
-                            <span>items</span>
-                            <span>left</span>
-                        </Span>
-                        <UlBottom>
-                            <li>
+            {todoList.length <= 0 ? null :
+                <footer className={className}>
+                    <Span>
+                        <strong>{notCompleteCount}</strong>
+                        <span>items</span>
+                        <span>left</span>
+                    </Span>
+                    <UlBottom>
+                        <Router>
+                            <ul>
+                                <li><Link to="/">All</Link></li>
+                                <li><Link to="/active">Active</Link></li>
+                                <li><Link to="/completed">Completed</Link></li>
+                            </ul>
+                            <Switch>
+                                <Route path="/" exact component={AllBotton} />
+                                <Redirect from="/all" to="/" />
+                                <Route path="/active" component={ActiveBotton} />
+                                <Route path="/completed" component={CompletedBotton} />
+                                <Route component={NoMatch} />
+                            </Switch>
+                        </Router>
+
+                        {/* <li>
                                 <a className={botton_status === "all" ? "selected" : ""} onClick={() => showAll()}>All</a>
                             </li>
                             <span> </span>
@@ -35,15 +57,42 @@ const FooterComponent = ({
                                 <a className={botton_status === "complete" ? "selected" : ""} onClick={() => complete()}>
                                     Completed
                                 </a>
-                            </li>
-                        </UlBottom>
-                        <ClearBotton onClick={() => clearComplete()} primary={completeCount}>Clear completed</ClearBotton>
+                            </li> */}
+                    </UlBottom>
+                    <ClearBotton onClick={() => clearComplete()} primary={completeCount}>Clear completed</ClearBotton>
                 </footer>
             }
         </div>
     );
 }
-const Footer = styled(FooterComponent)`
+const AllBotton = ({match, history}) => {
+    return(
+        <a 
+            className={botton_status === "all" ? "selected" : ""} onClick={() => showAll()}>All
+        </a>
+    );
+}
+const ActiveBotton = () => {
+    return(
+        <a 
+            className={botton_status === "active" ? "selected" : ""} onClick={() => showAll()}>Active
+        </a>
+    );
+}
+const CompleteBotton = () => {
+    return(
+        <a 
+            className={botton_status === "complete" ? "selected" : ""} onClick={() => showAll()}>Complete
+        </a>
+    );
+}
+const NoMatch = ({location}) => (
+    <div>
+      <h3>No match for <code>{location.pathname}</code></h3>
+    </div>
+)
+
+const Footer = styled(FooterComponent) `
     outline: none;
     color: #777;
     padding: 10px 15px;
