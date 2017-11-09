@@ -1,33 +1,38 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
-
+import Header from './Header';
+import TodoBody from './TodoBody';
+import Footer from './Footer';
 
 const TodoPage = (props) => {
     return (
         <TodoApp>
-            <Header>
-                <h1>todos</h1>
-                <InputWord type="text" onKeyDown={props.keyDownSearch} onChange={props.valueListener} value={props.inputValue} placeholder="What needs to be done?"></InputWord>
-                <AddButton onClick={props.addTodoWords}>+</AddButton>
+            <Header
+                todoList={props.todoList}
+                keyDownSearch={props.keyDownSearch}
+                valueListener={props.valueListener}
+                inputValue={props.inputValue}
+                addTodoWords={props.addTodoWords}>
             </Header>
-            <TodoBody primary={props.todoList.length}>
-                <CheckBox type="checkbox" onClick={props.checkedAll} primary={(props.todoList.length - props.completeCount) === 0 && (props.completeCount > 0)}></CheckBox>
-                <ShowListNew data={props.todoList} deleteList={props.deleteList} chooseList={props.chooseList} showUpdateEvent={props.showUpdateEvent} hideUpdateEvent={props.hideUpdateEvent} updateWords={props.updateWords}/>
+            <TodoBody 
+                todoList={props.todoList}
+                checkedAll={props.checkedAll}
+                completeCount={props.completeCount}
+                deleteList={props.deleteList}
+                chooseList={props.chooseList}
+                showUpdateEvent={props.showUpdateEvent}
+                hideUpdateEvent={props.hideUpdateEvent}
+                updateWords={props.updateWords}>
             </TodoBody>
-            <Footer primary={props.todoList.length}>
-                <Span>
-                    <strong>{props.notCompleteCount}</strong>
-                    <span>items</span>
-                    <span>left</span>
-                </Span>
-                <UlBottom primary={props.todoList.length}>
-                    <li><a className={props.botton_status === "all" ? "selected" : ""} onClick={() => props.showAll()}>All</a></li>
-                    <span> </span>
-                    <li><a className={props.botton_status === "active" ? "selected" : ""} onClick={() => props.active()}>Active</a></li>
-                    <span> </span>
-                    <li><a className={props.botton_status === "complete" ? "selected" : ""} onClick={() => props.complete()}>Completed</a></li>
-                </UlBottom>
-                <ClearBotton onClick={() => props.clearComplete()} primary={props.completeCount}>Clear completed</ClearBotton>
+            <Footer
+                todoList={props.todoList}
+                notCompleteCount={props.notCompleteCount}
+                completeCount={props.completeCount}
+                botton_status={props.botton_status}
+                showAll={props.showAll}
+                active={props.active}
+                complete={props.complete}
+                clearComplete={props.clearComplete}>
             </Footer>
         </TodoApp>
     );
@@ -73,359 +78,6 @@ const TodoApp = styled.div`
         text-rendering: optimizeLegibility;
     }
 `
-const Header = styled.header`
-    display: block;
-    
-    :hover {
-      cursor: pointer;
-    }
-    @media screen and (max-width: 550px) {
-        input{
-            width:50%;
-        }
-    }
-
-    @media (max-width: 550px) {
-        input{
-            width:50%;
-        }
-    }
-`
-const InputWord = styled.input`
-    display:inline;
-    width:80%;
-    outline: none;
-	padding: 16px 16px 16px 60px;
-	border: none;
-	background: rgba(0, 0, 0, 0.003);
-    box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
-    font: 24px Arial;
-    cursor: auto;
-    .edit {
-        position: relative;
-        margin: 0;
-        font-size: 44px;
-        font-family: inherit;
-        font-weight: inherit;
-        line-height: 1.4em;
-        outline: none;
-        color: inherit;
-        box-sizing: border-box;
-    }
-`
-const AddButton = styled.button`
-    outline:none;
-    display:inline;
-    color: tomato;
-    float:right;
-    height:100%;
-    width:6%;
-    line-height:60px;  
-    border-radius: 2px;
-    background-color:#e8e8e8;  
-    cursor: pointer;
-    position: relative;
-    left:0px;
-    top:0px;
-`
-const TodoBody = styled.div`
-    outline: none;  
-    display: ${props => props.primary === 0 ? 'none' : 'block'};
-    position: relative;
-    z-index: 2;
-    border-top: 1px solid #e6e6e6;
-`
-const CheckBox = styled.input`
-    color: ${props => props.primary ? '737373' : '#e6e6e6'};
-    outline: none;
-	position: absolute;
-	top: -55px;
-	left: -12px;
-	width: 60px;
-	height: 34px;
-	text-align: center;
-    border: none; 
-
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
-    -webkit-appearance: none;
-    appearance: none;
-    
-    :before {
-        content: '❯';
-        font-size: 22px;
-        padding: 10px 27px 10px 27px;
-    }
-
-    :checked:before {  
-    }
-`
-const ClearBotton = styled.button`
-    display: ${props => props.primary === 0 ? 'none' : 'block'};
-    float: right;
-    line-height: 20px;
-    text-decoration: none;
-    cursor: pointer;
-    position: relative;
-    :hover {
-        text-decoration: underline;
-    }
-    @media screen and (max-width: 430px) {
-        margin-top:25px;
-        font-size:8px;
-        line-height: 10px;
-    }
-
-    @media (max-width: 430px) {
-        margin-top:25px;
-        font-size:8px;
-        line-height: 10px;
-    }
-`
-const Footer = styled.footer`
-    outline: none;
-    display: ${props => props.primary === 0 ? 'none' : 'block'};
-    color: #777;
-    padding: 10px 15px;
-    height: 20px;
-    text-align: center;
-    border-top: 1px solid #e6e6e6;
-    :before {
-        content: '';
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 50px;
-        overflow: hidden;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px rgba(0, 0, 0, 0.2);
-    }
-    @media screen and (max-width: 430px) {
-        height: 50px;
-    }
-
-    @media (max-width: 430px) {
-        height: 50px;
-    }
-`
-const UlBottom = styled.ul`
-    outline: none;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    position: absolute;
-    right: 0;
-    left: 0;
-
-    li {
-        display: inline;
-    }
-
-    li a {
-        color: inherit;
-        margin: 3px;
-        padding: 3px 7px;
-        text-decoration: none;
-        border: 1px solid transparent;
-        border-radius: 3px;
-        cursor: pointer;
-    }
-
-    li a.selected,li a:hover {
-        border-color: rgba(175, 47, 47, 0.1);
-    }
-
-    li a.selected {
-        border-color: rgba(175, 47, 47, 0.2);
-    }
-    @media screen and (max-width: 430px) {
-        li {
-            display: block;
-        }
-    }
-
-    @media (max-width: 430px) {
-        li {
-            display: block;
-        }
-    }
-`
-const Span = styled.span`
-    float: left;
-    text-align: left;
-    span{
-        padding-left:6px;
-    }
-    strong {
-        font-weight: 300;
-    }
-    @media screen and (max-width: 430px) {
-        span{
-            height:10px;
-            padding-bottom:2px;
-            padding-left:0px;
-            display:block;
-        }
-        strong {
-            height:6px;
-        }
-    }
-
-    @media (max-width: 430px) {
-        span{
-            height:10px;
-            padding-bottom:2px;
-            padding-left:0px;
-            display:block;
-        }
-        strong {
-            height:6px;
-        }
-    }
-`
-const UlList = styled.ul`
-    outline: none;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    z-index: 2;
-    li {
-        position: relative;
-        font-size: 24px;
-        border-bottom: 1px solid #ededed;
-    }
-
-    li.editing {
-        border-bottom: 1px solid #ededed;
-        padding: 0;
-    }
-
-    li.editing .edit {
-        display: block;
-        width: 468px;
-        padding: 13px 17px 12px 17px;
-        margin: 0 0 0 43px;
-    }
-
-    li.editing .view {
-        display: none;
-    }
-
-    li .toggle {
-        outline: none;
-        text-align: center;
-        width: 40px;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        margin: auto 0;
-        border: none; /* Mobile Safari */
-        -webkit-appearance: none;
-        appearance: none;
-        background: none;
-        height:40px;
-    }
-
-    li .toggle:after {
-        content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#ededed" stroke-width="3"/></svg>');
-    }
-
-    li .toggle:checked:after {
-        content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="-10 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#bddad5" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>');
-    }
-
-    li label {
-        white-space: pre-line;
-        word-wrap: break-word;
-        word-break: break-all;
-        padding: 15px 60px 15px 15px;
-        margin-left: 45px;
-        display: block;
-        line-height: 1.2;
-        transition: color 0.4s;
-    }
-
-    li label[for='toggle'] {
-        display: none;
-    }
-
-    li.completed label {
-        color: #d9d9d9;
-        text-decoration: line-through;
-    }
-
-    li .destroy {
-        display: none;
-        position: absolute;
-        top: 0;
-        right: 10px;
-        bottom: 0;
-        width: 40px;
-        margin: auto 0;
-        font-size: 30px;
-        color: #cc9a9a;
-        margin-bottom: 0px;
-        transition: color 0.2s ease-out;
-        cursor: pointer;
-    }
-
-    li .destroy:hover {
-        color: #af5b5e;
-    }
-
-    li .destroy:after {
-        content: '×';
-    }
-
-    li:hover .destroy {
-        display: block;
-    }
-
-    li .edit {
-        display: none;
-    }
-
-    li.editing:last-child {
-        margin-bottom: -1px;
-    }
-
-`
-const ListOne = styled.div`
-    display: ${props => props.primary ? 'block' : 'none'};
-`
-const ShowListNew = (props) => {
-    return (
-        <UlList className={props.className}>
-            {
-                props.data.map(element1 =>
-                    <ListOne key={element1.id} primary={element1.show}>
-                        <li className={(element1.status === "complete" ? "completed " : "")+ (element1.editor ? "editing " : "")}>
-                            <div className="view">
-                                <input className="toggle" 
-                                    readOnly="true" type="checkbox" 
-                                    onClick={() => props.chooseList(element1.id, props.data)}     
-                                    checked={element1.status === "complete" ? "checked" : ""}>
-                                </input>
-                                <label 
-                                    onDoubleClick={() => props.showUpdateEvent(element1.id, props.data)} >{element1.content}
-                                </label>
-                                <button className="destroy" 
-                                    onClick={() => props.showUpdateEvent(element1.id, props.data)}>
-                                </button>
-                            </div>
-                            <input className="edit" id={element1.id}
-                                defaultValue={element1.content} 
-                                onBlur = {() => props.hideUpdateEvent(element1.id, props.data)}
-                                onChange={props.updateWords}>
-                            </input>
-                        </li>
-                    </ListOne>
-                )
-            }
-        </UlList>
-    );
-}
-
 //生成一个用不重复的ID
 const GenNonDuplicateID = () => {
     let idStr = Date.now().toString(36);
