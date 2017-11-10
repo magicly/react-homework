@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const H1 = styled.h1`
   color: red;
@@ -17,12 +17,14 @@ const Button = styled.button`
     border-radius: 3px;
 `;
 
-const Link = ({ className, children }) => (
-    <a className={className}>
+const Link = ({ className, children }) => {
+    // const className = props.className;
+    // const children = props.children;
+    return <a className={className}>
         {children}
     </a>
-)
-const StyledLink = styled(Link)`
+}
+const StyledLink = styled(Link) `
     color: palevioletred;
     font-weight: bold;
 `;
@@ -35,13 +37,18 @@ const TomatoButton = Button.extend`
 const rotate360 = keyframes`
     from {
         transform: rotate(0deg);
+        left:0px;
+        color: #000;
     }
 
     to {
         transform: rotate(360deg);
+        left:200px;
+        color: #FFF;
     }
 `;
 const Rotate = styled.div`
+    position: absolute;
     display: inline-block;
     animation: ${rotate360} 2s linear infinite;
     padding: 2rem 1rem;
@@ -49,17 +56,17 @@ const Rotate = styled.div`
 `;
 
 export default () => {
-  return (
-    <div>
-      <H1>C1 h1...</H1>
-      <Button>Normal</Button>
-      <Button primary={true}>Primary</Button>
-      <TomatoButton>TomatoButton</TomatoButton>
-      <Rotate>rotate.....</Rotate>
+    return (
+        <div>
+            <H1>C1 h1...</H1>
+            <Button>Normal</Button>
+            <Button primary={true}>Primary</Button>
+            <TomatoButton>TomatoButton</TomatoButton>
+            <Rotate>rotate.....</Rotate>
 
-      <Link>Unstyled, boring Link</Link>
-        <br />
-        <StyledLink>Styled, exciting Link</StyledLink>
-    </div>
-  );
+            <Link>Unstyled, boring Link</Link>
+            <br />
+            <StyledLink>Styled, exciting Link</StyledLink>
+        </div>
+    );
 }
