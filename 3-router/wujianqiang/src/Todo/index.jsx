@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom';
 
 
+
 const Outer = styled.div`
     width:900px;
 `

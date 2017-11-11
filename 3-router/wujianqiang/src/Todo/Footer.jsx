@@ -43,21 +43,27 @@ const FooterSimple = ({ className, tasks, showWay, showList, clearCompleted,chec
             </span>
             <ul>
                 <li><LinkStyled to={{
-                                    pathname: "/All",
-                                    state: {showType:1,tasksList:tasks}
-                                    }} >All
+                                    pathname:"/All",
+                                    state:{showWay:1,tasksList:tasks,checkq:check,deleteTaskq:deleteTask},
+                                    }}
+                                active={showWay === 1 ? 1 : 0} 
+                                onClick={() => showList(1)}>All
                     </LinkStyled>
                 </li>
                 <li><LinkStyled to={{
-                                    pathname: "/Active",
-                                    state: {showType:2,tasksList:activeTask}
-                                    }}>Active
+                                    pathname:"/Active",
+                                    state:{showWay:1,tasksList:activeTask,checkq:check,deleteTaskq:deleteTask},
+                                    }}
+                                active={showWay === 2 ? 1 : 0} 
+                                onClick={() => showList(2)}>Active
                     </LinkStyled>
                 </li>
                 <li><LinkStyled to={{
-                                    pathname:"/Completed",
-                                    state: {showType:3,tasksList:completedTask}
-                                    }}>Completed
+                                    pathname:"/Active",
+                                    state:{showWay:1,tasksList:completedTask,checkq:check,deleteTaskq:deleteTask},
+                                    }}
+                                active={showWay === 3 ? 1 : 0} 
+                                onClick={() => showList(3)}>Completed
                     </LinkStyled>
                 </li>
             </ul>

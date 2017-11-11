@@ -4,7 +4,7 @@ import TaskListDo from "./TaskListDo";
 
 
 const TaskListSimple = (props) => {
-    console.log("location",props)
+    console.log("location",props.location)
     //console.log(location.state.tasksList,typeof(location.state.tasksList))
     return (
         
