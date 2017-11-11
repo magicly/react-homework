@@ -4,6 +4,7 @@ import styled from "styled-components";
 const TodoBodyComponent = ({
     className,
     todoList,
+    botton_status,
     checkedAll,
     completeCount,
     deleteList,
@@ -19,7 +20,8 @@ const TodoBodyComponent = ({
                 onClick={checkedAll} 
                 primary={(todoList.length - completeCount) === 0 && (completeCount > 0)}>
             </CheckBox>
-            <ShowList 
+            <ShowList
+                botton_status={botton_status}
                 data={todoList} 
                 deleteList={deleteList} 
                 chooseList={chooseList} 
@@ -64,18 +66,23 @@ const CheckBox = styled.input`
 `
 const ShowListComponent = ({
     className,
+    botton_status,
     data,
     deleteList,
     chooseList,
     showUpdateEvent,
     hideUpdateEvent,
-    updateWords
+    updateWords,
+    ListenerUpdateValue
 }) => {
     return (
         <ul className={className}>
             {
                 data.map(element1 =>
-                    <ListOne key={element1.id} primary={element1.show}>
+                    <ListOne key={element1.id} 
+                        primary={(botton_status === "complete" && element1.status ==="complete")
+                             ||  (botton_status === "active"   && element1.status ==="active")
+                             ||  (botton_status === "all")}>
                         <li className={(element1.status === "complete" ? "completed " : "")+ (element1.editor ? "editing " : "")}>
                             <div className="view">
                                 <input className="toggle" 
@@ -92,8 +99,8 @@ const ShowListComponent = ({
                             </div>
                             <input className="edit" id={element1.id}
                                 defaultValue={element1.content} 
-                                onBlur = {() => hideUpdateEvent(element1.id, data)}
-                                onKeyUp={updateWords}>
+                                onBlur = {hideUpdateEvent}
+                                onKeyUp={updateWords} onChange={ListenerUpdateValue}>
                             </input>
                         </li>
                     </ListOne>
@@ -122,6 +129,7 @@ const ShowList = styled(ShowListComponent)`
     li.editing .edit {
         display: block;
         width: 468px;
+        font-size: 24px;
         padding: 13px 17px 12px 17px;
         margin: 0 0 0 43px;
     }

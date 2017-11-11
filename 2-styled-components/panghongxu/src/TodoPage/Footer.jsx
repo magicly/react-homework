@@ -1,13 +1,6 @@
 import React from 'react';
 import styled from "styled-components";
-import {
-    BrowserRouter as Router,
-    Route,
-    Link,
-    Switch,
-    Redirect
-} from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
 
 const FooterComponent = ({
     className,
@@ -30,34 +23,29 @@ const FooterComponent = ({
                         <span>left</span>
                     </Span>
                     <UlBottom>
-                        <Router>
-                            <ul>
-                                <li><Link to="/">All</Link></li>
-                                <li><Link to="/active">Active</Link></li>
-                                <li><Link to="/completed">Completed</Link></li>
-                            </ul>
-                            <Switch>
-                                <Route path="/" exact component={AllBotton} />
-                                <Redirect from="/all" to="/" />
-                                <Route path="/active" component={ActiveBotton} />
-                                <Route path="/completed" component={CompletedBotton} />
-                                <Route component={NoMatch} />
-                            </Switch>
-                        </Router>
-
-                        {/* <li>
-                                <a className={botton_status === "all" ? "selected" : ""} onClick={() => showAll()}>All</a>
-                            </li>
-                            <span> </span>
-                            <li>
-                                <a className={botton_status === "active" ? "selected" : ""} onClick={() => active()}>Active</a>
-                            </li>
-                            <span> </span>
-                            <li>
-                                <a className={botton_status === "complete" ? "selected" : ""} onClick={() => complete()}>
-                                    Completed
-                                </a>
-                            </li> */}
+                        <li>
+                            <LinkStyledBotton
+                                to="/all" 
+                                className={botton_status === "all" ? "selected" : ""} 
+                                onClick={() => showAll()}>All
+                            </LinkStyledBotton>
+                        </li>
+                        <span></span>
+                        <li>
+                            <LinkStyledBotton
+                                to="/active" 
+                                className={botton_status === "active" ? "selected" : ""} 
+                                onClick={() => active()}>Active
+                            </LinkStyledBotton>
+                        </li>
+                        <span></span>
+                        <li>
+                            <LinkStyledBotton
+                                to="/complete" 
+                                className={botton_status === "complete" ? "selected" : ""} 
+                                onClick={() => complete()}>Completed
+                            </LinkStyledBotton>
+                        </li>
                     </UlBottom>
                     <ClearBotton onClick={() => clearComplete()} primary={completeCount}>Clear completed</ClearBotton>
                 </footer>
@@ -65,32 +53,6 @@ const FooterComponent = ({
         </div>
     );
 }
-const AllBotton = ({match, history}) => {
-    return(
-        <a 
-            className={botton_status === "all" ? "selected" : ""} onClick={() => showAll()}>All
-        </a>
-    );
-}
-const ActiveBotton = () => {
-    return(
-        <a 
-            className={botton_status === "active" ? "selected" : ""} onClick={() => showAll()}>Active
-        </a>
-    );
-}
-const CompleteBotton = () => {
-    return(
-        <a 
-            className={botton_status === "complete" ? "selected" : ""} onClick={() => showAll()}>Complete
-        </a>
-    );
-}
-const NoMatch = ({location}) => (
-    <div>
-      <h3>No match for <code>{location.pathname}</code></h3>
-    </div>
-)
 
 const Footer = styled(FooterComponent) `
     outline: none;
@@ -139,7 +101,6 @@ const ClearBotton = styled.button`
         line-height: 10px;
     }
 `
-
 const UlBottom = styled.ul`
     outline: none;
     margin: 0;
@@ -151,25 +112,16 @@ const UlBottom = styled.ul`
 
     li {
         display: inline;
-    }
+    } 
 
-    li a {
-        color: inherit;
-        margin: 3px;
-        padding: 3px 7px;
-        text-decoration: none;
-        border: 1px solid transparent;
-        border-radius: 3px;
-        cursor: pointer;
-    }
-
-    li a.selected,li a:hover {
+    li a.selected,:hover {
         border-color: rgba(175, 47, 47, 0.1);
     }
 
     li a.selected {
         border-color: rgba(175, 47, 47, 0.2);
     }
+
     @media screen and (max-width: 430px) {
         li {
             display: block;
@@ -182,6 +134,17 @@ const UlBottom = styled.ul`
         }
     }
 `
+const LinkStyled = styled.a`
+    color: inherit;
+    margin: 3px;
+    padding: 3px 7px;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    cursor: pointer;
+`
+const LinkStyledBotton = LinkStyled.withComponent(Link);
+
 const Span = styled.span`
     float: left;
     text-align: left;
