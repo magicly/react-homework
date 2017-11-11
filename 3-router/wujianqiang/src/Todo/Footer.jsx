@@ -59,7 +59,7 @@ const FooterSimple = ({ className, tasks, showWay, showList, clearCompleted,chec
                     </LinkStyled>
                 </li>
                 <li><LinkStyled to={{
-                                    pathname:"/Active",
+                                    pathname:"/Completed",
                                     state:{showWay:1,tasksList:completedTask,checkq:check,deleteTaskq:deleteTask},
                                     }}
                                 active={showWay === 3 ? 1 : 0} 
