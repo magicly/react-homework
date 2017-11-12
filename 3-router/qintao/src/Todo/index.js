@@ -42,7 +42,4 @@ const Auth = ({component: Component, ...rest}) => {
 }
 
 
-
-
-
 export default Index;

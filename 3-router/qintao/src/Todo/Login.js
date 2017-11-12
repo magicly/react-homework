@@ -76,8 +76,8 @@ class LoginComponent extends React.Component {
         super(props)
         localStorage.setItem('name','zhang')
         localStorage.setItem('password','123123')
-        this.name
-        this.pwd
+        this.name=null
+        this.pwd=null
         this.state = {
             hasLogin: false
 		};

@@ -75,7 +75,6 @@ class TodoContainer extends Component {
 		if(props.operation === 'complet'){
 			tasks =	this.todolist.filter(thing => thing.done)
 		}
-		console.log(tasks)
 		this.state = {
 			things: tasks,
 		};
@@ -100,7 +99,6 @@ class TodoContainer extends Component {
 				this.todolist.push(task)
 				localStorage.setItem('task',JSON.stringify(this.todolist))
 				if(this.operation==='complet'){
-					//this.todolists = this.todolist.filter(thing => thing.done)
 					this.setState({
 						things: this.state.things.filter(thing => thing.done)
 					});
