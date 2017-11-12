@@ -44,7 +44,7 @@ const TaskComponent = ({
                     removeTask={removeTask}
                     quitModify={quitModify}
                     modifyTaskKeyUp={modifyTaskKeyUp}
-                    />
+                />
                 <TaskFooterStyled
                     taskList={taskList}
                     clearCompleted={clearCompleted}

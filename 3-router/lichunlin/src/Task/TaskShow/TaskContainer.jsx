@@ -11,20 +11,10 @@ class TaskContainer extends Component {
         } else {
             taskList = [];
         }
-        let buttonStatus = props.match.path;
-        buttonStatus = buttonStatus.replace(/\//, "");
-        if (buttonStatus === "" || buttonStatus === null || buttonStatus === undefined) {
-            buttonStatus = "All";
-        }
         this.state = {
             taskInput:"",
             taskList:taskList,
-            buttonStatus:buttonStatus,
         }
-    }
-
-    componentDidMount () {// 每次render后过滤不显示的任务
-        this.showTaskByGroup({target:{name:this.state.buttonStatus}});
     }
 
     getTimestamp = () => {// 用作每条任务的id
@@ -118,25 +108,6 @@ class TaskContainer extends Component {
         this.setLocalStorage(taskList);
     }
 
-    showTaskByGroup = (e) => {
-        let buttonStatus = e.target.name;
-        let taskList = this.state.taskList.map((item) => {
-            if (buttonStatus === "All") {
-                item.show = true;
-            } else if (buttonStatus === "Active") {
-                item.show = !item.completed;
-            } else if (buttonStatus === "Completed") {
-                item.show = item.completed;
-            }
-            return item;
-        });
-        this.setState({
-            taskList:taskList,
-            buttonStatus:buttonStatus,
-        });
-        this.setLocalStorage(taskList);
-    }
-
     clearCompleted = () => {
         let taskList = this.state.taskList.filter((item) => {
             return !item.completed;
@@ -212,16 +183,30 @@ class TaskContainer extends Component {
     }
 
     render () {
+        let buttonStatus = this.props.match.path;
+        buttonStatus = buttonStatus.replace(/\//, "");
+        let taskList = this.state.taskList;
+        taskList.map((task) => {
+            let taskList = this.state.taskList.map((item) => {
+                if (buttonStatus === "All") {
+                    item.show = true;
+                } else if (buttonStatus === "Active") {
+                    item.show = !item.completed;
+                } else if (buttonStatus === "Completed") {
+                    item.show = item.completed;
+                }
+                return item;
+            });
+        });
         return <TaskComponent
             taskInputKeyUp={this.taskInputKeyUp}
             showInput={true}
             headerContent={"todos"}
-            taskList={this.state.taskList}
+            taskList={taskList}
             toggleTask={this.toggleTask}
             removeTask={this.removeTask}
             completeAllTask={this.completeAllTask}
-            showTaskByGroup={this.showTaskByGroup}
-            buttonStatus={this.state.buttonStatus}
+            buttonStatus={buttonStatus}
             clearCompleted={this.clearCompleted}
             intoModify={this.intoModify}
             quitModify={this.quitModify}

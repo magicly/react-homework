@@ -27,39 +27,31 @@ const TaskFooter = ({
                         </strong>
                         <span> item left</span>
                     </span>
-                    <Router>
-                        <ul className="filters">
-                            <li>
-                                <Link 
-                                    to="/All"
-                                    name="All"
-                                    onClick={showTaskByGroup}
-                                    className={buttonStatus === "All" ? "selected" : ""}>
-                                All
-                                </Link>
-                            </li>
-                            <span> </span>
-                            <li >
-                                <Link 
-                                    to="/Active"
-                                    name="Active"
-                                    onClick={showTaskByGroup} 
-                                    className={buttonStatus === "Active" ? "selected" : ""}>
-                                Active
-                                </Link>
-                            </li>
-                            <span> </span>
-                            <li>
-                                <Link 
-                                    to="/Completed"
-                                    name="Completed"
-                                    onClick={showTaskByGroup}
-                                    className={buttonStatus === "Completed" ? "selected" : ""}>
-                                Completed
-                                </Link>
-                            </li>
-                        </ul>
-                    </Router>
+                    <ul className="filters">
+                        <li>
+                            <Link 
+                                to="/All"
+                                className={buttonStatus === "All" ? "selected" : ""}>
+                            All
+                            </Link>
+                        </li>
+                        <span> </span>
+                        <li >
+                            <Link 
+                                to="/Active"
+                                className={buttonStatus === "Active" ? "selected" : ""}>
+                            Active
+                            </Link>
+                        </li>
+                        <span> </span>
+                        <li>
+                            <Link 
+                                to="/Completed"
+                                className={buttonStatus === "Completed" ? "selected" : ""}>
+                            Completed
+                            </Link>
+                        </li>
+                    </ul>
                     {
                         taskList.reduce((count, task) => (count + (task.completed ? 1 : 0)), 0) > 0 
                         ? <button onClick={clearCompleted} className="clear-completed">Clear completed</button> 

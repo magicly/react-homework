@@ -2,7 +2,6 @@ import React from 'react';
 import Header from './Header';
 import styled from 'styled-components';
 import {
-    BrowserRouter as Router,
     Link,
 } from 'react-router-dom';
 
@@ -13,9 +12,7 @@ const PageNotFound = () => {
                 showInput={false}
                 headerContent={"404"}
             />
-            <Router>
-                <Link to="/All">回到首页</Link>
-            </Router>
+            <Link to="/All">回到首页</Link>
         </SectionStyled>
     )
 }
