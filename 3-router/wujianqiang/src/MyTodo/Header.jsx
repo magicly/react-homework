@@ -18,7 +18,7 @@ const Header = styled(HeaderSimple) `
         border:0;
         outline:none;
         font-size: 24px;
-        width: 454px;
+        width: 825px;
         background: rgba(0, 0, 0, 0.003);
         box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);
     }
@@ -31,6 +31,11 @@ const Header = styled(HeaderSimple) `
         font-style: italic;
         font-weight: 300;
         color: #e6e6e6;
+    }
+    @media (max-width: 750px) {
+        input{
+            width: 100%
+        }
     }
 `
 

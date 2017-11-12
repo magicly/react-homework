@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Todo from './Todo';
+import MyTodo from './MyTodo';
 
-ReactDOM.render(<Todo />, document.getElementById('root'));
+ReactDOM.render(<MyTodo />, document.getElementById('root'));
 
