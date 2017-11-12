@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const Footer = props => {
     return (
@@ -8,21 +9,21 @@ const Footer = props => {
             <div>
                 <span
                     className={props.showWays === "all" ? "selected" : ""}
-                    onClick={() => props.showItem("all")}
+                  //   onClick={() => props.showItem("all")} 
                 >
-                    All
+                    <LinkStyled to="/" >all</LinkStyled>
                 </span>
                 <span
                     className={props.showWays === "com" ? "selected" : ""}
-                    onClick={() => props.showItem("com")}
+                   // onClick={() => props.showItem("com")} 
                 >
-                    Active
+                    <LinkStyled to="/active" >Active</LinkStyled>
                 </span>
                 <span
                     className={props.showWays === "act" ? "selected" : ""}
-                    onClick={() => props.showItem("act")}
+                   //  onClick={() => props.showItem("act")} 
                 >
-                    Completed
+                    <LinkStyled to="/completed" >Completed</LinkStyled>
                 </span>
             </div>
             <DeleteBtn onClick={() => props.deleteChecked()}>
@@ -31,6 +32,10 @@ const Footer = props => {
         </div>
     );
 };
+
+const LinkStyled = styled(Link)`
+    text-decoration: none;
+`
 
 const Span = styled.span`
     zoom: 1;

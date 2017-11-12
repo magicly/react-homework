@@ -1,11 +1,11 @@
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './Homework-2/index';
 import registerServiceWorker from './registerServiceWorker';
 import { injectGlobal } from "styled-components";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App  />, document.getElementById('root'));
 registerServiceWorker();
 
 //全局样式
