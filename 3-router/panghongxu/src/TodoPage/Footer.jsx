@@ -26,24 +26,21 @@ const FooterComponent = ({
                         <li>
                             <LinkStyledBotton
                                 to="/all" 
-                                className={botton_status === "all" ? "selected" : ""} 
-                                onClick={() => showAll()}>All
+                                className={botton_status === "all" ? "selected" : ""} >All
                             </LinkStyledBotton>
                         </li>
                         <span></span>
                         <li>
                             <LinkStyledBotton
                                 to="/active" 
-                                className={botton_status === "active" ? "selected" : ""} 
-                                onClick={() => active()}>Active
+                                className={botton_status === "active" ? "selected" : ""} >Active
                             </LinkStyledBotton>
                         </li>
                         <span></span>
                         <li>
                             <LinkStyledBotton
                                 to="/complete" 
-                                className={botton_status === "complete" ? "selected" : ""} 
-                                onClick={() => complete()}>Completed
+                                className={botton_status === "complete" ? "selected" : ""} >Completed
                             </LinkStyledBotton>
                         </li>
                     </UlBottom>
