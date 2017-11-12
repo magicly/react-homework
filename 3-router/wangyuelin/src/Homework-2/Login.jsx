@@ -17,7 +17,6 @@ class Login extends Component {
         this.state = {
             loginName: "",
             password: "",
-            message: "",
             loginSuccess: false
         }
     }
@@ -31,7 +30,6 @@ class Login extends Component {
             return;
         }
 
-        this.setState({ message: "登录中..." });
         this.timer = setTimeout(() => {
             User.login({ isLogin: true, userName: this.state.loginName });
             this.setState({
@@ -52,11 +50,10 @@ class Login extends Component {
         }
 
         return <Content>
-            <h2>登录</h2>
-            <Row>用户:  <input type="text" value={this.state.loginName} onChange={this.changeLoginName} /></Row>
+            <h2>欢迎登录 TODO</h2>
+            <Row>昵称:  <input type="text" value={this.state.loginName} onChange={this.changeLoginName} /></Row>
             <Row>密码:  <input type="password" value={this.state.password} onChange={this.changePassword} /></Row>
             <div><LoginButton onClick={this.login}>登 录</LoginButton></div>
-            {/* <Message>{this.state.message}</Message> */}
         </Content>
     }
     //移除定时器
@@ -82,12 +79,9 @@ const Content = styled.div`
     margin:100px auto;
     padding:15px 5px;
     text-align:center;
-    background:#fff;
-    border-radius:8px;
+    background:#cfd3e6;;
+    border-radius:2px;
     box-shadow:0 1px 1px 
-    rgba(0, 0, 0, 0.2), 0 8px 0 -3px #f6f6f6, 0 9px 1px -3px 
-    rgba(0, 0, 0, 0.2), 0 16px 0 -6px #f6f6f6, 0 17px 2px -6px 
-    rgba(0, 0, 0, 0.2);
     @media (max-width: 400px) {
         width: 100%;
     }
@@ -106,13 +100,10 @@ const Row = styled.div`
 const LoginButton = styled.button`
     padding:3px 20px;
     margin:5px;
-    border:1px solid rgba(175, 47, 47, 0.2);
+    cursor: pointer;
+    border: 1px solid rgba(150, 140, 140, 0.2);
     border-radius:3px;
     color:#444;
-`
-const Message = styled.div`
-    padding:5px;
-    color:red;
 `
 
 export default Login;
