@@ -1,4 +1,4 @@
-import React,{ Component } from 'react'
+import React from 'react'
 import {Redirect} from 'react-router-dom'
 import styled,{injectGlobal} from 'styled-components'
 
@@ -70,15 +70,6 @@ const Login = (props) =>{
     )
 
 }
-const fakeAuth = {
-    hasLogin: false,
-    login() {
-      this.hasLogin = true
-    },
-    signout() {
-      this.hasLogin = false
-    }
-  }
 
 class LoginComponent extends React.Component {
     constructor(props){
@@ -121,9 +112,7 @@ class LoginComponent extends React.Component {
         }
         const { hasLogin } = this.state
         if (hasLogin) {
-          return (
-            <Redirect to={from} />
-          )
+          return (<Redirect to={from} />)
         }
         return <Login
         login ={this.login}

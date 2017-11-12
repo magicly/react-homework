@@ -82,7 +82,6 @@ class TodoContainer extends Component {
 	}
 
 
-
 	keyup = (e) => {
 		if (e.keyCode === 13) {
 			const todo = e.target.value;
@@ -103,14 +102,13 @@ class TodoContainer extends Component {
 				if(this.operation==='complet'){
 					//this.todolists = this.todolist.filter(thing => thing.done)
 					this.setState({
-						things: this.state.things.concat(task).filter(thing => thing.done)
+						things: this.state.things.filter(thing => thing.done)
 					});
 				}else{
 					this.setState({
-						things: this.state.things.concat(task)
+						things: this.state.things
 					});
-				}
-				
+				}	
 			}
 		}
 	}

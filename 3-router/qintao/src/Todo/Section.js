@@ -82,7 +82,6 @@ const TodoLiInput = styled.input`
         height: 40px;
     }
 
-
 `
 
 

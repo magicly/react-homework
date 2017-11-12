@@ -2,10 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import {
 	BrowserRouter as Router,
-	Route,
-	Switch,
-	Redirect,
-	Prompt,
 	Link
 } from 'react-router-dom'
 

@@ -1,11 +1,7 @@
 import React  from 'react';
 import styled from 'styled-components';
 import {
-    BrowserRouter as Router,
-    Route,
     Link,
-    Redirect,
-    Switch
   } from 'react-router-dom'
 const H1 = styled.h1`
 
