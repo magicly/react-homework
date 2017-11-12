@@ -75,6 +75,7 @@ class TodoContainer extends Component {
 		if(props.operation === 'complet'){
 			tasks =	this.todolist.filter(thing => thing.done)
 		}
+		console.log(tasks)
 		this.state = {
 			things: tasks,
 		};
@@ -91,18 +92,25 @@ class TodoContainer extends Component {
 					task: todo,
 					done: false, 
 				}
-				for (let thing of this.state.things) {
+				for (let thing of this.todolist) {
 					if (todo === thing.task) {
 						alert('任务已经存在')
 						return false;
 					}
 				}
-
 				this.todolist.push(task)
 				localStorage.setItem('task',JSON.stringify(this.todolist))
-				this.setState({
-					things: this.todolist
-				});
+				if(this.operation==='complet'){
+					//this.todolists = this.todolist.filter(thing => thing.done)
+					this.setState({
+						things: this.state.things.concat(task).filter(thing => thing.done)
+					});
+				}else{
+					this.setState({
+						things: this.state.things.concat(task)
+					});
+				}
+				
 			}
 		}
 	}
@@ -114,14 +122,13 @@ class TodoContainer extends Component {
 				break;
 			}
 		}
-		localStorage.setItem('task',JSON.stringify(this.state.things))
-
+		localStorage.setItem('task',JSON.stringify(this.todolist))
 		if(this.operation==='active'){
-			this.state.things = 	this.state.things.filter(thing => !thing.done)
+			this.state.things = this.state.things.filter(thing => !thing.done)
 		}
 
 		if(this.operation==='complet'){
-			this.state.things = 	this.state.things.filter(thing => thing.done)
+			this.state.things = this.state.things.filter(thing => thing.done)
 		}
 		this.setState({
 			things: this.state.things
@@ -132,7 +139,7 @@ class TodoContainer extends Component {
 		this.todolist = this.todolist.filter(thing => thing.task !== task)
 		localStorage.setItem('task',JSON.stringify(this.todolist))
 		this.setState({
-			things: this.todolist
+			things: this.state.things.filter(thing => thing.task !== task)
 		});
 	}
 
@@ -149,7 +156,6 @@ class TodoContainer extends Component {
 		this.setState({
 			things: this.todolist.filter(thing => !thing.done),
 		})
-
 	}
 
 	over = (e) => {
@@ -160,7 +166,8 @@ class TodoContainer extends Component {
 	}
 
 	clear = () => {
-		this.todolist = [];
+		this.todolist=this.todolist.filter(thing => !thing.done)
+		localStorage.setItem('task',JSON.stringify(this.todolist))
 		this.setState({
 			things: this.state.things.filter(thing => !thing.done)
 		})
@@ -174,6 +181,13 @@ class TodoContainer extends Component {
 			} else {
 				thing.done = !thing.done
 			}
+		}
+		localStorage.setItem('task',JSON.stringify(this.todolist))
+		if(this.operation==='active'){
+			this.state.things = this.state.things.filter(thing => !thing.done)
+		}
+		if(this.operation==='complet'){
+			this.state.things = this.state.things.filter(thing => thing.done)
 		}
 		this.setState({
 			things: this.state.things
