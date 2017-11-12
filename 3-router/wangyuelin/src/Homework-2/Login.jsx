@@ -23,11 +23,11 @@ class Login extends Component {
     }
     login = () => {
         if (this.state.loginName === "") {
-            this.setState({ message: "请输入用户名" });
+            alert('请输出您的用户名');
             return;
         }
         if (this.state.password === "") {
-            this.setState({ message: "请输入密码" });
+            alert('请输出您的密码');
             return;
         }
 
@@ -56,7 +56,7 @@ class Login extends Component {
             <Row>用户:  <input type="text" value={this.state.loginName} onChange={this.changeLoginName} /></Row>
             <Row>密码:  <input type="password" value={this.state.password} onChange={this.changePassword} /></Row>
             <div><LoginButton onClick={this.login}>登 录</LoginButton></div>
-            <Message>{this.state.message}</Message>
+            {/* <Message>{this.state.message}</Message> */}
         </Content>
     }
     //移除定时器

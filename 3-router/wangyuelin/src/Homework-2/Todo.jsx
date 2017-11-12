@@ -18,11 +18,20 @@ class Todo extends Component {
         super(props);
         console.log(User);
         let localItems = localStorage.getItem("items");
+        let itemNums = 0;
+        if (localItems) {
+            let tempArr = JSON.parse(localItems);
+            tempArr.forEach = (el) => {
+                if (el.isChecked) {
+                    itemNums += 1;
+                }
+            }
+        }
         this.state = {
             dataArr: !!localItems ? JSON.parse(localItems) : [],
             dataShow: [],
             prevCheck: false,
-            itemLeft: 0, //剩下的item数
+            itemLeft: itemNums, //剩下的item数
             showWays: this.props.showWays //三种显示状态（all act com）默认all
         };
         this.saveItems(this.state.dataArr);
@@ -239,9 +248,9 @@ class Todo extends Component {
                     showWays={this.state.showWays}
                 />
 
-                <UserInfo>
+                <UserBar>
                     欢迎你: <strong>{User.userName}</strong>  <Link to="/logout">退出</Link>
-                </UserInfo>
+                </UserBar>
             </TodoApp>
         );
     }
@@ -272,7 +281,7 @@ const TodoApp = styled.div`
   }
 `;
 
-const UserInfo = styled.span`
+const UserBar = styled.span`
     display: block;
     margin-top: 38px;
     padding: 8px 175px;

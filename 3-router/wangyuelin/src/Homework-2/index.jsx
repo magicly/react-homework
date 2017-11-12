@@ -62,8 +62,8 @@ const Todo3 = (props) => {
     return <Todo showWays={props.showWays} />;
 }
 
-const T1= () => <h3>Public</h3>;
-const T2 = () => <h3>Public</h3>;
-const T3 = () => <h3>Public</h3>;
+// // const T1= () => <h3>Public</h3>;
+// const T2 = () => <h3>Public</h3>;
+// const T3 = () => <h3>Public</h3>;
 
 export default App;
