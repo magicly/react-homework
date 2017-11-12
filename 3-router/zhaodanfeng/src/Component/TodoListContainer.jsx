@@ -101,6 +101,7 @@ const Todoapp = styled.section`
     position: relative;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
 `
+
 const STORAGE_KEY = 'todos';
 class TodoListContainer extends Component {
     constructor(props) {
@@ -132,6 +133,17 @@ class TodoListContainer extends Component {
             currentAction: action
         });
     }
+
+    updateTodosShow = () => {
+        let todoArr = this.todos;
+        if(this.state.currentAction === 'active') {
+            todoArr = this.todos.filter(value => !value.checked);
+        }
+        if(this.state.currentAction === 'completed') {
+            todoArr = this.todos.filter(value => value.checked);
+        }
+        return todoArr;
+    }
     
     handleInputDone = (e) => {
         const ENTER_KEY = 13;
@@ -146,7 +158,7 @@ class TodoListContainer extends Component {
         this.todos = StorageService.addItem(STORAGE_KEY, {checked: false, content: e.currentTarget.value, id: newID});
         this.setState({
             todoInput: e.currentTarget.value,
-            todosToShow: this.todos,
+            todosToShow: this.updateTodosShow(),
         });
         e.currentTarget.value = '';
     }
@@ -156,7 +168,7 @@ class TodoListContainer extends Component {
         this.setState({
             isCheckedAll: e.currentTarget.checked,
             showClear: e.currentTarget.checked,
-            todosToShow: this.todos,
+            todosToShow: this.updateTodosShow()
         });
     }
     handleRemove = (e) => {
@@ -173,7 +185,7 @@ class TodoListContainer extends Component {
         if(code === 'completed') {
             todoArr = this.todos.filter(value => value.checked);
         }
-        this.setState({todosToShow: todoArr});
+        this.setState({todosToShow: todoArr, currentAction: code});
     }
     handleItem = (status, todoId) => {
         this.todos.forEach(function(element) {
@@ -183,14 +195,15 @@ class TodoListContainer extends Component {
         }, this);
         StorageService.setItems(STORAGE_KEY, this.todos);
         let clearShowStatus = this.todos.filter(e => e.checked).length > 0;
-        this.setState({todosToShow: this.todos, showClear: clearShowStatus});
+        this.setState({todosToShow: this.updateTodosShow(), showClear: clearShowStatus});
     }
     handleItemRemove = (todoId) => {
         this.todos = this.todos.filter(e => e.id !== todoId);
         StorageService.setItems(STORAGE_KEY, this.todos);
         let clearShowStatus = this.todos.filter(e => e.checked).length > 0;
-        this.setState({todosToShow: this.todos, showClear: clearShowStatus});
+        this.setState({todosToShow: this.updateTodosShow(), showClear: clearShowStatus});
     }
+
     render() {
         return (
             <Todoapp>   
