@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 import {TodosAll,TodosActive,TodosComplet} from './Todos.js';
 import Login from './Login.js';
-import Loginout from './Loginout.js'
+import Logout from './Loginout.js'
 const Index = () => {
     return (
         <Router>
@@ -19,7 +19,7 @@ const Index = () => {
                     <Private exact path="/active"  component={TodosActive} />
                     <Private exact path="/complet" component={TodosComplet} />
                     <Route exact path="/login" component={Login}/>
-                    <Route exact path="/loginout" component={Loginout}/>
+                    <Route exact path="/logout" component={Logout}/>
                     <Route render={()=>{
                         return <div><h1>404 未找到该页面 </h1><br/><Link to="/">进入首页</Link></div>
                     }} />

@@ -80,7 +80,7 @@ const Header = (props) => {
 	return (
 		<header className={props.className}>
 			<H1>Todos</H1>
-            <Div><Link to='loginout'>退出</Link></Div>
+            <Div><Link to='logout'>退出</Link></Div>
 			<Input onKeyUp={props.keyup}  />
 		</header>
 	)

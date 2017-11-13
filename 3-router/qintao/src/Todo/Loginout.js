@@ -2,7 +2,7 @@ import React,{ Component } from 'react'
 import {Redirect} from 'react-router-dom'
 
 
-class LoginOut extends Component{
+class LogOut extends Component{
         constructor(props){
             super(props);
             localStorage.removeItem('haslogin')
@@ -14,4 +14,4 @@ class LoginOut extends Component{
     }
 
 
-export default LoginOut
+export default LogOut

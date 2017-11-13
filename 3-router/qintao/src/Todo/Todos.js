@@ -100,11 +100,12 @@ class TodoContainer extends Component {
 				localStorage.setItem('task',JSON.stringify(this.todolist))
 				if(this.operation==='complet'){
 					this.setState({
-						things: this.state.things.filter(thing => thing.done)
+						things: this.todolist.filter(thing => thing.done)
 					});
 				}else{
+					console.log(this.state.things)
 					this.setState({
-						things: this.state.things
+						things: this.todolist
 					});
 				}	
 			}
@@ -118,7 +119,9 @@ class TodoContainer extends Component {
 				break;
 			}
 		}
+		console.log(this.state.things)
 		localStorage.setItem('task',JSON.stringify(this.todolist))
+		console.log(this.todolist)
 		if(this.operation==='active'){
 			this.state.things = this.state.things.filter(thing => !thing.done)
 		}
