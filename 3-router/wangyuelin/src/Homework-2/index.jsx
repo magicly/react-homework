@@ -22,9 +22,9 @@ const App = () => {
     return (
         <Router>
             <Switch>
-                <CustomRouter exact path="/" component={Todo1} showWays="all" />
-                <CustomRouter exact path="/active" component={Todo2} showWays="com" />
-                <CustomRouter exact path="/completed" component={Todo3} showWays="act" />
+                <CustomRouter exact path="/" component={TodoAll} showWays="all" />
+                <CustomRouter exact path="/active" component={TodoCom} showWays="com" />
+                <CustomRouter exact path="/completed" component={TodoAct} showWays="act" />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/logout" component={LogOut} />
                 <Route render={() => {
@@ -52,13 +52,13 @@ const CustomRouter = ({ component: Component, showWays, ...rest }) => (
         )} />
 )
 
-const Todo1 = (props) => {
+const TodoAll = (props) => {
     return <Todo showWays={props.showWays} />;
 }
-const Todo2 = (props) => {
+const TodoCom = (props) => {
     return <Todo showWays={props.showWays} />;
 }
-const Todo3 = (props) => {
+const TodoAct = (props) => {
     return <Todo showWays={props.showWays} />;
 }
 
