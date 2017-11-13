@@ -64,6 +64,28 @@ class StatusFilterBar extends Component{
         this.props.handleFilter(code);
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            checkedCode: ''
+        }
+        this.currentAction = '';
+    }
+
+    clickFilter = (code) => {
+        this.setState({
+            checkedCode: code
+        });
+        this.props.handleFilter(code);
+    };
+
+    componentWillUpdate(nextProps, nextState) {
+        this.currentAction = nextState.checkedCode;
+        if(nextState.checkedCode === '' && nextProps.action !== '') {
+            this.currentAction = nextProps.action;
+        }
+    }
+
     render() {
         let filterActions = [{'code': 'all', 'name': '显示全部'}, {'code': 'active', 'name': '未完成'}, {'code': 'completed', 'name': '已完成'}];
         filterActions = filterActions.map(element => (
