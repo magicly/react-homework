@@ -11,10 +11,11 @@ const LoginComponent = ({
     password,
     nameListener,
     passwordListener,
+    message,
     login,
     loginKeyDwon
 }) => {
-    return(
+    return (
         <div>
             <Logo>todos</Logo>
             <div className={className} tabIndex='-1'>
@@ -28,22 +29,23 @@ const LoginComponent = ({
                     <dt>
                         <div className='letter'>
                             用户名:&nbsp;
-                            <input type="text"   defaultValue={userName} onChange={nameListener} tabIndex='1'/>
+                            <input type="text" defaultValue={userName} onChange={nameListener} tabIndex='1' />
                             <span id="name_msg"></span>
                         </div>
                     </dt>
                     <dt>
                         <div className='letter'>
                             密&nbsp;&nbsp;&nbsp;码:&nbsp;
-                            <input type="password" defaultValue={password} 
-                                className="password" onChange={passwordListener} 
-                                onKeyDown={loginKeyDwon} tabIndex='2'/>
+                            <input type="password" defaultValue={password}
+                                className="password" onChange={passwordListener}
+                                onKeyDown={loginKeyDwon} tabIndex='2' />
                             <span id="password_msg"></span>
                         </div>
                     </dt>
                     <dt>
                         <div>
-                            <input type="button" onClick={login} value='登 录' tabIndex='3'/>
+                            <input type="button" onClick={login} value='登 录' tabIndex='3' />
+                            <MsgLogIn><span>{message}</span></MsgLogIn>
                         </div>
                     </dt>
                     <span>You must log in </span>
@@ -51,11 +53,20 @@ const LoginComponent = ({
                     <span> password:<strong>123456</strong></span>
                 </dl>
             </div>
-            
+
         </div>
     );
 }
 
+const MsgLogIn = styled.div`
+    float:right;
+    margin-right:130px;
+    span{
+        display:inline;
+        padding:5px;
+        color:red;
+    }
+` 
 const Logo = styled.h1`
     width: 100%;
     font-size: 100px;
@@ -142,88 +153,98 @@ const LoginStyled = styled(LoginComponent) `
     }
 
 `
-
+const Content = styled.div`
+    margin:100px auto;
+    text-align:center;
+    line-height:40px;
+    color:#444;
+`
 class Login extends React.Component {
     constructor(props) {
         super(props);
-        let hasLogin = localStorage.getItem("hasLogin");
 
-        if(hasLogin!=="true"){
-            hasLogin = "false";
+        this.from = "/";
+        if (this.props.location.state) {
+            this.from = this.props.location.state.from.pathname;
         }
-        console.log("hasLogin",hasLogin);
         this.state = {
-            hasLogin: hasLogin,
-            userName:"",
-            password:"",
+            second: 3,
+            message:"",
+            userName: "",
+            password: "",
+            hasLogin: false
         }
     }
-    
+
     //监听输入框的值变化
     nameListener = (e) => {
-        let value = e.target.value.replace(/^\s+|\s+$/g,"");
+        let value = e.target.value.replace(/^\s+|\s+$/g, "");
         this.setState({
             userName: value,
         });
     }
     passwordListener = (e) => {
-        let value = e.target.value.replace(/^\s+|\s+$/g,"");
+        let value = e.target.value.replace(/^\s+|\s+$/g, "");
         this.setState({
             password: value,
         });
     }
     loginKeyDwon = (e) => {
-        if(e.keyCode === 13){
+        if (e.keyCode === 13) {
             this.login();
         }
     }
     login = () => {
         let userName = this.state.userName;
         let password = this.state.password;
-        if(userName==="" || password===""){
+        if (userName === "" || password === "") {
             alert("请输入用户名和密码后再登录！");
             return;
         }
 
-        if(userName!=="todo"){
+        if (userName !== "todo") {
             alert("请输入正确的用户名！");
             return;
         }
-        if(password!=="123456"){
+        if (password !== "123456") {
             alert("请输入正确的密码！");
             return;
         }
-        this.setState({
-            hasLogin: "true",
-            userName:"",
-            password:"",
-        });
+        
+        this.setState({message:"登录中,请稍等...",});
+
+        this.timer = setTimeout(() => {
+            this.setState({
+                hasLogin: "true",
+                userName: "",
+                password: "",
+            })
+        }, 3000);
+       
         localStorage.setItem("hasLogin", "true");
+        localStorage.setItem("userName", userName);
+        localStorage.setItem("password", password);
     }
 
     render() {
-        let from = { pathname: '/' };
-
-        if (this.props.location.state) {
-            from = this.props.location.state.from;
-        }
-        const { hasLogin } = this.state;
-
-        if (hasLogin==="true") {
+        if (this.state.hasLogin === "true") {
             return (
-                <Redirect to={from} />
+                <Redirect to={this.from} />
             )
-        }
+        } 
         return (
             <LoginStyled
                 hasLogin={this.state.hasLogin}
+                message={this.state.message}
                 login={this.login}
                 loginKeyDwon={this.loginKeyDwon}
-
                 nameListener={this.nameListener}
                 passwordListener={this.passwordListener}
             />
         );
+    }
+    componentWillUnmount() {
+        clearTimeout(this.timer);
     }
 }
 
