@@ -119,9 +119,7 @@ class TodoContainer extends Component {
 				break;
 			}
 		}
-		console.log(this.state.things)
 		localStorage.setItem('task',JSON.stringify(this.todolist))
-		console.log(this.todolist)
 		if(this.operation==='active'){
 			this.state.things = this.state.things.filter(thing => !thing.done)
 		}
