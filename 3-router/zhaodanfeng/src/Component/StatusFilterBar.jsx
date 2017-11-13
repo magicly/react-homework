@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import {
-    BrowserRouter as Router,
-    Link,
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const TodoFooter = styled.footer`
     color: #777;
@@ -62,6 +59,11 @@ const ClearBtn = styled.button`
 `
 
 class StatusFilterBar extends Component{
+
+    clickFilter = (code) => {
+        this.props.handleFilter(code);
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -88,17 +90,15 @@ class StatusFilterBar extends Component{
         let filterActions = [{'code': 'all', 'name': '显示全部'}, {'code': 'active', 'name': '未完成'}, {'code': 'completed', 'name': '已完成'}];
         filterActions = filterActions.map(element => (
             <BtnLi key={element.code}>
-                <FilterLink  checked={this.currentAction === element.code} to={`/${element.code}`} onClick={() => (this.clickFilter(element.code))}>{element.name}</FilterLink>
+                <FilterLink  checked={this.props.action === element.code} to={`/${element.code}`} onClick={() => (this.clickFilter(element.code))}>{element.name}</FilterLink>
             </BtnLi>
         ));
         return (
-            <Router>
-                <TodoFooter>
-                    <TodoCountSpan>还有<Strong>{this.props.todosCount}</Strong>个任务未完成</TodoCountSpan>
-                    <BtnsUl>{filterActions}</BtnsUl>
-                    <ClearBtn displayStatus={this.props.showClear} onClick={this.props.handleRemove}>清除已完成任务</ClearBtn>
-                </TodoFooter>
-            </Router>
+            <TodoFooter>
+                <TodoCountSpan>还有<Strong>{this.props.todosCount}</Strong>个任务未完成</TodoCountSpan>
+                <BtnsUl>{filterActions}</BtnsUl>
+                <ClearBtn displayStatus={this.props.showClear} onClick={this.props.handleRemove}>清除已完成任务</ClearBtn>
+            </TodoFooter>
         );
     }
 }

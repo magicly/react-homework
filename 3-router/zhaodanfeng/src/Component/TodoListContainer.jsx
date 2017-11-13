@@ -134,6 +134,23 @@ class TodoListContainer extends Component {
         });
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.location.pathname !== prevProps.location.pathname && this.props.location.pathname !== '/') {
+            const newAction = this.props.location.pathname.substr(1);
+            let todoArr = this.todos;
+            if(newAction === 'active') {
+                todoArr = this.todos.filter(value => !value.checked);
+            }
+            if(newAction === 'completed') {
+                todoArr = this.todos.filter(value => value.checked);
+            }
+            this.setState({
+                currentAction: newAction,
+                todosToShow: todoArr
+            });
+        }
+    }
+
     updateTodosShow = () => {
         let todoArr = this.todos;
         if(this.state.currentAction === 'active') {
