@@ -14,10 +14,10 @@ const Index = () => {
         <Router>
             <div>
                 <Switch>
-                    <Auth exact path="/" component={TodosAll}/>
-                    <Auth exact path="/all" component={TodosAll}/>
-                    <Auth exact path="/active"  component={TodosActive} />
-                    <Auth exact path="/complet" component={TodosComplet} />
+                    <Private exact path="/" component={TodosAll}/>
+                    <Private exact path="/all" component={TodosAll}/>
+                    <Private exact path="/active"  component={TodosActive} />
+                    <Private exact path="/complet" component={TodosComplet} />
                     <Route exact path="/login" component={Login}/>
                     <Route exact path="/loginout" component={Loginout}/>
                     <Route render={()=>{
@@ -29,7 +29,7 @@ const Index = () => {
     )
 }
 
-const Auth = ({component: Component, ...rest}) => {
+const Private = ({component: Component, ...rest}) => {
     return <Route {...rest} render={props => {
         if (localStorage.getItem('haslogin')==='login') {
           return <Component {...props} />
