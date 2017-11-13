@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 import Header from './Header';
 import TodoBody from './TodoBody';
 import Footer from './Footer';
@@ -9,7 +10,8 @@ const TodoPage = (props) => {
     return (
         <div>
             <LogOut>
-                <input type="button" onClick={props.logOut}  value='退出'/>
+                {/* <input type="button" onClick={props.logOut}  value='退出'/> */}
+                当前登录用户: <strong>{localStorage.getItem("userName")}</strong>  <Link to="/logout">退出</Link>
             </LogOut>
             <TodoApp>
                 <Header
@@ -35,9 +37,6 @@ const TodoPage = (props) => {
                     notCompleteCount={props.notCompleteCount}
                     completeCount={props.completeCount}
                     botton_status={props.botton_status}
-                    showAll={props.showAll}
-                    active={props.active}
-                    complete={props.complete}
                     clearComplete={props.clearComplete}>
                 </Footer>
             </TodoApp>
@@ -180,14 +179,6 @@ class TodoPageComponent extends Component {
         }
     }
 
-    logOut = () => {
-        localStorage.setItem("hasLogin", "false");
-        window.location.reload();
-        // return <Redirect to={{
-        //      pathname: '/login',
-        //      state: { from: "/" }
-        // }} />
-    }
     //监听输入框的值变化
     valueListener = (e) => {
         let value = e.target.value;
@@ -303,27 +294,7 @@ class TodoPageComponent extends Component {
         });
         this.setLocalStorage(todoList, botton_status);
     }
-    //显示所有
-    showAll = () => {
-        this.setState({
-            botton_status: "all",
-        });
-        this.setLocalStorage(this.state.todoList, "all");
-    }
-    // 显示未完成
-    active = () => {
-        this.setState({
-            botton_status: "active",
-        });
-        this.setLocalStorage(this.state.todoList, "active");
-    }
-    // 显示已经完成  
-    complete = () => {
-        this.setState({
-            botton_status: "complete",
-        });
-        this.setLocalStorage(this.state.todoList, "complete");
-    }
+   
     //清除完成任务
     clearComplete = () => {
         let todoList = this.state.todoList;
@@ -388,16 +359,12 @@ class TodoPageComponent extends Component {
                 notCompleteCount={this.state.notCompleteCount}
                 botton_status={this.state.botton_status}
                 completeCount={this.state.completeCount}
-
-                logOut={this.logOut}
+                
                 clearComplete={this.clearComplete}
                 checkedAll={this.checkedAll}
                 valueListener={this.valueListener}
                 keyDownSearch={this.keyDownSearch}
                 addTodoWords={this.addTodoWords}
-                showAll={this.showAll}
-                active={this.active}
-                complete={this.complete}
                 deleteList={this.deleteList}
                 chooseList={this.chooseList}
                 hideUpdateEvent={this.hideUpdateEvent}
