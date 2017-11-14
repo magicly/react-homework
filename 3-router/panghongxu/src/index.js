@@ -1,12 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TodoRouter from './TodoPage' ;
-import registerServiceWorker from './registerServiceWorker';
+import TodoApp from './TodoApp' ;
 import { injectGlobal } from "styled-components";
 
-ReactDOM.render(<TodoRouter/>, document.getElementById('root'));
-registerServiceWorker();
-
+ReactDOM.render(<TodoApp/>, document.getElementById('root'));
 
 
 injectGlobal`
