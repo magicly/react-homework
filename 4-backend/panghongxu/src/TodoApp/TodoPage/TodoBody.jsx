@@ -5,24 +5,26 @@ import styled from "styled-components";
 const TodoBodyComponent = ({
     className,
     todoList,
-    botton_status,
+    bottonStatus,
     checkedAll,
-    completeCount,
     deleteList,
     chooseList,
     showUpdateEvent,
     hideUpdateEvent,
     updateWords
 })=>{
+    let notCompleteCount = todoList.reduce((total, item) => total + (item.status==='complete' ? 0 : 1), 0);
+    let completeCount = todoList.length - notCompleteCount;
     return(
         <div className={className} primary={todoList.length}>
             <CheckBox 
                 type="checkbox" 
-                onClick={checkedAll} 
-                primary={(todoList.length - completeCount) === 0 && (completeCount > 0)}>
+                onClick={checkedAll}
+                isShow={todoList.length>0}
+                primary={notCompleteCount === 0 && (completeCount > 0)}>
             </CheckBox>
             <ShowList
-                botton_status={botton_status}
+                bottonStatus={bottonStatus}
                 data={todoList} 
                 deleteList={deleteList} 
                 chooseList={chooseList} 
@@ -42,6 +44,7 @@ const TodoBody = styled(TodoBodyComponent)`
     border-top: 1px solid #e6e6e6;
 `
 const CheckBox = styled.input`
+    display:${props => props.isShow ? 'block' : 'none'};
     color: ${props => props.primary ? '737373' : '#e6e6e6'};
     outline: none;
         position: absolute;
@@ -67,41 +70,41 @@ const CheckBox = styled.input`
 `
 const ShowListComponent = ({
     className,
-    botton_status,
+    bottonStatus,
     data,
     deleteList,
     chooseList,
     showUpdateEvent,
     hideUpdateEvent,
-    updateWords,
-    ListenerUpdateValue
+    updateWords
 }) => {
     return (
         <ul className={className}>
             {
-                data.map(element1 =>
+                data.map((element1,index) =>
                     <ListOne key={element1.id} 
-                        primary={(botton_status === "complete" && element1.status ==="complete")
-                             ||  (botton_status === "active"   && element1.status ==="active")
-                             ||  (botton_status === "all")}>
+                        primary={(bottonStatus === "complete" && element1.status ==="complete")
+                             ||  (bottonStatus === "active"   && element1.status ==="active")
+                             ||  (bottonStatus === "all")}>
                         <li className={(element1.status === "complete" ? "completed " : "")+ (element1.editor ? "editing " : "")}>
                             <div className="view">
                                 <input className="toggle" 
                                     readOnly="true" type="checkbox" 
-                                    onClick={() => chooseList(element1.id, data)}     
+                                    onClick={() => chooseList(index)}     
                                     checked={element1.status === "complete" ? "checked" : ""}>
                                 </input>
                                 <label 
-                                    onDoubleClick={() => showUpdateEvent(element1.id, data)} >{element1.content}
+                                    onDoubleClick={() => showUpdateEvent(index)} >{element1.content}
                                 </label>
                                 <button className="destroy" 
-                                    onClick={() => deleteList(element1.id, data)}>
+                                    onClick={() => deleteList(index)}>
                                 </button>
                             </div>
-                            <input className="edit" id={element1.id}
-                                defaultValue={element1.content} 
-                                onBlur = {hideUpdateEvent}
-                                onKeyUp={updateWords} onChange={ListenerUpdateValue}>
+                            <input className="edit" 
+                                id={element1.id}
+                                defaultValue={element1.content}
+                                onBlur={hideUpdateEvent}
+                                onKeyUp={updateWords}>
                             </input>
                         </li>
                     </ListOne>

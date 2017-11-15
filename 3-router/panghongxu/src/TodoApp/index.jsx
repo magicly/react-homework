@@ -1,7 +1,7 @@
 import React from 'react';
-import Login from './Login';
-import LogOut from './LogOut';
-import TodoPageComponent from './TodoPageComponent';
+import Login from './TodoUserLog/Login';
+import LogOut from './TodoUserLog/LogOut';
+import TodoContainer from './TodoContainer/TodoContainer';
 
 import {
     BrowserRouter as Router,
@@ -16,10 +16,10 @@ const TodoRouter = (props) => {
         <Router>
             <div>
                 <Switch>
-                    <PrivateRoute exact path="/"          component={TodoAll} status="all"/>
-                    <PrivateRoute exact path="/all"       component={TodoAll} status="all"/>
-                    <PrivateRoute exact path="/active"    component={TodoActive} status="active"/>
-                    <PrivateRoute exact path="/complete" component={TodoComplete} status="complete" />
+                    <PrivateRoute exact path="/"          component={TodoBoot}/>
+                    <PrivateRoute exact path="/all"       component={TodoAll}/>
+                    <PrivateRoute exact path="/active"    component={TodoActive}/>
+                    <PrivateRoute exact path="/complete"  component={TodoComplete}/>
 
                     <Route exact path="/login"    component={Login}/>
                     <Route exact path="/logout"   component={LogOut}/>
@@ -29,23 +29,23 @@ const TodoRouter = (props) => {
         </Router>
     );
 }
+const TodoBoot = (props) => {
+    return <TodoContainer status="all"/>
+}
 const TodoAll = (props) => {
-    console.log("11",props.status);
-    return <TodoPageComponent status={props.status}/>
+    return <TodoContainer status="all"/>
 }
 const TodoActive = (props) => {
-    console.log("12",props.status);
-    return <TodoPageComponent status={props.status}/>
+    return <TodoContainer status="active"/>
 }
 const TodoComplete = (props) => {
-    console.log("13",props.status);
-    return <TodoPageComponent status={props.status}/>
+    return <TodoContainer status="complete"/>
 }
-const PrivateRoute = ({ component: Component,status, ...rest }) => {
+const PrivateRoute = ({ component: Component, ...rest }) => {
     return <Route {...rest} render={props => {
         let hasLogin = localStorage.getItem("hasLogin");
         if (hasLogin==="true") {
-            return <Component {...props} status={status}/>
+            return <Component {...props}/>
         }
         return <Redirect to={{
             pathname: '/login',
