@@ -278,7 +278,8 @@ class TodoContainer extends Component {
 	}
 
 	checkAll = (e) => {
-		let checked = e.target.checked;
+		let checked = e.target.checked ;
+		console.log(checked)
 		for (let thing of this.todolist) {
 			if (checked) {
 				thing.done = true
@@ -286,6 +287,13 @@ class TodoContainer extends Component {
 				thing.done = !thing.done
 			}
 		}
+		if( this.state.things.filter(thing => thing.done).length){
+			for (let thing of this.todolist) {
+				thing.done = true
+			}
+		}
+
+
 		localStorage.setItem('task',JSON.stringify(this.todolist))
 		const stingTask = JSON.stringify(this.todolist)
 		fetch(this.setUrl,{
