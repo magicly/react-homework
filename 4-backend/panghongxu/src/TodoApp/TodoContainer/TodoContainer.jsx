@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TodoPage from './TodoPage';
+import TodoPage from '../TodoPage/TodoPage';
 
 
 //生成一个用不重复的ID
@@ -12,63 +12,36 @@ const GenNonDuplicateID = () => {
 class TodoContainer extends Component {
     constructor(props) {
         super(props);
-        let todoList = localStorage.getItem("todoList");
-        let checkAll = false;
-        if (todoList !== "" && todoList !== null) {
-            todoList = JSON.parse(todoList);
-            checkAll = todoList.length === todoList.filter(item => item.status === "complete").length;
-        } else {
-            todoList = [];
-        }
-
-        //链接按钮状态 和 localStorage对比取值
-        let pathStatus = props.status;
-        let bottonStatus = localStorage.getItem("bottonStatus");
-        if (bottonStatus === "" || bottonStatus === null) {
-            bottonStatus = "all";
-        }
-        if (pathStatus !== "undefined") {
-            bottonStatus = pathStatus;
-        }
-        this.setLocalStorage(todoList, bottonStatus);
+        let bottonStatus = (props.status === "" || props.status === undefined) ? "all" : props.status;
         this.state = {
-            todoList: todoList,
+            todoList:[],
             inputValue: "",//输入的值
-            checkAll: checkAll,//全选标志
             bottonStatus: bottonStatus,//按钮状态
-            updateValue:"",
         }
     }
-
-    // 存储到浏览器， 刷新页面数据不丢失
-    setLocalStorage = (todoList, bottonStatus) => {
-        localStorage.setItem("todoList", JSON.stringify(todoList));
-        localStorage.setItem("bottonStatus", bottonStatus===null?"all":bottonStatus);
+    componentDidMount(){
+        this.getTodoList();
     }
-    //判重复
-    isNotRepet(value,List){
-        console.log("isNotRepet",1);
-        let bool = true;
+    //判重复 修改时不与当前修改项(id)判断
+    isNotRepet(value,List,id){
         for (let item of List) {
-            if(item.content === value){
-                bool =false;
-                break;
+            if(item.content === value && item.id !==id){
+                return false;
             }
         }
-        return bool;
+        return true;
     }
     //增加todo
     putListUtil = (value) =>{
         let todoList = this.state.todoList;
-        if(!(this.isNotRepet(value,todoList))){
+        if(!(this.isNotRepet(value,todoList,null))){
             alert("亲，已有该名称，请重新输入！");
         }else{
             todoList.unshift({ "content": value, "status": "active", editor: false, "id":GenNonDuplicateID()});
+            this.setTodoList(todoList,this.state.checkAll);
             this.setState({
-                todoList: todoList,
                 inputValue: "",
             });
-            this.setLocalStorage(todoList, this.state.bottonStatus);
         }
     }
     //监听输入活动回车键
@@ -107,47 +80,49 @@ class TodoContainer extends Component {
         this.setState({
             todoList: todoList,
         });
-        this.setLocalStorage(todoList, this.state.bottonStatus);
     }
-
     //隐藏修改
     hideUpdateEvent = (e) => {
         let content = e.target.value;
-        let id   = e.target.id;
+        let id = e.target.id;
         let todoList = this.state.todoList;
+        this.hideEditor(id);
         this.updateTodoValue(id,content,todoList);
     }
-    //监听活动内容
-    ListenerUpdateValue= (e) => {
-        let content = e.target.value;
-        this.setState({
-            updateValue : content,
-        });
-    }
-    //回车 修改活动内容
+    //修改活动内容
     updateWords = (e) => {
         if(e.keyCode === 13){
             let content = e.target.value;
             let id = e.target.id;
             let todoList = this.state.todoList;
+            this.hideEditor(id);
             this.updateTodoValue(id,content,todoList);
         }
     }
+    //隐藏修改状态
+    hideEditor = (todoId) => {
+        let todoList = this.state.todoList;
+        todoList.map((todo) => {
+            if (todo.id === todoId) {
+                todo.editor = false;
+            }
+            return todo;
+        });
+        this.setState({
+            todoList:todoList,
+        });
+    }
     //修改活动内容
     updateTodoValue = (id,content,todoList) => {
-        if(!(this.isNotRepet(content,todoList))){
-            alert("亲,新名称不能与原有名称重名！");
-            return;
-        }else{
-            todoList = todoList.map((item) => {
-                item.editor = item.id === id ? false : false;
-                item.content = item.id === id ? content : item.content;
-                return item;
-            });
-            this.setState({
-                todoList: todoList,
-            });
-            this.setLocalStorage(todoList, this.state.bottonStatus);
+        let bool = this.isNotRepet(content,todoList,id);
+        if(bool){
+            for (let item of todoList) {
+                if(item.id === id){
+                    item.content = content;
+                    break;
+                }
+            }
+            this.setTodoList(todoList,this.state.checkAll);
         }
     }
     //全选（取消）
@@ -162,11 +137,7 @@ class TodoContainer extends Component {
                 "id": element.id,
             })
         );
-        this.setState({
-            todoList: todoList,
-            checkAll: bool,
-        });
-        this.setLocalStorage(todoList, this.state.bottonStatus);
+        this.setTodoList(todoList,bool);
     }
    
     //清除完成任务
@@ -175,10 +146,9 @@ class TodoContainer extends Component {
         todoList = todoList.filter(element => (element.status === "active"));
         let bottonStatus = todoList.length < 1 ? "all" : this.state.bottonStatus;
         this.setState({
-            todoList: todoList,
             bottonStatus: bottonStatus,
         });
-        this.setLocalStorage(todoList, bottonStatus);
+        this.setTodoList(todoList,this.state.checkAll);
     }
     //删除任务
     deleteList = (index) => {
@@ -186,21 +156,77 @@ class TodoContainer extends Component {
         todoList.splice(index,1);
         let bottonStatus = todoList.length < 1 ? "all" : this.state.bottonStatus;
         this.setState({
-            todoList: todoList,
             bottonStatus: bottonStatus,
         });
-        this.setLocalStorage(todoList, bottonStatus);
+        this.setTodoList(todoList,this.state.checkAll);
     }
     // 任务勾选事件 
     chooseList = (index) => {
         let todoList = this.state.todoList;
         todoList[index].status = todoList[index].status === 'active' ? 'complete' : 'active';
-        this.setState({
-            todoList: todoList,
+        this.setTodoList(todoList,this.state.checkAll);
+    }
+    //后台数据保存
+    setTodoList = (todoList,bool) => {
+        fetch('http://cloudapi.yoloke.com/rest/todo/set-todos.json',{
+            method:"POST",
+            body:JSON.stringify(
+                {
+                    "userId":"panghx",
+                    "todosJson":JSON.stringify(todoList)
+                }
+            ),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(function(response) {
+            return response.json();
+        }).then(function(json) {
+            if(json.data.isSuccess){
+                console.log("设置成功",json);
+            }
         });
-        this.setLocalStorage(todoList, this.state.bottonStatus);
+        this.setState({
+            todoList:todoList,
+            checkAll: bool,
+        });
     }
 
+    //请求后台数据
+    getTodoList = () => {
+        let checkAll = false;
+        let todoList = [];
+
+        let setData = (param) =>{
+            this.setState({
+                todoList:param.todoList,
+                checkAll:param.checkAll,
+            });
+        };
+
+        fetch('http://cloudapi.yoloke.com/rest/todo/get-todos.json',{
+            method:"POST",
+            body:JSON.stringify({"userId":"panghx"}),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        }).then(function(response) {
+            return response.json();
+        }).then(function(json) {
+            console.log("get-todos",json.data.todos[0].todosJson);
+            if(json.data.isSuccess){
+                todoList = JSON.parse(json.data.todos[0].todosJson);
+                if (todoList.length>0) {
+                    checkAll = todoList.length === todoList.filter(item => item.status === "complete").length;
+                    setData({
+                        todoList:todoList,
+                        checkAll:checkAll,
+                    });
+                }
+            }
+        });
+        
+    }
     render() {
         return (
             <TodoPage
@@ -215,10 +241,9 @@ class TodoContainer extends Component {
                 addTodoWords={this.addTodoWords}
                 deleteList={this.deleteList}
                 chooseList={this.chooseList}
-                hideUpdateEvent={this.hideUpdateEvent}
                 showUpdateEvent={this.showUpdateEvent}
                 updateWords={this.updateWords}
-                ListenerUpdateValue={this.ListenerUpdateValue}
+                hideUpdateEvent={this.hideUpdateEvent}
             />
         );
     }

@@ -19,7 +19,8 @@ const TodoBodyComponent = ({
         <div className={className} primary={todoList.length}>
             <CheckBox 
                 type="checkbox" 
-                onClick={checkedAll} 
+                onClick={checkedAll}
+                isShow={todoList.length>0}
                 primary={notCompleteCount === 0 && (completeCount > 0)}>
             </CheckBox>
             <ShowList
@@ -43,6 +44,7 @@ const TodoBody = styled(TodoBodyComponent)`
     border-top: 1px solid #e6e6e6;
 `
 const CheckBox = styled.input`
+    display:${props => props.isShow ? 'block' : 'none'};
     color: ${props => props.primary ? '737373' : '#e6e6e6'};
     outline: none;
         position: absolute;
@@ -74,8 +76,7 @@ const ShowListComponent = ({
     chooseList,
     showUpdateEvent,
     hideUpdateEvent,
-    updateWords,
-    ListenerUpdateValue
+    updateWords
 }) => {
     return (
         <ul className={className}>
@@ -99,10 +100,11 @@ const ShowListComponent = ({
                                     onClick={() => deleteList(index)}>
                                 </button>
                             </div>
-                            <input className="edit" id={element1.id}
-                                defaultValue={element1.content} 
-                                onBlur = {hideUpdateEvent}
-                                onKeyUp={updateWords} onChange={ListenerUpdateValue}>
+                            <input className="edit" 
+                                id={element1.id}
+                                defaultValue={element1.content}
+                                onBlur={hideUpdateEvent}
+                                onKeyUp={updateWords}>
                             </input>
                         </li>
                     </ListOne>
