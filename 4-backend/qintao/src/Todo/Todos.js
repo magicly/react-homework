@@ -81,7 +81,6 @@ class TodoContainer extends Component {
 			return json.data	
 		}).then(data=>{
 			localStorage.setItem('task',data.todos[0].todosJson)
-
 		})
 		this.todolist = JSON.parse(localStorage.getItem('task'))?JSON.parse(localStorage.getItem('task')):[];
 		let tasks =	this.todolist
@@ -133,18 +132,25 @@ class TodoContainer extends Component {
 						alert('存不进去,就是存不进去')
 					}
 				 })
-			
 
-			//	localStorage.setItem('task',JSON.stringify(this.todolist))
+				localStorage.setItem('task',JSON.stringify(this.todolist))
 				if(this.operation==='complet'){
 					this.setState({
 						things: this.todolist.filter(thing => thing.done)
 					});
-				}else{
+				}
+				if(this.operation==='active'){
+					this.setState({
+						things: this.todolist.filter(thing => !thing.done)
+					});
+				}
+			
+				if(this.operation==='all'){
 					this.setState({
 						things: this.todolist
 					});
-				}	
+				}
+				
 			}
 		}
 	}
