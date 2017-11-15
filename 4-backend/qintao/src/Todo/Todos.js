@@ -83,6 +83,11 @@ class TodoContainer extends Component {
 			localStorage.setItem('task',data.todos[0].todosJson)
 		})
 		this.todolist = JSON.parse(localStorage.getItem('task'))?JSON.parse(localStorage.getItem('task')):[];
+		if( this.todolist.filter(thing => !thing.done).length){
+			this.checked = false
+		}else{
+			this.checked = true
+		}
 		let tasks =	this.todolist
 		if(props.operation === 'active'){
 			tasks = this.todolist.filter(thing => !thing.done)
@@ -164,6 +169,13 @@ class TodoContainer extends Component {
 				break;
 			}
 		}
+		
+		if( this.todolist.filter(thing => !thing.done).length){
+			this.checked = false
+		}else{
+			this.checked = true
+		}
+
 		localStorage.setItem('task',JSON.stringify(this.todolist))
 		const stingTask = JSON.stringify(this.todolist)
 		fetch(this.setUrl,{
@@ -228,6 +240,9 @@ class TodoContainer extends Component {
 
 	all = (e) => {
 		this.operation = e
+		if( this.state.things.filter(thing => !thing.done).length){
+			//checked = false
+		}
 		this.setState({
 			things: this.todolist
 		})
@@ -287,11 +302,19 @@ class TodoContainer extends Component {
 				thing.done = !thing.done
 			}
 		}
-		if( this.state.things.filter(thing => thing.done).length){
+		if( this.todolist.filter(thing => thing.done).length){
 			for (let thing of this.todolist) {
 				thing.done = true
 			}
 		}
+
+		if( this.todolist.filter(thing => !thing.done).length){
+			this.checked = false
+		}else{
+			this.checked = true
+		}
+
+
 
 
 		localStorage.setItem('task',JSON.stringify(this.todolist))
@@ -331,6 +354,7 @@ class TodoContainer extends Component {
 			<Div>
 				<Header keyup={this.keyup} />
 				<Section
+					checked = {this.checked}
 					checkAll={this.checkAll}
 					things={this.state.things}
 					done={this.done}

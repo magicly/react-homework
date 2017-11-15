@@ -27,7 +27,7 @@ const Todoinput = styled.input`
     }
 
     :checked:before {
-        color: #737373;
+        color: ${props => props.checked ? '#737373' : ''};
     }
 
     @media screen and (-webkit-min-device-pixel-ratio:0) {
@@ -123,9 +123,10 @@ const Listbutton = styled.button`
 `
 
 const Section = (props) => {
+   
     return (
         <Todosection>
-            <Todoinput type='checkbox' onClick={props.checkAll} />
+            <Todoinput type='checkbox' checked={props.checked} onChange={props.checkAll} />
             <TodoUl>
                 {props.things.map(thing => {
                     return (
