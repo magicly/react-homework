@@ -20,6 +20,10 @@ $ npm install
 ```
 $ npm start
 ```
+
+## todos 更新
+ * 新增请求后端接口，将列表数据通过接口更新到数据库
+ 
 ## todos 新特性
  * 新增登录、录出操作，并在localStorage中保存登录信息
  * 修改任务存储机制，将任务列表数据存储在localStorage中
