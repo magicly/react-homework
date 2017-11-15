@@ -30,7 +30,7 @@ const LoginComponent = ({
                         <div className='letter'>
                             用户名:&nbsp;
                             <input type="text" defaultValue={userName} onChange={nameListener} tabIndex='1' />
-                            <span id="name_msg"></span>
+                            <span id="nameMsg"></span>
                         </div>
                     </dt>
                     <dt>
@@ -39,7 +39,7 @@ const LoginComponent = ({
                             <input type="password" defaultValue={password}
                                 className="password" onChange={passwordListener}
                                 onKeyDown={loginKeyDwon} tabIndex='2' />
-                            <span id="password_msg"></span>
+                            <span id="passwordMsg"></span>
                         </div>
                     </dt>
                     <dt>
@@ -90,7 +90,7 @@ const LoginStyled = styled(LoginComponent) `
     outline:0 none;
     border:1px solid #fff;
 
-    .log_in{
+    .login{
         left:-300000%;
         animation:move_in 0.4s linear forwards;
         -webkit-animation:move_in 0.4s linear forwards;
@@ -153,12 +153,7 @@ const LoginStyled = styled(LoginComponent) `
     }
 
 `
-const Content = styled.div`
-    margin:100px auto;
-    text-align:center;
-    line-height:40px;
-    color:#444;
-`
+
 class Login extends React.Component {
     constructor(props) {
         super(props);

@@ -5,14 +5,11 @@ import { Link } from 'react-router-dom';
 const FooterComponent = ({
     className,
     todoList,
-    notCompleteCount,
-    completeCount,
-    botton_status,
-    showAll,
-    active,
-    complete,
+    bottonStatus,
     clearComplete
 }) => {
+    let notCompleteCount = todoList.reduce((total, item) => total + (item.status==='complete' ? 0 : 1), 0);
+    let completeCount = todoList.length - notCompleteCount;
     return (
         <div>
             {todoList.length <= 0 ? null :
@@ -26,21 +23,21 @@ const FooterComponent = ({
                         <li>
                             <LinkStyledBotton
                                 to="/all" 
-                                className={botton_status === "all" ? "selected" : ""} >All
+                                className={bottonStatus === "all" ? "selected" : ""} >All
                             </LinkStyledBotton>
                         </li>
                         <span></span>
                         <li>
                             <LinkStyledBotton
                                 to="/active" 
-                                className={botton_status === "active" ? "selected" : ""} >Active
+                                className={bottonStatus === "active" ? "selected" : ""} >Active
                             </LinkStyledBotton>
                         </li>
                         <span></span>
                         <li>
                             <LinkStyledBotton
                                 to="/complete" 
-                                className={botton_status === "complete" ? "selected" : ""} >Completed
+                                className={bottonStatus === "complete" ? "selected" : ""} >Completed
                             </LinkStyledBotton>
                         </li>
                     </UlBottom>
