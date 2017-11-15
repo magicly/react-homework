@@ -12,19 +12,17 @@ import {
 import User from './User';
 
 const App = () => {
-    // debugger
     if (localStorage.getItem("user")) {
         let localUser = JSON.parse(localStorage.getItem("user"));
         User.isLogin = localUser.isLogin;
         User.userName = localUser.userName;
     }
-
     return (
         <Router>
             <Switch>
-                <CustomRouter exact path="/" component={Todo1} showWays="all" />
-                <CustomRouter exact path="/active" component={Todo2} showWays="com" />
-                <CustomRouter exact path="/completed" component={Todo3} showWays="act" />
+                <CustomRoute exact path="/" component={Todo1} showWays="all" />
+                <CustomRoute exact path="/active" component={Todo2} showWays="com" />
+                <CustomRoute exact path="/completed" component={Todo3} showWays="act" />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/logout" component={LogOut} />
                 <Route render={() => {
@@ -36,7 +34,7 @@ const App = () => {
 }
 
 
-const CustomRouter = ({ component: Component, showWays, ...rest }) => (
+const CustomRoute = ({ component: Component, showWays, ...rest }) => (
     <Route {...rest}
         render={props => (
             User.isLogin
@@ -61,9 +59,5 @@ const Todo2 = (props) => {
 const Todo3 = (props) => {
     return <Todo showWays={props.showWays} />;
 }
-
-// // const T1= () => <h3>Public</h3>;
-// const T2 = () => <h3>Public</h3>;
-// const T3 = () => <h3>Public</h3>;
 
 export default App;

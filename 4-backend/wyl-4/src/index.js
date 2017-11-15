@@ -1,7 +1,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './Homework-2/index';
+import App from './components';
 import registerServiceWorker from './registerServiceWorker';
 import { injectGlobal } from "styled-components";
 
