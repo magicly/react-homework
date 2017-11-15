@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled, {injectGlobal} from 'styled-components';
 import TodoHeader from './TodoHeader.jsx';
-import TodoSection from './TodoSection.jsx';
 import {
     BrowserRouter as Router,
     Route,

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled, {injectGlobal} from 'styled-components';
-import TodoSection from './TodoSection.jsx';
 import {
     BrowserRouter as Router,
     Route,
@@ -174,12 +173,12 @@ function todoAccording(arr, f) {
 class TodoHeader extends Component {
     state = {
         loginState : localStorage.getItem("login"),
-        inpValue:JSON.parse(localStorage.getItem("inpValue"))===null ? [] : JSON.parse(localStorage.getItem("inpValue")),
-        count: localStorage.getItem("count"),
+        inpValue:[],
+        count: 0,
         completingcount: 0,
         inputValue: "",
         inputState: false,
-        todoState:localStorage.getItem("todoState"),
+        todoState:"1",
     }
     //
     //输入框的键盘监听
@@ -190,19 +189,13 @@ class TodoHeader extends Component {
             if(!val){
                 return false;
             }
-            const loginState = localStorage.getItem("inpValue");
-            let students = JSON.parse(loginState);
-            if(students === null){
-                students = [];
-            }
+            this.getData();
+            let students = this.state.inpValue;
             students.push({id:students.length + 1,name: val, inpState: false, show:true});
-            const jsonStudents = JSON.stringify(students);
-            event.target.value = "";
-            localStorage.setItem('inpValue', jsonStudents);
             const arr2 = todoNumber(students, e => e.inpState === false);
             let count = arr2.length;
-            localStorage.setItem("count", count);
             this.setState({count:count,inpValue: students});
+            let setData = this.setData(this.state);
         }
     };
     //全选
@@ -301,6 +294,51 @@ class TodoHeader extends Component {
         localStorage.setItem('inpValue', jsonStudents);
         localStorage.setItem('todoState', 1);
         this.setState({todoState:localStorage.getItem("todoState"),inpValue: students});
+    };
+    //存数据
+    setData = (data) => {
+        fetch('http://cloudapi.yoloke.com/rest/todo/set-todos.json',{
+               method:"POST",
+                body:JSON.stringify(
+                    {
+                        "userId":"yuanchanghai",
+                        "todos":JSON.stringify(data)
+                }
+            ),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+        .then(data => {
+            console.log(data);
+        })
+        .then(error  => {
+            console.log(data);
+        });
+    }
+    //取数据
+    getData = () => {
+        const url = "http://cloudapi.yoloke.com/rest/todo/get-todos.json";
+        fetch(url, {
+              method: "POST",
+              body: JSON.stringify({ userId: "yuanchanghai"}),
+              headers: {
+                "Content-Type": "application/json"
+              }
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then(json => {
+            console.log(json);
+            let Data = json.data.todos;
+            if (Data.length > 0) {
+                  this.setState(Data);
+                }
+            })
+        .catch(error => {
+            console.log(1);
+        });
     };
     //确定成功
     completing = () => {
