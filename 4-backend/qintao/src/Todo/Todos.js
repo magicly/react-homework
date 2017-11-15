@@ -118,6 +118,11 @@ class TodoContainer extends Component {
 				}
 
 				this.todolist.push(task)
+				if( this.todolist.filter(thing => !thing.done).length){
+					this.checked = false
+				}else{
+					this.checked = true
+				}
 				const stingTask = JSON.stringify(this.todolist)
 				 fetch(this.setUrl,{
 					method:'post',
