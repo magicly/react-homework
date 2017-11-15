@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TodoPageComponent from './TodoPage' ;
-import registerServiceWorker from './registerServiceWorker';
-import { injectGlobal } from "styled-components";
-
-ReactDOM.render(<TodoPageComponent/>, document.getElementById('root'));
-registerServiceWorker();
-
-
+import { injectGlobal } from 'styled-components';
+import TodoMVCContainer from './component/Authorization';
 
 injectGlobal`
     html,
@@ -27,8 +21,10 @@ injectGlobal`
         font-weight: inherit;
         color: inherit;
         -webkit-appearance: none;
+        appearance: none;
         -webkit-font-smoothing: antialiased;
         -moz-font-smoothing: antialiased;
+        font-smoothing: antialiased;
     }
 
     body {
@@ -41,6 +37,15 @@ injectGlobal`
         margin: 0 auto;
         -webkit-font-smoothing: antialiased;
         -moz-font-smoothing: antialiased;
+        font-smoothing: antialiased;
         font-weight: 300;
     }
-`;
+
+    button,
+    input[type="checkbox"] {
+        outline: none;
+    }
+
+`
+
+ReactDOM.render(<TodoMVCContainer />, document.getElementById('root'));
