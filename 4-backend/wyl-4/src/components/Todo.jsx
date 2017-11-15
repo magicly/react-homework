@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import _ from "lodash";
-import styled from "styled-components";
-import InputView from "./TodoInputBar";
-import Todolist from "./TodoList";
-import Footer from "./Footer";
-import { Link } from "react-router-dom";
-import User from "./User";
+import React, { Component } from 'react';
+import _ from 'lodash';
+import styled from 'styled-components';
+import InputView from './TodoInputBar';
+import Todolist from './TodoList';
+import Footer from './Footer';
+import { Link } from 'react-router-dom';
+import User from './User';
 
 /** 输入框 */
 class Todo extends Component {
@@ -38,9 +38,9 @@ class Todo extends Component {
   inputData = e => {
     let data = e.target.value; //避免用Document.xxxx()
     if (e.keyCode === 13) {
-      e.target.value = "";
-      if (data === "") {
-        alert("空的看不到啊！");
+      e.target.value = '';
+      if (data === '') {
+        alert('空的看不到啊！');
         return;
       }
       let alredyHas = false;
@@ -50,7 +50,7 @@ class Todo extends Component {
         }
       });
       if (alredyHas) {
-        alert("有个一样的了，还输！");
+        alert('有个一样的了，还输！');
         return;
       }
       let tempData = this.state.dataArr;
@@ -93,11 +93,11 @@ class Todo extends Component {
 
   //保存数据
   saveData = data => {
-    const url = "http://cloudapi.yoloke.com/rest/todo/set-todos.json";
+    const url = 'http://cloudapi.yoloke.com/rest/todo/set-todos.json';
     fetch(url, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         userId: User.userName,
@@ -108,7 +108,7 @@ class Todo extends Component {
         return response.json();
       })
       .then(data => {
-        console.log("saveData");
+        console.log('saveData');
         console.log(data);
       })
       .catch(error => {
@@ -117,19 +117,19 @@ class Todo extends Component {
   };
 
   getData = () => {
-    const url = "http://cloudapi.yoloke.com/rest/todo/get-todos.json";
+    const url = 'http://cloudapi.yoloke.com/rest/todo/get-todos.json';
     fetch(url, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({ userId: User.userName }),
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     })
       .then(response => {
         return response.json();
       })
       .then(json => {
-        console.log("getData");
+        console.log('getData');
         console.log(json);
         let tempData = json.data.todos;
         if (tempData.length > 0) {
@@ -148,7 +148,7 @@ class Todo extends Component {
 
   //改变数据dataArr
   setAllState = todoArr => {
-    console.log("setAllState------->");
+    console.log('setAllState------->');
     console.log(todoArr);
     let tempArr = _.clone(todoArr);
     let item = 0;
@@ -165,11 +165,11 @@ class Todo extends Component {
 
   componentWillMount() {
     // this.getData();
-    console.log("----------------------------componentWillMount");
+    console.log('----------------------------componentWillMount');
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("----------------------------componentDidUpdate");
+    console.log('----------------------------componentDidUpdate');
   }
 
   render() {
