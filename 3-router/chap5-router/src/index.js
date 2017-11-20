@@ -8,5 +8,6 @@ import ModalGallery from './ModalGallery';
 import LifecycleTest from './LifecyleTest'
 import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<LifecycleTest />, document.getElementById('root'));
+// ReactDOM.render(<LifecycleTest />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
