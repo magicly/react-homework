@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import store from './todosReducer';
+import TodoList from './TodoList';
 
 const FilterLink = ({
   filter,
@@ -68,25 +69,15 @@ class TodoApp extends React.Component {
         }}>
           Add Todo
         </button>
-        <ul>
-          {visibleTodos.map(todo =>
-            <li key={todo.id}
-              onClick={() => {
-                store.dispatch({
-                  type: 'TOGGLE_TODO',
-                  id: todo.id
-                });
-              }}
-              style={{
-                textDecoration:
-                  todo.completed ?
-                    'line-through' :
-                    'none'
-              }}>
-              {todo.text}
-            </li>
-          )}
-        </ul>
+        <TodoList
+          todos={visibleTodos}
+          onTodoClick={id => {
+            store.dispatch({
+              type: 'TOGGLE_TODO',
+              id,
+            });
+          }}
+        />
         <p>
           Show:
           {' '}
