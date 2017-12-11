@@ -1,14 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+import { createStore } from 'redux';
+import { counterReducer } from './counterReducer';
+import Counter from './Counter';
 
-if (module.hot) {
-  module.hot.accept('./App', () => {
-    ReactDOM.render(<App />, document.getElementById('root'))
-  })
+const store = createStore(counterReducer);
+
+const render = () => {
+  ReactDOM.render(
+    <Counter
+      value={store.getState()}
+      add={() => store.dispatch({ type: 'ADD', })}
+      minus={() => store.dispatch({ type: 'MINUS', })}
+      nothing={() => store.dispatch({ type: 'Nothing', })}
+    />, document.getElementById('root'));
+
 }
+
+store.subscribe(render);
+render();
