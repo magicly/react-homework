@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Todo from './Todo';
 
-import getVisibleTodos from './utils/getVisibleTodos';
+import getVisibleTodos from '../utils/getVisibleTodos';
 
 const TodoList = ({
   todos,
