@@ -6,30 +6,18 @@ import TodoList from './TodoList';
 import AddTodo from './AddTodo';
 import Footer from './Footer';
 
+import Provider from './Provider';
 
-const TodoApp = ({
-      todos,
-  visibilityFilter,
-}) => {
-  return (
-    <div>
-      <AddTodo store={store} />
-      <TodoList store={store} />
-      <Footer store={store} />
-    </div>
-  )
-}
 
-const render = () => {
-  ReactDOM.render(
-    <TodoApp
-      todos={store.getState().todos}
-      visibilityFilter={store.getState().visibilityFilter}
-    />,
-    document.getElementById('root')
+const TodoApp = () => (
+  <Provider store={store}>
+    <AddTodo />
+    <TodoList />
+    <Footer />
+  </Provider>
+)
 
-  )
-};
+const render = () => ReactDOM.render(<TodoApp />, document.getElementById('root'));
 
 store.subscribe(render);
 render();
