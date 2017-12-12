@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import Todo from './Todo';
 
 import getVisibleTodos from './utils/getVisibleTodos';
@@ -21,40 +22,23 @@ const TodoList = ({
     </ul>
   )
 
+const mapState2Props = state => {
+  return {
+    todos: getVisibleTodos(
+      state.todos,
+      state.visibilityFilter
+    )
+  };
+}
 
-class TodoListContainer extends React.Component {
-  componentDidMount() {
-    this.listener = this.context.store.subscribe(() => {
-      this.forceUpdate();
-    });
-  }
-  componentWillUnmount() {
-    this.listener();
-  }
-
-  render() {
-    const { store } = this.context;
-    const state = store.getState();
-    return (
-      <TodoList
-        todos={
-          getVisibleTodos(
-            state.todos,
-            state.visibilityFilter
-          )
-        }
-        onTodoClick={id =>
-          store.dispatch({
-            type: 'TOGGLE_TODO',
-            id
-          })
-        }
-      />
-    );
+const mapDispatch2Props = dispatch => {
+  return {
+    onTodoClick: id =>
+      dispatch({
+        type: 'TOGGLE_TODO',
+        id
+      })
   }
 }
 
-TodoListContainer.contextTypes = {
-  store: PropTypes.object,
-}
-export default TodoListContainer;
+export default connect(mapState2Props, mapDispatch2Props)(TodoList);

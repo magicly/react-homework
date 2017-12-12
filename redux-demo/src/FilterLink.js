@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const FilterLink = ({
   filter,
@@ -20,39 +20,21 @@ const FilterLink = ({
   </a>
 }
 
-class FilterLinkContainer extends React.Component {
-  componentDidMount() {
-    this.listener = this.context.store.subscribe(() => {
-      this.forceUpdate();
-    });
-  }
-  componentWillUnmount() {
-    this.listener();
-  }
+const mapState2Props = (state, ownProps) => {
+  return {
+    filter: ownProps.filter,
+    currentFilter: state.visibilityFilter,
+  };
+}
 
-  render() {
-    const props = this.props;
-    const { store } = this.context;
-    const state = store.getState();
-    return (
-      <FilterLink
-        filter={props.filter}
-        currentFilter={state.visibilityFilter}
-        onClick={() =>
-          store.dispatch({
-            type: 'SET_VISIBILITY_FILTER',
-            filter: props.filter
-          })
-        }
-      >
-        {props.children}
-      </FilterLink>
-    );
+const mapDispatch2Props = (dispatch, ownProps) => {
+  return {
+    onClick: () =>
+      dispatch({
+        type: 'SET_VISIBILITY_FILTER',
+        filter: ownProps.filter
+      })
   }
 }
 
-FilterLinkContainer.contextTypes = {
-  store: PropTypes.object,
-}
-
-export default FilterLinkContainer;
+export default connect(mapState2Props, mapDispatch2Props)(FilterLink);

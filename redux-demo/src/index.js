@@ -6,18 +6,14 @@ import TodoList from './TodoList';
 import AddTodo from './AddTodo';
 import Footer from './Footer';
 
-import Provider from './Provider';
+import { Provider } from 'react-redux';
 
-
-const TodoApp = () => (
+ReactDOM.render(
   <Provider store={store}>
-    <AddTodo />
-    <TodoList />
-    <Footer />
-  </Provider>
-)
-
-const render = () => ReactDOM.render(<TodoApp />, document.getElementById('root'));
-
-store.subscribe(render);
-render();
+    <div>
+      <AddTodo />
+      <TodoList />
+      <Footer />
+    </div>
+  </Provider>,
+  document.getElementById('root'));
