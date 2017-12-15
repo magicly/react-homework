@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux';
-
 const todo = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -38,8 +36,18 @@ const todos = (state = [], action) => {
   }
 };
 
-const todoApp = combineReducers({
-  todos,
-});
+export default todos;
 
-export default todoApp;
+
+export const getVisibleTodos = (state, filter) => {
+  switch (filter) {
+    case 'all':
+      return state;
+    case 'completed':
+      return state.filter(t => t.completed);
+    case 'active':
+      return state.filter(t => !t.completed);
+    default:
+      throw new Error(`Unknown filter: ${filter}.`);
+  }
+}

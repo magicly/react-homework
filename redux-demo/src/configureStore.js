@@ -1,9 +1,9 @@
 import { createStore } from 'redux';
 import throttle from 'lodash/throttle';
 
-import todoReducers from './todosReducer';
+import todoReducers from './reducers';
 
-import { loadState, saveState } from '../utils/localStorage';
+import { loadState, saveState } from './utils/localStorage';
 
 export default () => {
   const persistedState = loadState();
@@ -18,7 +18,7 @@ export default () => {
 
   if (process.env.NODE_ENV !== "production") {
     if (module.hot) {
-      module.hot.accept('./todosReducer', () => {
+      module.hot.accept('./reducers', () => {
         store.replaceReducer(todoReducers)
       })
     }
