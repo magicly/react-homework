@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Todo from './Todo';
+import { toggleTodo } from '../actions/todos';
 
 import getVisibleTodos from '../utils/getVisibleTodos';
 
@@ -22,23 +23,17 @@ const TodoList = ({
     </ul>
   )
 
-const mapState2Props = state => {
-  return {
-    todos: getVisibleTodos(
-      state.todos,
-      state.visibilityFilter
-    )
-  };
-}
+const mapState2Props = state => ({
+  todos: getVisibleTodos(
+    state.todos,
+    state.visibilityFilter
+  )
+});
 
-const mapDispatch2Props = dispatch => {
-  return {
-    onTodoClick: id =>
-      dispatch({
-        type: 'TOGGLE_TODO',
-        id
-      })
+const mapDispatch2Props = dispatch => ({
+  onTodoClick(id) {
+    dispatch(toggleTodo(id))
   }
-}
+});
 
 export default connect(mapState2Props, mapDispatch2Props)(TodoList);
