@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import { addTodo } from '../actions/todos';
 
-let nextTodoId = 0;
 const AddTodo = ({ dispatch }) => {
   let input;
 
