@@ -5,10 +5,8 @@ import todoReducers from './todosReducer';
 
 import { loadState, saveState } from '../utils/localStorage';
 
-const persistedState = loadState();
-
-
 export default () => {
+  const persistedState = loadState();
   const store = createStore(todoReducers, persistedState);
 
   store.subscribe(throttle(() => {
