@@ -19,12 +19,15 @@ const receiveTodos = (filter, todos) => ({
   todos,
 })
 
-export const fetchTodos = filter =>
-  api.fetchTodos(filter)
-    .then(reponse => reponse.todos)
-    .then(todos => receiveTodos(filter, todos));
+export const fetchTodos = filter => dispatch => {
+  dispatch(requestTodos(filter));
 
-export const requestTodos = filter => ({
+  return api.fetchTodos(filter)
+    .then(reponse => reponse.todos)
+    .then(todos => dispatch(receiveTodos(filter, todos)));
+}
+
+const requestTodos = filter => ({
   type: 'REQUEST_TODOS',
   filter
 })
