@@ -11,10 +11,15 @@ export const addTodo = text => dispatch => {
     })
 }
 
-export const toggleTodo = id => ({
-  type: 'TOGGLE_TODO',
-  id
-})
+export const toggleTodo = id => dispatch => {
+  return api.toggleTodo(id)
+    .then(todo => {
+      dispatch({
+        type: 'TOGGLE_TODO_SUCCESS',
+        todo,
+      })
+    })
+}
 
 const receiveTodos = (filter, todos) => ({
   type: 'RECEIVE_TODOS',

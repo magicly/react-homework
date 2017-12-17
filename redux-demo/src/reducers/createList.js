@@ -8,6 +8,13 @@ const createList = filter => {
           return action.filter !== filter ? state : action.todos.map(todo => todo.id);
         case 'ADD_TODO_SUCCESS':
           return filter !== 'completed' ? [...state, action.todo.id] : state;
+        case 'TOGGLE_TODO_SUCCESS':
+          const shouldRemove = (
+            (filter === 'active' && action.todo.completed)
+            ||
+            (filter === 'completed' && !action.todo.completed)
+          );
+          return shouldRemove ? state.filter(id => id != action.todo.id) : state;
         default:
           return state;
       }

@@ -56,7 +56,7 @@ export const addTodo = text => (
 
 export const toggleTodo = id => (
   delay(500).then(() => {
-    const oldTodo = fakeDatabase.filter(todo => todo.id === id);
+    const oldTodo = fakeDatabase.todos.filter(todo => todo.id === id)[0];
     oldTodo.completed = !oldTodo.completed;
 
     return oldTodo;

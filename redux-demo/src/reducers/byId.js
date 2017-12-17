@@ -7,6 +7,7 @@ const byId = (state = {}, action) => {
       })
       return nextState;
     case 'ADD_TODO_SUCCESS':
+    case 'TOGGLE_TODO_SUCCESS':
       return {
         ...state,
         [action.todo.id]: action.todo,
