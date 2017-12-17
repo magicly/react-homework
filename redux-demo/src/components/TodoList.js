@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import Todo from './Todo';
-import { toggleTodo } from '../actions/todos';
+import * as todoActions from '../actions/todos';
 
 import { getVisibleTodos } from '../reducers';
 
@@ -24,13 +24,37 @@ const TodoList = ({
     </ul>
   )
 
-const mapState2Props = (state, ownProps) => ({
-  todos: getVisibleTodos(
-    state,
-    ownProps.match.params.filter || 'all'
-  )
-});
+class TodoListContainier extends React.Component {
+  componentDidMount() {
+    this.fetchData();
+  }
 
-export default withRouter(connect(mapState2Props, {
-  onTodoClick: toggleTodo
-})(TodoList));
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.filter !== this.props.filter) {
+      this.fetchData();
+    }
+  }
+
+  fetchData = () => {
+    this.props.fetchTodos(this.props.filter)
+  }
+
+  render() {
+    console.log(this.props)
+    const { toggleTodo, ...rest } = this.props;
+    return <TodoList
+      onTodoClick={toggleTodo}
+      {...rest}
+    />
+  }
+}
+
+const mapState2Props = (state, ownProps) => {
+  const filter = ownProps.match.params.filter || 'all';
+  return {
+    todos: getVisibleTodos(state, filter),
+    filter,
+  }
+};
+
+export default withRouter(connect(mapState2Props, todoActions)(TodoListContainier));

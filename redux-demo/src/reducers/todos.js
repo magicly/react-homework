@@ -10,6 +10,12 @@ const byId = (state = {}, action) => {
         ...state,
         [action.id]: todo(state[action.id], action),
       };
+    case 'RECIEVE_TODOS':
+      const todos = action.todos.todos;
+      return todos.reduce((acc, e) => {
+        acc[e.id] = e;
+        return acc;
+      }, {});
     default:
       return state;
   }
@@ -19,6 +25,9 @@ const allIds = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return [...state, action.id,];
+    case 'RECIEVE_TODOS':
+      // console.log(action.todos.todos)
+      return [...action.todos.todos.map(todo => todo.id)]
     default:
       return state;
   }
