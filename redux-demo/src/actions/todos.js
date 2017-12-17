@@ -23,3 +23,8 @@ export const fetchTodos = filter =>
   api.fetchTodos(filter)
     .then(reponse => reponse.todos)
     .then(todos => receiveTodos(filter, todos));
+
+export const requestTodos = filter => ({
+  type: 'REQUEST_TODOS',
+  filter
+})
