@@ -14,7 +14,7 @@ const createList = filter => {
             ||
             (filter === 'completed' && !action.todo.completed)
           );
-          return shouldRemove ? state.filter(id => id != action.todo.id) : state;
+          return shouldRemove ? state.filter(id => id !== action.todo.id) : state;
         default:
           return state;
       }
