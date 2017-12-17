@@ -5,7 +5,9 @@ import { withRouter } from 'react-router';
 import Todo from './Todo';
 import * as todoActions from '../actions/todos';
 
-import { getVisibleTodos, getIsFetching } from '../reducers';
+import { getVisibleTodos, getIsFetching, getErrMsg } from '../reducers';
+
+import ErrorMsg from './ErrorMsg';
 
 const TodoList = ({
   todos,
@@ -41,9 +43,15 @@ class TodoListContainier extends React.Component {
   }
 
   render() {
-    const { toggleTodo, todos, isFetching } = this.props;
+    const { toggleTodo, todos, isFetching, errMsg } = this.props;
     if (isFetching && !todos.length) {
       return <p>Loading...</p>
+    }
+    if (errMsg) {
+      return <ErrorMsg
+        msg={errMsg}
+        retry={this.fetchData}
+      />
     }
     return <TodoList
       onTodoClick={toggleTodo}
@@ -57,6 +65,7 @@ const mapState2Props = (state, ownProps) => {
   return {
     todos: getVisibleTodos(state, filter),
     isFetching: getIsFetching(state, filter),
+    errMsg: getErrMsg(state, filter),
     filter,
   }
 };

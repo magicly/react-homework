@@ -22,9 +22,12 @@ const fakeDatabase = {
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export const fetchTodos = filter =>
-  delay(5000).then(() => {
+  delay(1000).then(() => {
     if (filter !== 'active' && filter !== 'completed') {
       return fakeDatabase;
+    }
+    if (Math.random() < 0.5) {
+      throw new Error('error from server...');
     }
     return {
       todos: fakeDatabase.todos.filter(todo => {

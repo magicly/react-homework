@@ -21,7 +21,22 @@ const createList = filter => {
       case 'REQUEST_TODOS':
         return true;
       case 'RECEIVE_TODOS':
+      case 'ERROR_MSG':
         return false;
+      default:
+        return state;
+    }
+  }
+
+  const errMsg = (state = null, action) => {
+    if (action.filter !== filter) return state;
+
+    switch (action.type) {
+      case 'ERROR_MSG':
+        return action.errMsg;
+      case 'REQUEST_TODOS':
+      case 'RECEIVE_TODOS':
+        return null;
       default:
         return state;
     }
@@ -30,6 +45,7 @@ const createList = filter => {
   return combineReducers({
     ids: ids(filter),
     isFetching,
+    errMsg,
   })
 }
 export default createList;
@@ -40,4 +56,8 @@ export const getIds = state => {
 
 export const getIsFetching = (state) => {
   return state.isFetching;
+}
+
+export const getErrMsg = (state) => {
+  return state.errMsg;
 }

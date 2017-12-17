@@ -29,8 +29,16 @@ export const fetchTodos = filter => (dispatch, getState) => {
 
   return api.fetchTodos(filter)
     .then(reponse => reponse.todos)
-    .then(todos => dispatch(receiveTodos(filter, todos)));
+    .then(todos => dispatch(receiveTodos(filter, todos)))
+    .catch(e => {
+      dispatch(errMsg(filter, e.message))
+    });
 }
+const errMsg = (filter, errMsg) => ({
+  type: 'ERROR_MSG',
+  filter,
+  errMsg,
+});
 
 const requestTodos = filter => ({
   type: 'REQUEST_TODOS',
