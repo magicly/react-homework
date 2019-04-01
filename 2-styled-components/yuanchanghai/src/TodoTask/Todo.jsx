@@ -91,6 +91,7 @@ class TodoData extends Component {
         this.state = {
             inpValue: [],
             count:0,
+            completingcount:0,
             inputValue:"",
             todoState:1,
             inputState:false,
@@ -100,20 +101,30 @@ class TodoData extends Component {
     allTodo = () => {
         const inputState = this.state.inputState;
         const array = this.state.inpValue;
+        let inputState1;
+        let count;
+        let completingcount;
         if(inputState){
-            this.state.inputState = false;
+            inputState1 = false;
             for (let i = 0; i < array.length; i++) {
                 array[i].inpState = false;
             }
-            this.state.count = array.length;
+            completingcount = 0;
+            count = array.length;
         }else{
-            this.state.inputState = true;
+            inputState1 = true;
             for (let i = 0; i < array.length; i++) {
                 array[i].inpState = true;
             }
-            this.state.count = 0;
+            completingcount = array.length;
+            count = 0;
         }
-        this.setState({inpValue: array});
+        this.setState({
+            inputState:inputState1,
+            count:count,
+            completingcount:completingcount,
+            inpValue: array
+        });
     };
     //输入框的键盘监听 //添加TodoTask
     handleKeyUp = (event) => {
@@ -134,10 +145,10 @@ class TodoData extends Component {
             array.push({id:array.length + 1,name: inp, inpState: false, show:true});
             event.target.value = "";
             const arr2 = todoNumber(array, e => e.inpState === false);
-            this.state.count = arr2.length;
-            this.setState({inpValue: array});
+            let count = arr2.length;
+            this.setState({count:count,inpValue: array});
         }else{
-            this.state.inputValue = val;
+            //this.state.inputValue = val;
         }
     };
     //删除TodoTask
@@ -145,8 +156,10 @@ class TodoData extends Component {
         const array = this.state.inpValue;
         const arr = todoTaskOperation(array, e => e.name === name, "delete");
         const arr2 = todoNumber(array, e => e.inpState === false);
-        this.state.count = arr2.length;
-        this.setState({inpValue: arr});
+        const arr3 = todoNumber(array, e => e.inpState === true);
+        const count = arr2.length;
+        const completingcount = arr3.length;
+        this.setState({count:count,completingcount:completingcount,inpValue:arr});
     };
     //修改Todo状态
     saveTodoState = (name, inpState) => {
@@ -158,22 +171,24 @@ class TodoData extends Component {
             arr = todoTaskOperation(array, e => e.inpState === true  && e.name === name, "save");
         }
         const arr2 = todoNumber(array, e => e.inpState === false);
-        this.state.count = arr2.length;
-        this.setState({inpValue: arr});
+        const arr3 = todoNumber(array, e => e.inpState === true);
+        const count = arr2.length;
+        const completingcount = arr3.length;
+        this.setState({count:count,completingcount:completingcount,inpValue:arr});
     };
     //完成TodoTask
     completeTodoTask = () => {
         const array = this.state.inpValue;
         const arr = todoAccording(array, e => e.inpState === false);
-        this.state.todoState = 2;
-        this.setState({inpValue: arr});
+        const todoState = 2;
+        this.setState({todoState:todoState,inpValue: arr});
     };
     //未完成TodoTask
     unfinishedTodoTask = () => {
         const array = this.state.inpValue;
         const arr = todoAccording(array, e => e.inpState === true);
-        this.state.todoState = 3;
-        this.setState({inpValue: arr});
+        const todoState = 3;
+        this.setState({todoState:todoState,inpValue: arr});
     };
     //全部TodoTask
     allTodoTask = () => {
@@ -181,8 +196,19 @@ class TodoData extends Component {
         for (let i = 0; i < array.length; i++) {
             array[i].show = true;
         }
-        this.state.todoState = 1;
-        this.setState({inpValue: array});
+        const todoState = 1;
+        this.setState({todoState:todoState,inpValue: array});
+    };
+    completing = () => {
+        const array = this.state.inpValue;
+        let newArr = [];
+        for (let i = 0; i < array.length; i += 1) {
+            if (array[i].inpState === false) {
+                newArr.push(array[i]);
+            }
+        }
+        const completingcount = 0;
+        this.setState({completingcount:completingcount,inpValue: newArr});
     };
     render() {
         return (
@@ -202,6 +228,8 @@ class TodoData extends Component {
                     completeTodoTask = {this.completeTodoTask}
                     unfinishedTodoTask = {this.unfinishedTodoTask}
                     allTodoTask = {this.allTodoTask}
+                    completing = {this.completing}
+                    completingcount = {this.state.completingcount}
                 />
             </Todo>
         )
